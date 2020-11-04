@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Louez un vélo à Toulouse en 2 clics dans l'une de nos stations.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <!--style-->
+        <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+        <!--favicon-->
+        <link rel="shortcut icon" type="img/png" href=""/>
+        <!--Roboto-->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <!--Merriweather-->
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <!--Fontawesome-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <!--TinyMCE-->
+        <script src="https://cdn.tiny.cloud/1/bewiwyu29uila75t62u43sybhhii6vp30c6dfg18ud1268c7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+        <title>Jean Forteroche - Site officiel</title>
+    </head>
+
+    <body>
+        <div class="page">
+            <span class="menu_toggle">
+              <i class="menu_open fa fa-bars fa-lg"></i>
+              <i class="menu_close fa fa-times fa-lg"></i>
+            </span>
+            <ul class="menu_items">
+                <li><a href="home.html"><i class="icon fa fa-home fa-2x"></i><span> Accueil</span></a></li>
+                <li><a href="biography.html"><i class="icon fas fa-portrait fa-2x"></i><span> Biographie</span></a></li>
+                <li><a href="blog.html"><i class="icon fa fa-blog fa-2x"></i><span> Blog</span></a></li>
+            </ul>
+            <main class="content">
+                <section id="adminPage">
+                    <div id="header">
+                        <div id="darkModeDiv">
+                            <span>dark mode</span>
+                            <input type="checkbox" name=""id="darkModeButton">
+                        </div>
+                        <div id="connexionButton">
+                            <a id="connexionLink" href="#" data-title="Se connecter">Se connecter</a>
+                        </div>
+                    </div>
+                    <div id="adminPageContent">
+                        <h1>Bienvenue, M. Forteroche !</h1>
+                        <div id="adminFuncSelect">
+                            <a id="statSite" class="adminFuncSelectA">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                SEO
+                            </a>
+                            <a id="chapterPublish" class="adminFuncSelectA">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Édition de chapitres
+                            </a>
+                            <a id="commentsAdmin" class="adminFuncSelectA">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Gestion des commentaires
+                            </a>
+                        </div>
+                        <div id="seoStats">
+                            <div id="sessions" class="seoStat">
+                                <div class="seoStatContent">
+                                    <h3>Nombre de sessions :</h3>
+                                    <div>
+                                        <span id="sessionsNumber"></span>
+                                        <span id="sessionsNumberSpan">Visites sur le site</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="pagesPerSessions" class="seoStat">
+                                <div class="seoStatContent">
+                                    <h3>Pages par session :</h3>
+                                    <div>
+                                        <span id="pagesPerSessionsNumber"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sessionLength" class="seoStat">
+                                <div class="seoStatContent">
+                                    <h3>Durée de session :</h3>
+                                    <div>
+                                        <p id="sessionLengthNumber">
+                                            <span id="sessionLengthNumberH">00</span>h
+                                            <span id="sessionLengthNumberM">35</span>m
+                                            <span id="sessionLengthNumberS">27</span>s
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="bounceRate" class="seoStat">
+                                <div class="seoStatContent">
+                                    <h3>Taux de rebond :</h3>
+                                    <div>
+                                        <span id="bounceRateNumber"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="exitRate" >
+                                <h3>Taux de sortie :</h3>
+                                <div class="exitRateDiv">
+                                    <h4>Page HOME</h4>
+                                    <span>100%</span>
+                                </div>
+                                <div class="exitRateDiv">
+                                    <h4>Page BIOGRAPHIE</h4>
+                                    <span>100%</span>
+                                </div>
+                                <div class="exitRateDiv">
+                                    <h4>Page BLOG</h4>
+                                    <span>100%</span>
+                                </div>
+                                <div class="exitRateDiv">
+                                    <h4>Page CHAPITRE</h4>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>Édition de nouveaux chapitres :</h2>
+                        <textarea class="tinymce"></textarea>
+                        <input id="chapterSubmit" type="submit" name="submit" class="formSubmit" value="Publier le chapitre">
+                    </div>
+                </section>
+
+                <footer>
+                    <p>Copyright © 2020 Julien Dalla Santa | Projet réalisé dans le cadre d'une formation Openclassrooms | <a href="">Mentions légales.</a></p>
+                </footer>
+
+            </main>
+          </div>
+
+        <section id="rgpd">
+                <p>Nous utilisons des cookies pour vous garantir la meilleure expérience utilisateur sur notre site.
+                    En continuant d'utiliser ce site, vous acceptez l'utilisation de ces cookies.
+                </p>
+                <input type="submit" name="cookiesOk" id="cookiesOk" value="OK">
+        </section>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="../public/js/main.js"></script>
+        <script src="../public/js/localstorage.js"></script>
+        <script src="../public/js/tinymce.js"></script>
+        <script src="../public/js/chapitre.js"></script>
+        <script src="../public/js/admin.js"></script>
+    </body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Louez un vélo à Toulouse en 2 clics dans l'une de nos stations.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <!--style-->
+        <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+        <!--favicon-->
+        <link rel="shortcut icon" type="img/png" href=""/>
+        <!--Roboto-->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <!--Merriweather-->
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <!--Fontawesome-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+        <title>Jean Forteroche - Site officiel</title>
+    </head>
+
+    <body>
+        <div class="page">
+            <span class="menu_toggle">
+              <i class="menu_open fa fa-bars fa-lg"></i>
+              <i class="menu_close fa fa-times fa-lg"></i>
+            </span>
+            <ul class="menu_items">
+                <li><a href="home.html"><i class="icon fa fa-home fa-2x"></i><span> Accueil</span></a></li>
+                <li><a href="biography.html"><i class="icon fas fa-portrait fa-2x"></i><span> Biographie</span></a></li>
+                <li><a href="blog.html"><i class="icon fa fa-blog fa-2x"></i><span> Blog</span></a></li>
+            </ul>
+            <main class="content">
+                <div id="header">
+                    <div id="darkModeDiv">
+                        <span>dark mode</span>
+                        <input type="checkbox" name=""id="darkModeButton">
+                    </div>
+                    <div id="connexionButton">
+                        <a id="connexionLink" href="#" data-title="Se connecter">Se connecter</a>
+                    </div>
+                </div>
+                <section id="biographyPage">
+                    <div id="biographyPageContent">
+                        <div id="homeTitle">
+                            <h1>JEAN FORTEROCHE</h1>
+                            <h2>ACTEUR - AVENTURIER - ÉCRIVAIN</h2>
+                            <div id="biographyTextDiv">
+                                <span class="dropCap">I</span>
+                                <p>l est de notoriété publique que Jean Forteroche n'aime guère parler de lui,
+                                    qui plus est à la troisième personne du singulier. Seulement, dans la mesure
+                                    où la page que vous parcourez s'intitule sobrement "Biographie", nous serions
+                                    bien embêtés si je décidais de ne pas honorer le contrat qui vous a précisément
+                                    amené ici. J'en suis tout à fait capable, n'en doutez pas, cher lecteur avisé.
+                                    Et je pourrais continuer des heures durant à deviser sur le bien-fondé de ma
+                                    pudeur, ou encore sur le fameux contrat qui m'oblige à temporairement la souiller.C'est pour cette raison que je m'adresserai à vous comme je m'adresserais à
+                                    un vieil ami. On a plus grand chose à cacher à un vieil ami, si ce n'est cette
+                                    part de mystère qui vous rend irrésistiblement intéressant. Car celui qui aime
+                                    parler de lui suscitera très vite le désintérêt, et celui qui ne dit rien,
+                                    l'ennui. Distribuer avec minutie les parcelles de son histoire, c'est bien
+                                    là tout l'art de l'écrivain. Ainsi, mon vieil ami, il ne vous a pas échappé que je suis écrivain et qu'en qualité
+                                    d'écrivain, j'écris des livres, dans lesquels je transpose mon goût pour l'absurde
+                                    et les personnages pittoresques. Certains appelleront cela une signature,
+                                    d'autres une façon de cacher l'angoisse de la médiocrité.
+                                    Il est d'usage de citer les créations qui m'ont permis de vivre de ma plume,
+                                    alors je me permettrais d'évoquer "Double meurtre à Doubleville" (1993),
+                                    "L'homme qui parlait aux truites" (1997), "Le burn-out de l'épouvantail" (2008)
+                                    et, plus récemment, "Billet simple pour l'Alaska", un roman dont vous pourrez
+                                    suivre la progression en direct sur ce blog. Sinon, quand je n'écris pas,
+                                    j'affectionne le jardinage et l'entretien de mon portager, pour ses vertus
+                                    apaisantes, et passer du temps avec mes enfants, pour l'exact contraire.
+
+                                    Bienvenue à toi, vieil ami, et bonne lecture.
+
+                                </br><span id="biographyTextDivName">Jean Forteroche</span></p>
+                            </div>
+                        </div>
+                        <img src="../public/images/jforteroche3.jpg">
+
+                    </div>
+                </section>
+
+                <footer>
+                    <p>Copyright © 2020 Julien Dalla Santa | Projet réalisé dans le cadre d'une formation Openclassrooms | <a href="">Mentions légales.</a></p>
+                </footer>
+
+            </main>
+          </div>
+
+        <section id="rgpd">
+                <p>Nous utilisons des cookies pour vous garantir la meilleure expérience utilisateur sur notre site.
+                    En continuant d'utiliser ce site, vous acceptez l'utilisation de ces cookies.
+                </p>
+                <input type="submit" name="cookiesOk" id="cookiesOk" value="OK">
+        </section>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="../public/js/main.js"></script>
+        <script src="../public/js/localstorage.js"></script>
+        <script src="../public/js/chapitre.js"></script>
+        <script src="../public/js/admin.js"></script>
+    </body>
+</html>
