@@ -4,11 +4,13 @@ PROJET 4 "Créez un blog pour un écrivain"
 
 Développement d'une application de blog simple en PHP avec une base de données MySQL
 
+
 ENONCE :
 
 Vous venez de décrocher un contrat avec Jean Forteroche, acteur et écrivain. Il travaille actuellement sur son prochain roman, "Billet simple pour l'Alaska". Il souhaite innover et le publier par épisode en ligne sur son propre site.
 
 Seul problème : Jean n'aime pas WordPress et souhaite avoir son propre outil de blog, offrant des fonctionnalités plus simples. Vous allez donc devoir développer un moteur de blog en PHP et MySQL.
+
 
 CONTRAINTES TECHNIQUES :
 
@@ -28,6 +30,7 @@ Les lecteurs doivent pouvoir "signaler" les commentaires pour que ceux-ci remont
 L'interface d'administration sera protégée par mot de passe. La rédaction de billets se fera dans une interface WYSIWYG basée sur TinyMCE, pour que Jean n'ait pas besoin de rédiger son histoire en HTML (on comprend qu'il n'ait pas très envie !).
 
 Vous développerez en PHP sans utiliser de framework pour vous familiariser avec les concepts de base de la programmation. Le code sera construit sur une architecture MVC. Vous développerez autant que possible en orienté objet (au minimum, le modèle doit être construit sous forme d'objet).
+
 
 COMPETENCES A VALIDER :
 
