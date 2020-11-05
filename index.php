@@ -30,18 +30,18 @@
 
         <?= include("views/rgpd.php"); ?>
 
-        <?= include("scripts.php"); ?>
+        <?= include("views/scripts.php"); ?>
     </body>
 </html>
 
 <?php
-    if($path[0] == 'biographie' || $path[0] == 'bio'){
+    if($path[0] == 'biographie' || $path[0] == 'bio' || $path[0] == 'biography'){
         return require ('views/biography.php');
     }
-    if($path[0] == 'blog' || $path[0] == 'chapitres'){
+    if($path[0] == 'blog' || $path[0] == 'chapitres' || $path[0] == 'chapters'){
         return require ('views/blog.php');
     }
-    if($path[0] == 'chapitre'){
+    if($path[0] == 'chapitre' || $path[0] == 'chapter'){
         return require ('views/chapitre.php');
     }
     if($path[0] == 'admin'){

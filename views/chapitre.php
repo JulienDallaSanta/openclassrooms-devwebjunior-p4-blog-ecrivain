@@ -2,7 +2,7 @@
 // BDD connexion
     try
     {
-        $bdd = new PDO('mysql:host=phpmyadmin.localhost;dbname=p4.bdd;charset=utf8', 'phpmyadmin', 'phpmyadmin');
+        $bdd = new PDO('mysql:host=phpmyadmin.localhost;dbname=dev_web_junior_p4;charset=utf8', 'phpmyadmin', 'phpmyadmin');
     }
     catch(Exception $e)
     {
@@ -79,7 +79,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=1');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=1');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -91,7 +91,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=2');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=2');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -103,7 +103,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=3');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=3');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -115,7 +115,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=4');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=4');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -127,7 +127,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=5');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=5');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -139,7 +139,7 @@
                                 <p class="chapterText">
                                     <?php
                                         // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapitres` WHERE id=6');
+                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=6');
                                         $donnees = $req->fetch();
                                         echo htmlspecialchars($donnees['text']);
                                         $req->closeCursor();
@@ -174,7 +174,31 @@
                                 </form>
                             </div>
                             <section id="comments">
-                                <div id="comment1" class="commentDiv">
+                            <?php
+                                // Récupération des commentaires
+                                $req = $bdd->prepare('SELECT `id`, `chapter_id`, `author_lastname`, `author_firstname`, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr, `text` FROM comment WHERE id = ? ORDER BY date_creation DESC');
+                                $req->execute(array($_GET['comment']));
+
+                                while ($donnees = $req->fetch())
+                                {
+                            ?>
+                                <div class="commentDiv">
+                                    <p class="namePublishDate">
+                                        <span class="authorName">
+                                            <?php echo htmlspecialchars($donnees['author_firstname']); ?>
+                                            <?php echo htmlspecialchars($donnees['author_lastname']); ?>
+                                        </span>
+                                        <em> le <span class="dateOfPublish"><?php echo $donnees['date_creation_fr']; ?></span></em>
+                                    </p>
+                                    <p class="comment"><?php echo nl2br(htmlspecialchars($donnees['text'])); ?></p>
+                                    <a class="commentReport">Signaler le commentaire</a>
+                                </div>
+
+                            <?php
+                                } // Fin de la boucle des commentaires
+                                $req->closeCursor();
+                            ?>
+                                <!--<div id="comment1" class="commentDiv">
                                     <p class="namePublishDate"><span class="authorName">NomAuteur</span>
                                         <em> le <span class="dateOfPublish">18/06/1983</span></em>
                                     </p>
@@ -215,7 +239,7 @@
                                     </p>
                                     <p class="comment">Super mais un peu long...</p>
                                     <a class="commentReport">Signaler le commentaire</a>
-                                </div>
+                                </div>-->
                             </section>
                         </div>
                     </div>
