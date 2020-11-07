@@ -2,31 +2,15 @@
 <html lang="fr">
 
     <head>
-        <?php require("views/head.php"); ?>
+        <?php require("head.php"); ?>
     </head>
 
     <body>
         <div class="page">
-            <span class="menu_toggle">
-              <i class="menu_open fa fa-bars fa-lg"></i>
-              <i class="menu_close fa fa-times fa-lg"></i>
-            </span>
-            <ul class="menu_items">
-                <li><a href="home.html"><i class="icon fa fa-home fa-2x"></i><span> Accueil</span></a></li>
-                <li><a href="biography.html"><i class="icon fas fa-portrait fa-2x"></i><span> Biographie</span></a></li>
-                <li><a href="blog.html"><i class="icon fa fa-blog fa-2x"></i><span> Blog</span></a></li>
-            </ul>
+        <?php require("menu.php"); ?>
             <main class="content">
+                <?php require("header.php"); ?>
                 <section id="adminPage">
-                    <div id="header">
-                        <div id="darkModeDiv">
-                            <span>dark mode</span>
-                            <input type="checkbox" name=""id="darkModeButton">
-                        </div>
-                        <div id="connexionButton">
-                            <a id="connexionLink" href="#" data-title="Se connecter">Se connecter</a>
-                        </div>
-                    </div>
                     <div id="adminPageContent">
                         <h1>Bienvenue, M. Forteroche !</h1>
                         <div id="adminFuncSelect">
@@ -131,5 +115,6 @@
         </section>
 
         <?php require("scripts.php"); ?>
+        <script src="../public/js/tinymce.js"></script>
     </body>
 </html>

@@ -1053,8 +1053,7 @@ footer p, footer a{
 .chapterImg{
   width: 15vw;
   height: 40vh;
-  background-size: cover;
-  background-position: center;
+
 }
 .chapterText{
   width: 85vw;

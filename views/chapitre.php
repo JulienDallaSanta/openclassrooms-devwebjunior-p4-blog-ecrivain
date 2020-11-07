@@ -26,8 +26,19 @@
                     <div id="chapitrePageContent">
                         <div id="blogTitle">
                             <h1>UN BILLET SIMPLE <br/>POUR L'ALASKA</h1>
-                            <h3 id="blogTitleH3">CHAPITRE 1 : UN VRAI DÉFI</h3>
-                            <span class="chapterPubliDate"><em>Publié le 18/06/1983</em></span>
+                            <?php
+                            // get id titles & creation date of each chapter from the chapter table
+                            $req = $bdd->query('SELECT id, title, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM chapter');
+
+                            while ($donnees = $req->fetch())
+                            {
+                            ?>
+                            <h3 id="blogTitleH3">CHAPITRE <?= echo $donnees['id']?> : <?= echo $donnees['title']?></h3>
+                            <span class="chapterPubliDate"><em>Publié le <?php echo $donnees['date_creation_fr']; ?></em></span>
+                            <?php
+                            } //end of the loop
+                            $req->closeCursor();
+                            ?>
                         </div>
                         <div id="chaptersSelect">
                             <a id="chapterSelect1" class="chapterSelectA">
@@ -74,84 +85,26 @@
                             </a>
                         </div>
                         <div class="chapterAndComments">
-                            <div id="chapter1" class="chapterEntireText">
-                                <div class="chap1Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=1');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
+                            <?php
+                            // get from bdd image & text of each chapter not deleted
+                            $req = $bdd->query('SELECT `chapter_image`, `text` FROM `chapter` WHERE deleted=0');
+                            while ($donnees = $req->fetch())
+                            {
+                            ?>
+                            <div class="chapterEntireText">
+                                <div class="chapterImg" style="background-image: <?=$donnees['chapter_image'];?>;"></div>
+                                <p class="chapterText"><?php echo htmlspecialchars($donnees['text']); ?></p>
                             </div>
-                            <div id="chapter2" class="chapterEntireText">
-                                <div class="chap2Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=2');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
-                            </div>
-                            <div id="chapter3" class="chapterEntireText">
-                                <div class="chap3Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=3');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
-                            </div>
-                            <div id="chapter4" class="chapterEntireText">
-                                <div class="chap4Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=4');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
-                            </div>
-                            <div id="chapter5" class="chapterEntireText">
-                                <div class="chap5Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=5');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
-                            </div>
-                            <div id="chapter6" class="chapterEntireText">
-                                <div class="chap6Img chapterImg"></div>
-                                <p class="chapterText">
-                                    <?php
-                                        // get the chapter from bdd
-                                        $req = $bdd->query('SELECT `text` FROM `chapter` WHERE id=6');
-                                        $donnees = $req->fetch();
-                                        echo htmlspecialchars($donnees['text']);
-                                        $req->closeCursor();
-                                    ?>
-                                </p>
-                            </div>
+                            <?php
+                            $req->closeCursor();
+                            ?>
                         </div>
                         <div id="crud">
                             <div id="commentCreate">
                                 <div id="commentCreateHeader">
                                     <?php
-
+                                    $req = $bdd->prepare('SELECT * FROM `comment` WHERE `deleted`=0 ORDER BY `chapter_id`');
+                                    $req->execute(array($_GET['comment']));
                                     ?>
                                     <p id="numberOfComments"><span>6</span> commentaires</p>
                                     <a id="writeAComment">Écrire un commentaire</a>
@@ -176,7 +129,7 @@
                             <section id="comments">
                             <?php
                                 // Récupération des commentaires
-                                $req = $bdd->prepare('SELECT `id`, `chapter_id`, `author_lastname`, `author_firstname`, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr, `text` FROM comment WHERE id = ? ORDER BY date_creation DESC');
+                                $req = $bdd->prepare('SELECT * DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr, `text` FROM comment WHERE id = ? ORDER BY date_creation DESC');
                                 $req->execute(array($_GET['comment']));
 
                                 while ($donnees = $req->fetch())
