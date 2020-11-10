@@ -8,7 +8,7 @@
 <meta property="og:type" content="website" >
 
 <!--style-->
-<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+<link rel="stylesheet" type="text/css" href="/Public/css/style.css">
 <!--favicon-->
 <link rel="shortcut icon" type="img/png" href=""/>
 <!--Roboto-->

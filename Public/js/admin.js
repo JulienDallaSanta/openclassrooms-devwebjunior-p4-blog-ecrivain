@@ -15,7 +15,7 @@ function connection(event){
         localStorage.setItem('password', password);
         console.log('ok');
         $("#connectModal").remove();
-        $(window).load("file://wsl%24/Debian/var/www/p4.localhost/views/admin.html#");
+        $(window).load("file://wsl%24/Debian/var/www/p4.localhost/Views/admin.html#");
         $("#connexionButton").prepend($(`
             <a id="disconnectLink" href="home.html" data-title="Se déconnecter">Se déconnecter</a>
         `));

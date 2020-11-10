@@ -1,8 +1,5 @@
 <?php
-	class ChaptersManager
-	{
-		protected $db;
-
+	class ChaptersManager{
 		final public function add($chapter) {
 
 		}

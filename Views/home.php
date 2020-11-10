@@ -1,3 +1,4 @@
+<?php ob_start();?>
 
 <section id="home_header">
     <div id="home_header_center">
@@ -14,7 +15,7 @@
                     Actuellement, Jean Forteroche travaille sur son prochain roman, "Billet simple pour l'Alaska" et le publie par épisode en ligne sur ce site.</p><br/>
                 <p class="citation">"Les écrivains sont des gens seuls. Partout, et toujours, ils l'ont été." </p><br/>
                 <p id="quoteSign">- Jean Forteroche</p><br/><br/>
-                <a class="pageLink" href="views/biography.php">BIOGRAPHIE<i class="fas fa-angle-double-right"></i></a>
+                <a class="pageLink" href="biography.php">BIOGRAPHIE<i class="fas fa-angle-double-right"></i></a>
             </div>
         </div>
     </div>
@@ -28,7 +29,7 @@
             <h2>BILLET SIMPLE POUR L'ALASKA</h2>
             <h3>Découvrez mon dernier roman , publié sur mon site chapitre par chapitre et dites-moi ce que vous en pensez !</h3>
             <div id="alaskaDiv">
-                <img id="alaskaDivImg" src="../public/images/un_billet.png" alt="Un billet simple pour l'Alaska - Jean Forteroche">
+                <img id="alaskaDivImg" src="/Public/images/un_billet.png" alt="Un billet simple pour l'Alaska - Jean Forteroche">
                 <div id="alaskaDivP">
                     <p>Peter Flectcher avait tout juste 2 ans quand sa mère a quitté l’Alaska, fuyant la vie trop rude, et
                         laissant derrière elle le père de Peter. Peter a aujourd’hui 26 ans et mène une vie bien remplie à Toronto.
@@ -140,13 +141,13 @@
             <h2>ROMANS</h2>
             <button id="sliderButPrev" class="sliderBut"><i class="fas fa-chevron-left"></i></button>
             <div id="livresSlider">
-                <img id="book1" src="../public/images/book1.png">
-                <img id="book2" src="../public/images/book2.png">
-                <img id="book3" src="../public/images/book3.png">
-                <img id="book4" src="../public/images/book4.png">
-                <img id="book5" src="../public/images/book5.png">
-                <img id="book6" src="../public/images/book6.png">
-                <img id="book7" src="../public/images/book7.png">
+                <img id="book1" src="/Public/images/book1.png">
+                <img id="book2" src="/Public/images/book2.png">
+                <img id="book3" src="/Public/images/book3.png">
+                <img id="book4" src="/Public/images/book4.png">
+                <img id="book5" src="/Public/images/book5.png">
+                <img id="book6" src="/Public/images/book6.png">
+                <img id="book7" src="/Public/images/book7.png">
             </div>
             <button id="sliderButNext" class="sliderBut"><i class="fas fa-chevron-right"></i></button>
             <div class="sliderIndex">
@@ -192,3 +193,7 @@
         </div>
     </section>
 </section>
+
+<?php $content = ob_get_clean();
+require ('template.php');
+?>
