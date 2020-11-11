@@ -1,10 +1,14 @@
 <?php
+namespace Models;
+
+require_once ("Models/Model.php");
+
 /**
  * Session class
  * Object corresponding to session table
  */
 
-class Session {
+class Session extends Model{
 
     /**
      * @var int $id

@@ -1,10 +1,13 @@
 <?php
+namespace Models;
+
+require_once ("Models/Model.php");
+
 /**
  * Chapter class
  * Object corresponding to chapter table
  */
-class Chapter
-{
+class ChaptersManager extends Model{
 	/**
 	 * @var int $id
 	 * chapter id
@@ -30,10 +33,10 @@ class Chapter
 	private $preview;
 
 	/**
-	 * @var string $text
+	 * @var string $content
 	 * chapter content
 	 */
-	private $text;
+	private $content;
 
 	/**
      * @var int $deleted
@@ -93,7 +96,7 @@ class Chapter
 	public function getDate()
 	{
 
-		return $this->text;
+		return $this->date;
 
 	}
 
@@ -121,25 +124,25 @@ class Chapter
 	}
 
 	/**
-	 * text Setter
-	 * @param $text
+	 * content Setter
+	 * @param $content
 	 * @return Chapter
 	 */
-	public function setText(string $text)
+	public function setContent(string $content)
 	{
 
-		$this->text = $text;
+		$this->content = $content;
 		return $this;
 
 	}
 	/**
-	 * text Getter
+	 * content Getter
 	 *
 	 */
-	public function getText()
+	public function getContent()
 	{
 
-		return $this->text;
+		return $this->content;
 
 	}
 
@@ -165,6 +168,28 @@ class Chapter
         return $this->deleted;
 
 	}
+
+	final public function addChapter() {
+		$db = $this->dbConnect();
+		$req = $db->prepare('INSERT INTO `chapter`(`id`, `title`, `date_creation`, `preview`, `chapter_image`, `content`, `deleted`) VALUES (?,?,NOW(),?,?,?,0)');
+		$affectedLines = $req->execute(array($_POST['title'], $_POST['preview'], $_POST['chapter_image'], $_POST['content']));
+
+		return $affectedLines;
+	}
+	public function getChapters(){
+        $db = $this->dbConnect();
+        $req = $db->query('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, deleted FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
+
+        return $req;
+	}
+	public function getChapter($chapterId){
+        $db = $this->dbConnect();
+		$req = $db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, deleted FROM chapter WHERE id = ?');
+		$req->execute(array($chapterId));
+		$chapter = $req->fetch();
+
+        return $chapter;
+    }
 
 };
 ?>

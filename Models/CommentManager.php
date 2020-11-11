@@ -1,10 +1,14 @@
 <?php
+namespace Models;
+
+require_once ("Models/Model.php");
+
 /**
  * Comment class
  * Object corresponding to comment table
  */
 
-class Comment {
+class CommentManager extends Model{
 
     /**
      * @var int $id
