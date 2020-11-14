@@ -21,10 +21,10 @@ class ChaptersManager extends Model{
 	private $title;
 
 	/**
-	 * @var string $date
+	 * @var string $creation_date
 	 * chapter datetime of publish
 	 */
-	private $date;
+	private $creation_date;
 
 	/**
 	 * @var string $preview
@@ -46,142 +46,85 @@ class ChaptersManager extends Model{
 
 
 	/**
-	 * Get $id
-	 *
-	 * @return  int
-	 */
-	public function get_id()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * title Setter
-	 * @param $title
-	 * @return string
-	 */
-	public function setTitle(string $title)
-	{
-		$this->title = $title;
-		return $this;
-
-	}
-	/**
 	 * title Getter
 	 *
 	 */
-	public function getTitle()
-	{
+	public function getTitle($id){
+		$db = $this->dbConnect();
+        $req = $db->query('SELECT title FROM chapter WHERE id ='.$id);
+		$chapterTitle = $req->execute(array($id));
 
-		return $this->title;
-
+		return $chapterTitle;
 	}
 
 	/**
-	 * date Setter
-	 * @param $date
-	 * @return string
-	 */
-	public function setDate(string $date)
-	{
-
-		$this->date = $date;
-		return $this;
-
-	}
-	/**
-	 * date Getter
+	 * creation_date Getter
 	 *
 	 */
-	public function getDate()
-	{
+	public function getDate($id){
+		$db = $this->dbConnect();
+        $req = $db->query('SELECT creation_date FROM chapter WHERE id ='.$id);
+		$chapterDate = $req->execute(array($id));
 
-		return $this->date;
-
+		return $chapterDate;
 	}
 
-	/**
-	 * preview Setter
-	 * @param $preview
-	 * @return Chapter
-	 */
-	public function setPreview(string $preview)
-	{
-
-		$this->preview = $preview;
-		return $this;
-
-	}
 	/**
 	 * preview Getter
 	 *
 	 */
-	public function getPreview()
-	{
+	public function getPreview($id){
+		$db = $this->dbConnect();
+        $req = $db->query('SELECT preview FROM chapter WHERE id ='.$id);
+		$chapterPreview = $req->execute(array($id));
 
-		return $this->preview;
-
+		return $chapterPreview;
 	}
 
-	/**
-	 * content Setter
-	 * @param $content
-	 * @return Chapter
-	 */
-	public function setContent(string $content)
-	{
-
-		$this->content = $content;
-		return $this;
-
-	}
 	/**
 	 * content Getter
 	 *
 	 */
-	public function getContent()
-	{
-
-		return $this->content;
-
-	}
-
-	/**
-     * deleted Setter
-     * @param int $deleted
-     * @return Chapter
-     */
-    public function setDeleteChapter(int $deleted)
-    {
-
-        $this->deleted = $deleted;
-        return $this;
-
-    }
-    /**
-     * deleted Getter
-     * @return 0 or 1
-     */
-    public function getDeleteChapter()
-    {
-
-        return $this->deleted;
-
-	}
-
-	final public function addChapter() {
+	public function getContent($id){
 		$db = $this->dbConnect();
-		$req = $db->prepare('INSERT INTO `chapter`(`id`, `title`, `date_creation`, `preview`, `chapter_image`, `content`, `deleted`) VALUES (?,?,NOW(),?,?,?,0)');
+        $req = $db->query('SELECT content FROM chapter WHERE id ='.$id);
+		$chapterContent = $req->execute(array($id));
+
+		return $chapterContent;
+	}
+
+    /**
+     * Set deleted
+     *
+     */
+    public function setDelete($id){
+		$db = $this->dbConnect();
+        $req = $db->query('UPDATE chapter SET deleted = ? WHERE id ='.$id);
+	}
+
+	public function addChapter(){
+		$db = $this->dbConnect();
+		$req = $db->prepare('INSERT INTO `chapter`(`id`, `title`, `creation_date`, `preview`, `chapter_image`, `content`, `deleted`) VALUES (?,?,NOW(),?,?,?,0)');
 		$affectedLines = $req->execute(array($_POST['title'], $_POST['preview'], $_POST['chapter_image'], $_POST['content']));
 
 		return $affectedLines;
 	}
+
+	public function updateChapter(){
+		$db = $this->dbConnect();
+		$req = $db->prepare('UPDATE chapter SET title = ?, preview = ?, chapter_image = ?, content = ? WHERE id = ?');
+		$affectedLines = $req->execute(array($_POST['title'], $_POST['preview'], $_POST['chapter_image'], $_POST['content'], $id));
+
+		return $affectedLines;
+	}
+
 	public function getChapters(){
         $db = $this->dbConnect();
         $req = $db->query('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, deleted FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
 
         return $req;
 	}
+
 	public function getChapter($chapterId){
         $db = $this->dbConnect();
 		$req = $db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, deleted FROM chapter WHERE id = ?');
