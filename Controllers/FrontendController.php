@@ -2,7 +2,8 @@
 namespace Controllers;
 use Controllers\Controller;
 
-class PageController extends Controller{
+class FrontendController extends Controller{
+    // pages are methods
     function printHome(){
         return $this->View('home');
     }
@@ -10,19 +11,24 @@ class PageController extends Controller{
         return $this->View('biography');
     }
     function printBlog(){
-        $chapter = new Chapter();
+        $chapterManager = new ChapterManager();
         // get published chapters, order by date of creation
-        $chapters = $chapter->getPosted();
-        require $this->View('blog');
+        $chapters = $chapterManager->getPosted();
+        return $this->View('blog');
     }
     function printChapter(){
         $chapterManager = new ChapterManager();
-        // get published chapters, order by date of creation
-        $chapter = $chapterManager->getChapter($id);
-        return $chapter;
+        $commentManager = new CommentManager();
+
+        // if a comment is signaled
+
+        return $this->View('chapitre');
     }
     function printAdmin(){
         return $this->View('admin');
     }
+
+
 }
+
 ?>

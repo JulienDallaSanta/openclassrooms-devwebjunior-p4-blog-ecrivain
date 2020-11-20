@@ -11,12 +11,12 @@
                 <span></span>
                 SEO
             </a>
-            <a id="chapterPublish" class="adminFuncSelectA">
+            <a id="chapterAdmin" class="adminFuncSelectA">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                Édition de chapitres
+                Gestion des chapitres
             </a>
             <a id="commentsAdmin" class="adminFuncSelectA">
                 <span></span>
@@ -84,9 +84,45 @@
                 </div>
             </div>
         </div>
-        <h2>Édition de nouveaux chapitres :</h2>
-        <textarea class="tinymce"></textarea>
-        <input id="chapterSubmit" type="submit" name="submit" class="formSubmit" value="Publier le chapitre">
+        <div id="chaptersManagement">
+            <h2>Gestion des chapitres :</h2>
+            <h3>Tous les chapitres (publiés/en cours de rédaction):</h3>
+            <div></div>
+            <h3>Édition d'un nouveau chapitre</h3>
+            <form action="index.php?action=addChapter" method="post">
+                <div class="form-group">
+                    <label for="chapter_image">Image du chapitre :</label>
+                    <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control">
+                    <button >Envoyer</button>
+                </div>
+                <div class="form-group">
+                    <label for="title">Titre du chapitre :</label>
+                    <input type="text" id="title" name="title"  class="form-control input-sm"/>
+                </div>
+                <div class="form-group">
+                    <label for="chapterContent">Contenu du chapitre :</label>
+                    <textarea id="chapterContent" name="chapterContent" class="form-control tinymce"></textarea>
+                </div>
+                <div class="form-group">
+                    <input id="chapterSubmit" type="submit" name="submit" class="formSubmit" value="Enregistrer" />
+                </div>
+            </form>
+            <h3>Chapitres supprimés :</h3>
+            <div></div>
+        </div>
+        <div id="commentsManagement">
+            <h2>Gestion des commentaires :</h2>
+            <h3>Commentaires signalés :</h3>
+                <p>
+                    <span class="red">Signalé le :</span>
+                    <a href="index.php?action=setCancelReport&amp;id=" title="supprimer" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce signalement ?'));">
+                        <button type="button" class=""></button>
+                    </a>
+                    <a href="index.php?action=adminCancelReport&amp;id=" title="Autoriser" onclick="return(confirm('Etes-vous sûr de vouloir autoriser ce signalement ?'));">
+                        <button type="button" class=""></button>
+                    </a>
+                </p>
+        </div>
     </div>
 </section>
 

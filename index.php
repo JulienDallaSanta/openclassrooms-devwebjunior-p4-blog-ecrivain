@@ -4,8 +4,20 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL & ~E_NOTICE);
 
-    spl_autoload_register(function ($class_name) {
+    /*spl_autoload_register(function ($class_name) {
         include __DIR__.'/'.str_replace('\\','/',$class_name ). '.php';
+    });*/
+
+    spl_autoload_register(function ($class){
+        $files = array('Controllers/' . $class . '.php', 'Models/' . $class . '.php');
+
+        foreach ($files as $file)
+        {
+            if (file_exists($file))
+            {
+                require_once $file;
+            }
+        }
     });
 
     use Controllers\PageController;
