@@ -1,28 +1,24 @@
 <?php
+
 namespace Controllers;
+
 use Controllers\Controller;
 
 class PageController extends Controller{
-    function printHome(){
-        return $this->View('home');
+    static function printHome(){
+        return self::View('home');
     }
-    function printBiography(){
-        return $this->View('biography');
+    static function printBiography(){
+        return self::View('biography');
     }
-    function printBlog(){
-        $chapter = new Chapter();
-        // get published chapters, order by date of creation
-        $chapters = $chapter->getPosted();
-        require $this->View('blog');
+    static function printBlog(){
+        return self::View('blog');
     }
-    function printChapter(){
-        $chapterManager = new ChapterManager();
-        // get published chapters, order by date of creation
-        $chapter = $chapterManager->getChapter($id);
-        return $chapter;
+    static function printChapter(){
+        return self::View('chapitre');
     }
-    function printAdmin(){
-        return $this->View('admin');
+    static function printAdmin(){
+        return self::View('admin');
     }
 }
 ?>

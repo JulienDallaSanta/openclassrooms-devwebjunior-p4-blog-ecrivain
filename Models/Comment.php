@@ -49,7 +49,7 @@ class Comment extends Model{
 
     /**
 	 * @var string $report_date
-	 * comment's reporting datetime
+	 * comment's reporting timestamp
 	 */
 	private $report_date;
 
@@ -159,8 +159,6 @@ class Comment extends Model{
         return $this;
     }
 
-
-
     public function setCreation_date($creation_date)
     {
         $this->creation_date = $creation_date;
@@ -236,15 +234,10 @@ class Comment extends Model{
         $comments = [];
 
         $query = $this->db->prepare('SELECT id, chapter_id, pseudo, content, creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC');
-        $query->execute([
-            $chapter_id
-        ]);
-
-        while ($data = $query->fetch(PDO::FETCH_ASSOC))
-        {
+        $query->execute([$chapter_id]);
+        while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             $comments[] = new Comment($data);
         }
-
         return $comments;
     }
 

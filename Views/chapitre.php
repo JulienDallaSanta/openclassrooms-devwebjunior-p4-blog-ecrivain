@@ -1,34 +1,11 @@
 <?php ob_start();?>
 
-<?php
-// BDD connexion
-    try
-    {
-        $bdd = new PDO('mysql:host=phpmyadmin.localhost;dbname=dev_web_junior_p4;charset=utf8', 'phpmyadmin', 'phpmyadmin');
-    }
-    catch(Exception $e)
-    {
-            die('Erreur : '.$e->getMessage());
-    }
-?>
-
 <section class="pages">
     <div id="chapitrePageContent">
         <div id="blogTitle">
             <h1>UN BILLET SIMPLE <br/>POUR L'ALASKA</h1>
-            <?php
-            // get id titles & creation date of each chapter from the chapter table
-            $req = $bdd->query('SELECT id, title, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM chapter');
-
-            while ($donnees = $req->fetch())
-            {
-            ?>
-            <h3 id="blogTitleH3">CHAPITRE <?php echo $donnees['id']?> : <?php echo $donnees['title']?></h3>
-            <span class="chapterPubliDate"><em>Publié le <?php echo $donnees['date_creation_fr']; ?></em></span>
-            <?php
-            } //end of the loop
-            $req->closeCursor();
-            ?>
+            <h3 id="blogTitleH3">CHAPITRE <?php echo $chapter['id']?> : <?php echo $chapter['title']?></h3>
+            <span class="chapterPubliDate"><em>Publié le <?php echo $chapter['date_creation_fr']; ?></em></span>
         </div>
         <div id="chaptersSelect">
             <a id="chapterSelect1" class="chapterSelectA">

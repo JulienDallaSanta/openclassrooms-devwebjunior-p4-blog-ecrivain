@@ -1,7 +1,8 @@
 <?php
+
 namespace Models;
 
-require_once ("Models/Model.php");
+use Models\Model;
 
 /**
  * Chapter class
@@ -209,30 +210,28 @@ class Chapter extends Model{
 		while($data = $query->fetch(PDO::FETCH_ASSOC)){
 			$chapters = new Chapter($data);
 		}
-
         return $chapters;
 	}
 
 	public function getPosted(){
 		// return a list of published chapters in an objects array
 		$chapters = [];
-
 		$query = $this->db->query("SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
-
-		while ($data = $query->fetch(PDO::FETCH_ASSOC))
-		{
+		while ($data = $query->fetch(PDO::FETCH_ASSOC)){
 			$chapters[] = new Chapter($data);
 		}
-
         return $chapters;
 	}
 
 	public function getChapter($id){
         $query = $this->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?');
-		$query->execute([$id]);
-		$chapter = $query->fetch(PDO::FETCH_ASSOC);
-
-        return new Chapter($chapter);
+        $query->execute([$id]);
+        if($query->rowcount() == 1){
+            $chapter = $query->fetch(PDO::FETCH_ASSOC);
+            return new Chapter($chapter);
+        } else{
+            throw new Exception("Aucun chapitre ne correspond à l'identifiant '$id'");
+        }
 	}
 
 	public function exists($id){
