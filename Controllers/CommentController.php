@@ -15,6 +15,13 @@ class CommentController extends Controller{
         }
     }
 
+    public function getComments($chapter_id){
+        Comment::getComments($chapter_id);
+    }
+
+    public function deleteComment($comment){
+        Comment::deleteComment($comment);
+    }
 }
 
 ?>
