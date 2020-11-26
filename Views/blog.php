@@ -9,6 +9,7 @@
 
         <div id="chapters">
             <?php
+            use Controllers\ChapterController;
             ChapterController::listchapters();
             while ($data = $chapters->fetch()){
             ?>

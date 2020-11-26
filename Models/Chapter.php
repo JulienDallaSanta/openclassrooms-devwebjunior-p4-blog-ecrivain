@@ -189,7 +189,9 @@ class Chapter extends Model{
 			$chapter->getTitle(),
 			$chapter->getContent(),
 			$chapter->getPreview(),
-			$chapter->getPublished()
+            $chapter->getPublished(),
+            $chapter->getCreation_date(),
+            $chapter->getChapter_image()
 		]);
 	}
 

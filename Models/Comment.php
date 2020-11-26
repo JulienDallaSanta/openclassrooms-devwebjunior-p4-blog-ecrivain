@@ -1,4 +1,5 @@
 <?php
+
 namespace Models;
 
 require_once ("Models/Model.php");
@@ -173,15 +174,13 @@ class Comment extends Model{
         return $this;
     }
 
-    public function setReport($report)
-    {
+    public function setReport($report){
         $this->report = $report;
 
         return $this;
     }
 
-    public function setReport_date($report_date)
-    {
+    public function setReport_date($report_date){
         $this->report_date = $report_date;
 
         return $this;
@@ -200,8 +199,7 @@ class Comment extends Model{
         return $report;
     }
 
-    public function addComment(Comment $comment)
-    {
+    public function addComment(Comment $comment){
         $query = $this->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
         $query->execute([
             'chapter_id' => $comment->getChapter_id(),
@@ -210,7 +208,7 @@ class Comment extends Model{
         ]);
     }
 
-    public function getChapterWithComments()
+    /*public function getChapterWithComments()
     {
         // return a list of all comments with the chapter's title
         $comments = [];
@@ -226,10 +224,9 @@ class Comment extends Model{
         }
 
         return $comments;
-    }
+    }*/
 
-    public function getComments($chapter_id)
-    {
+    public function getComments($chapter_id){
         // return a list of comments in an array
         $comments = [];
 
@@ -241,8 +238,7 @@ class Comment extends Model{
         return $comments;
     }
 
-    public function unreport(Comment $comment)
-    {
+    public function unreport(Comment $comment){
         $query = $this->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
         $result = $query->execute([
             $comment->getId()
@@ -251,16 +247,14 @@ class Comment extends Model{
         return (bool) $result;
     }
 
-    public function report(Comment $comment)
-    {
-        $query = $this->db->prepare("UPDATE comment SET report = 1 WHERE id = ?");
+    public function report(Comment $comment){
+        $query = $this->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
         $query->execute([
             $comment->getId()
         ]);
     }
 
-    public function deleteComment(Comment $comment)
-    {
+    public function deleteComment(Comment $comment){
         $query = $this->db->prepare("DELETE FROM comment WHERE id = ?");
         $result = $query->execute([
             $comment->getId()
