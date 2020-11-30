@@ -31,16 +31,21 @@ class AdminController extends Controller{
         $chapter = ChapterController::getChapter($id);
         $chapterTitle = $chapter->getTitle();
         $comments = CommentController::getComments($id);
-        $_VIEW['chapterWithComments'] = [$chapterTitle, $comments];
+        $_VIEW['chapterTitle'] = $chapterTitle;
+        $_VIEW['comments'] =  $comments;
         require $this->View('admin');
     }
 
     public function unreport($comment){
-        $comment->setReport(0);
+        CommentController::setReport(0, $comment->getId());
     }
 
     public function deleteComment($comment){
         CommentController::deleteComment($comment);
+    }
+
+    static function printAdmin(){
+        return self::View('admin');
     }
 }
 

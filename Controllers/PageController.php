@@ -11,14 +11,5 @@ class PageController extends Controller{
     static function printBiography(){
         return self::View('biography');
     }
-    static function printBlog(){
-        return self::View('blog');
-    }
-    static function printChapter(){
-        return self::View('chapitre');
-    }
-    static function printAdmin(){
-        return self::View('admin');
-    }
 }
 ?>
