@@ -1,7 +1,9 @@
 <?php
+
 namespace Models;
 
 use Models\Model;
+use PDO;
 
 /**
  * Admin class
@@ -23,17 +25,19 @@ class Admin extends Model{
     private $admin_password;
 
 
-    public function __construct(Array $data){
-        $this->hydrate($data);
+    public function __construct($data = false){
         $this->dbConnect();
+        if($data){
+            $this->hydrate($data);
+        }
     }
 
-    public function hydrate($data){
+    static function hydrate($data){
         if(isset($data['admin_id'])){
-            $this->setAdmin_id($data['admin_id']);
+            self::getInstance()->setAdmin_id($data['admin_id']);
         }
         if(isset($data['admin_password'])){
-            $this->setAdmin_password($data['admin_password']);
+            self::getInstance()->setAdmin_password($data['admin_password']);
         }
     }
 
@@ -43,9 +47,9 @@ class Admin extends Model{
      *
      * @return string
      */
-    public function getAdmin_id(){
+    static function getAdmin_id(){
 
-        return $this->admin_id;
+        return self::getInstance()->admin_id;
     }
 
     /**
@@ -53,8 +57,8 @@ class Admin extends Model{
      *
      * @return string
      */
-    public function getAdmin_password(){
-        return $this->admin_password;
+    static function getAdmin_password(){
+        return self::getInstance()->admin_password;
     }
 
 
@@ -66,8 +70,8 @@ class Admin extends Model{
      *
      * @return  string
      */
-    public function setAdmin_id($admin_id){
-        $this->admin_id = $admin_id;
+    static function setAdmin_id($admin_id){
+        self::getInstance()->admin_id = $admin_id;
     }
 
     /**
@@ -77,7 +81,7 @@ class Admin extends Model{
      *
      * @return  string
      */
-    public function setAdmin_password($admin_password){
-        $this->admin_password = $admin_password;
+    static function setAdmin_password($admin_password){
+        self::getInstance()->admin_password = $admin_password;
     }
 }

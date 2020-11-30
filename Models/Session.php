@@ -1,7 +1,8 @@
 <?php
 namespace Models;
 
-require_once ("Models/Model.php");
+use Models\Model;
+use PDO;
 
 /**
  * Session class
@@ -42,26 +43,28 @@ class Session extends Model{
     private $date_creation;
 
 
-    public function __construct(Array $data){
-        $this->hydrate($data);
+    public function __construct($data = false){
         $this->dbConnect();
+        if($data){
+            $this->hydrate($data);
+        }
     }
 
-    public function hydrate($data){
+    static function hydrate($data){
         if(isset($data['id'])){
-            $this->setId($data['id']);
+            self::getInstance()->setId($data['id']);
         }
         if(isset($data['consulted_pages'])){
-            $this->setConsulted_pages($data['consulted_pages']);
+            self::getInstance()->setConsulted_pages($data['consulted_pages']);
         }
         if(isset($data['length'])){
-            $this->setLength($data['length']);
+            self::getInstance()->setLength($data['length']);
         }
         if(isset($data['rebound'])){
-            $this->setRebound($data['rebound']);
+            self::getInstance()->setRebound($data['rebound']);
         }
         if(isset($data['date_creation'])){
-            $this->setDate_creation($data['date_creation']);
+            self::getInstance()->setDate_creation($data['date_creation']);
         }
     }
 
@@ -71,8 +74,8 @@ class Session extends Model{
      *
      * @return  int
      */
-    public function getId(){
-        return $this->id;
+    static function getId(){
+        return self::getInstance()->id;
     }
 
     /**
@@ -80,8 +83,8 @@ class Session extends Model{
      *
      * @return  int
      */
-    public function getConsulted_pages(){
-        return $this->consulted_pages;
+    static function getConsulted_pages(){
+        return self::getInstance()->consulted_pages;
     }
 
     /**
@@ -89,8 +92,8 @@ class Session extends Model{
      *
      * @return  string
      */
-    public function getLength(){
-        return $this->length;
+    static function getLength(){
+        return self::getInstance()->length;
     }
 
     /**
@@ -98,8 +101,8 @@ class Session extends Model{
      *
      * @return  int
      */
-    public function getRebound(){
-        return $this->rebound;
+    static function getRebound(){
+        return self::getInstance()->rebound;
     }
 
     /**
@@ -107,8 +110,8 @@ class Session extends Model{
      *
      * @return string
      */
-    public function getDate_creation(){
-        return $this->date_creation;
+    static function getDate_creation(){
+        return self::getInstance()->date_creation;
     }
 
     //SETTERS
@@ -119,8 +122,8 @@ class Session extends Model{
      *
      * @return self
      */
-    public function setConsulted_pages($consulted_pages){
-        $this->consulted_pages = $consulted_pages;
+    static function setConsulted_pages($consulted_pages){
+        self::getInstance()->consulted_pages = $consulted_pages;
     }
 
     /**
@@ -130,8 +133,8 @@ class Session extends Model{
      *
      * @return  self
      */
-    public function setLength($length){
-        $this->length = $length;
+    static function setLength($length){
+        self::getInstance()->length = $length;
     }
 
     /**
@@ -141,8 +144,8 @@ class Session extends Model{
      *
      * @return int
      */
-    public function setRebound($rebound){
-        $this->rebound = $rebound;
+    static function setRebound($rebound){
+        self::getInstance()->rebound = $rebound;
     }
 
     /**
@@ -152,7 +155,7 @@ class Session extends Model{
      *
      * @return string
      */
-    public function setDate_creation($date_creation){
-        $this->date_creation = $date_creation;
+    static function setDate_creation($date_creation){
+        self::getInstance()->date_creation = $date_creation;
     }
 }

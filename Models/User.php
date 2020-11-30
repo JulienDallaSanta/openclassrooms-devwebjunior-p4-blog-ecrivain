@@ -2,7 +2,8 @@
 
 namespace Models;
 
-require_once ("Models/Model.php");
+use Models\Model;
+use PDO;
 
 /**
  * User class
@@ -42,26 +43,28 @@ class User extends Model{
     private $date_inscription;
 
 
-    public function __construct(Array $data){
-        $this->hydrate($data);
+    public function __construct($data = false){
         $this->dbConnect();
+        if($data){
+            $this->hydrate($data);
+        }
     }
 
-    public function hydrate($data){
+    static function hydrate($data){
         if(isset($data['id'])){
-            $this->setId($data['id']);
+            self::getInstance()->setId($data['id']);
         }
         if(isset($data['pseudo'])){
-            $this->setPseudo($data['pseudo']);
+            self::getInstance()->setPseudo($data['pseudo']);
         }
         if(isset($data['pass'])){
-            $this->setPass($data['pass']);
+            self::getInstance()->setPass($data['pass']);
         }
         if(isset($data['mail'])){
-            $this->setMail($data['mail']);
+            self::getInstance()->setMail($data['mail']);
         }
         if(isset($data['date_inscription'])){
-            $this->setDate_inscription($data['date_inscription']);
+            self::getInstance()->setDate_inscription($data['date_inscription']);
         }
     }
 
@@ -71,8 +74,8 @@ class User extends Model{
      *
      * @return  int
      */
-    public function getId(){
-        return $this->id;
+    static function getId(){
+        return self::getInstance()->id;
     }
 
     /**
@@ -80,8 +83,8 @@ class User extends Model{
      *
      * @return  string  $pseudo
      */
-    public function getPseudo(){
-        return $this->pseudo;
+    static function getPseudo(){
+        return self::getInstance()->pseudo;
     }
 
     /**
@@ -89,8 +92,8 @@ class User extends Model{
      *
      * @return  string  $pass
      */
-    public function getPass(){
-        return $this->pass;
+    static function getPass(){
+        return self::getInstance()->pass;
     }
 
     /**
@@ -98,8 +101,8 @@ class User extends Model{
      *
      * @return  string  $mail
      */
-    public function getMail(){
-        return $this->mail;
+    static function getMail(){
+        return self::getInstance()->mail;
     }
 
     /**
@@ -107,8 +110,8 @@ class User extends Model{
      *
      * @return  string  $date_inscription
      */
-    public function getDate_inscription(){
-        return $this->date_inscription;
+    static function getDate_inscription(){
+        return self::getInstance()->date_inscription;
     }
 
 
@@ -121,8 +124,8 @@ class User extends Model{
      *
      * @return  self
      */
-    public function setId($id){
-        $this->id = $id;
+    static function setId($id){
+        self::getInstance()->id = $id;
     }
 
     /**
@@ -132,8 +135,8 @@ class User extends Model{
      *
      * @return  string
      */
-    public function setPseudo($pseudo){
-        $this->pseudo = $pseudo;
+    static function setPseudo($pseudo){
+        self::getInstance()->pseudo = $pseudo;
     }
 
     /**
@@ -143,8 +146,8 @@ class User extends Model{
      *
      * @return  string
      */
-    public function setPass($pass){
-        $this->pass = $pass;
+    static function setPass($pass){
+        self::getInstance()->pass = $pass;
     }
 
     /**
@@ -154,8 +157,8 @@ class User extends Model{
      *
      * @return  string
      */
-    public function setMail($mail){
-        $this->mail = $mail;
+    static function setMail($mail){
+        self::getInstance()->mail = $mail;
     }
 
     /**
@@ -165,44 +168,34 @@ class User extends Model{
      *
      * @return  string
      */
-    public function setDate_inscription($date_inscription){
-        $this->date_inscription = $date_inscription;
+    static function setDate_inscription($date_inscription){
+        self::getInstance()->date_inscription = $date_inscription;
     }
 
 
-    public function getUser($pseudo){
+    static function getUser($pseudo){
         // search for a pseudo and return a User object
-        $query = $this->db->prepare('SELECT id, pseudo, pass FROM user WHERE pseudo = ?');
-        $query->execute([
-            $pseudo
-        ]);
+        $query = self::getInstance()->db->prepare('SELECT id, pseudo, pass FROM user WHERE pseudo = ?');
+        $query->execute([$pseudo]);
 
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
-        if (!$data) // si la recherche de pseudo n'a rien donné
-        {
+        if (!$data){ // si la recherche de pseudo n'a rien donné
             return false;
-        }
-        else
-        {
+        } else{
             return new User($data);
         }
     }
 
-    public function exists($pseudo)
-    {
+    static function exists($pseudo){
         // search for a lowercase pseudo to avoid duplicates
-        $query = $this->db->prepare('SELECT pseudo FROM user WHERE LOWER(pseudo) = ?');
-        $query->execute([
-            strtolower($pseudo)
-        ]);
-
+        $query = self::getInstance()->db->prepare('SELECT pseudo FROM user WHERE LOWER(pseudo) = ?');
+        $query->execute([strtolower($pseudo)]);
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function addUser(User $user)
-    {
-        $query = $this->db->prepare('INSERT INTO user(pseudo, pass, mail, date_inscription) VALUES(:pseudo, :pass, :mail, NOW())');
+    static function addUser(User $user){
+        $query = self::getInstance()->db->prepare('INSERT INTO user(pseudo, pass, mail, date_inscription) VALUES(:pseudo, :pass, :mail, NOW())');
         $query->execute([
             'pseudo' => $user->getPseudo(),
             'pass' => $user->getPass(),

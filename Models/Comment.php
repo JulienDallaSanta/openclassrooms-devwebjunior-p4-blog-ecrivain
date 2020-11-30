@@ -2,7 +2,8 @@
 
 namespace Models;
 
-require_once ("Models/Model.php");
+use Models\Model;
+use PDO;
 
 /**
  * Comment class
@@ -55,143 +56,146 @@ class Comment extends Model{
 	private $report_date;
 
 
-    public function __construct(Array $data) // parameter must be an array
+    public function __construct($data = false) // parameter must be an array
     {
-		$this->dbConnect();
-		$this->hydrate($data);
+        $this->dbConnect();
+        if($data){
+            $this->hydrate($data);
+        }
 	}
 
-	public function hydrate($data)
+	static function hydrate($data)
     {
         if (isset($data['id']))
         {
-            $this->setId($data['id']);
+            self::getInstance()->setId($data['id']);
         }
 
         if (isset($data['chapter_id']))
         {
-            $this->setChapter_id($data['chapter_id']);
+            self::getInstance()->setChapter_id($data['chapter_id']);
         }
 
         if (isset($data['pseudo']))
         {
-            $this->setPseudo($data['pseudo']);
+            self::getInstance()->setPseudo($data['pseudo']);
         }
 
         if (isset($data['creation_date']))
         {
-            $this->setDate($data['creation_date']);
+            self::getInstance()->setDate($data['creation_date']);
         }
 
         if (isset($data['content']))
         {
-            $this->setContent($data['content']);
+            self::getInstance()->setContent($data['content']);
 		}
 
 		if (isset($data['report']))
         {
-            $this->setReport($data['report']);
+            self::getInstance()->setReport($data['report']);
 		}
 
 		if (isset($data['report_date']))
         {
-            $this->setReport_date($data['report_date']);
+            self::getInstance()->setReport_date($data['report_date']);
         }
 	}
 
 	// GETTERS
 
-    public function getId()
+    static function getId()
     {
-        return $this->id;
+        return self::getInstance()->id;
     }
 
-    public function getChapter_id()
+    static function getChapter_id()
     {
-        return $this->chapter_id;
+        return self::getInstance()->chapter_id;
 	}
 
-    public function getPseudo()
+    static function getPseudo()
     {
-        return $this->pseudo;
+        return self::getInstance()->pseudo;
     }
 
-	public function getCreation_date()
+	static function getCreation_date()
 	{
-		return $this->creation_date;
+		return self::getInstance()->creation_date;
 	}
 
-    public function getContent()
+    static function getContent()
     {
-        return $this->content;
+        return self::getInstance()->content;
     }
 
-    public function getReport()
+    static function getReport()
     {
-        return $this->report;
+        return self::getInstance()->report;
     }
 
-    public function getReport_date()
+    static function getReport_date()
     {
-        return $this->report_date;
+        return self::getInstance()->report_date;
 	}
 
 
     // SETTERS
 
-    public function setId($id)
+    static function setId($id)
     {
-        $this->id = $id;
+        self::getInstance()->id = $id;
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setChapter_id($chapter_id)
+    static function setChapter_id($chapter_id)
     {
-        $this->chapter_id = htmlspecialchars($chapter_id);
+        self::getInstance()->chapter_id = htmlspecialchars($chapter_id);
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setPseudo($pseudo)
+    static function setPseudo($pseudo)
     {
-        $this->pseudo = $pseudo;
+        self::getInstance()->pseudo = $pseudo;
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setCreation_date($creation_date)
+    static function setCreation_date($creation_date)
     {
-        $this->creation_date = $creation_date;
+        self::getInstance()->creation_date = $creation_date;
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setContent($content)
+    static function setContent($content)
     {
-        $this->content = htmlspecialchars_decode($content);
+        self::getInstance()->content = htmlspecialchars_decode($content);
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setReport($report){
-        $this->report = $report;
+    static function setReport($report){
+        self::getInstance()->report = $report;
 
-        return $this;
+        return self::getInstance();
     }
 
-    public function setReport_date($report_date){
-        $this->report_date = $report_date;
+    static function setReport_date($report_date){
+        self::getInstance()->report_date = $report_date;
 
-        return $this;
+        return self::getInstance();
     }
 
     /**
      * Get all reported comments
      */
-    public function getReported(){
+    static function getReported(){
         $report = false;
-        $query = $this->db->query('SELECT * FROM comment WHERE report = 1');
+        $query = self::getInstance()->db->prepare('SELECT * FROM comment WHERE report = 1');
+        $query->execute();
         $queryReport = $query->fetch(PDO::FETCH_ASSOC);
         if($queryReport){
             $report = true;
@@ -199,8 +203,8 @@ class Comment extends Model{
         return $report;
     }
 
-    public function addComment(Comment $comment){
-        $query = $this->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
+    static function addComment(Comment $comment){
+        $query = self::getInstance()->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
         $query->execute([
             'chapter_id' => $comment->getChapter_id(),
             'pseudo' => $comment->getPseudo(),
@@ -208,29 +212,11 @@ class Comment extends Model{
         ]);
     }
 
-    /*public function getChapterWithComments()
-    {
-        // return a list of all comments with the chapter's title
-        $comments = [];
-
-        $query = $this->db->query('SELECT comment.id, chapter_id, pseudo, content, creation_date, report, chapter.title
-        FROM comment
-        INNER JOIN chapter ON comment.chapter_id = chapter.id
-        ORDER BY report DESC, creation_date DESC');
-
-        while ($data = $query->fetch(PDO::FETCH_ASSOC))
-        {
-            $comments[] = new Comment($data);
-        }
-
-        return $comments;
-    }*/
-
-    public function getComments($chapter_id){
+    static function getComments($chapter_id){
         // return a list of comments in an array
         $comments = [];
 
-        $query = $this->db->prepare('SELECT id, chapter_id, pseudo, content, creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC');
+        $query = self::getInstance()->db->prepare('SELECT id, chapter_id, pseudo, content, creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC');
         $query->execute([$chapter_id]);
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             $comments[] = new Comment($data);
@@ -238,27 +224,21 @@ class Comment extends Model{
         return $comments;
     }
 
-    public function unreport(Comment $comment){
-        $query = $this->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
-        $result = $query->execute([
-            $comment->getId()
-        ]);
+    static function unreport(Comment $comment){
+        $query = self::getInstance()->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
+        $result = $query->execute([$comment->getId()]);
 
         return (bool) $result;
     }
 
-    public function report(Comment $comment){
-        $query = $this->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
-        $query->execute([
-            $comment->getId()
-        ]);
+    static function report(Comment $comment){
+        $query = self::getInstance()->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
+        $query->execute([$comment->getId()]);
     }
 
-    public function deleteComment(Comment $comment){
-        $query = $this->db->prepare("DELETE FROM comment WHERE id = ?");
-        $result = $query->execute([
-            $comment->getId()
-        ]);
+    static function deleteComment(Comment $comment){
+        $query = self::getInstance()->db->prepare("DELETE FROM comment WHERE id = ?");
+        $result = $query->execute([$comment->getId()]);
 
         return (bool) $result;
     }
