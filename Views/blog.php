@@ -9,9 +9,7 @@
 
         <div id="chapters">
             <?php
-            use Controllers\ChapterController;
-            ChapterController::listchapters();
-            while ($data = $chapters->fetch()){
+            while ($data = $_VIEW['chapters']->fetch()){
             ?>
             <div class="chaptersDiv">
                 <div class="chap<?=$data['id']?>Img chaptersImg"></div>
