@@ -24,7 +24,7 @@ class Controller{
         return $this->rootPath.'/Views/'.$view.'.php';
     }
 
-    private function View($view, $_VIEW){
+    private function View($view, $_VIEW = []){
         return include_once $this->ViewPath($view);
     }
 }
