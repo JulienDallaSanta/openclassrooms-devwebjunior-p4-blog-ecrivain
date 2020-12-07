@@ -78,6 +78,16 @@ class CommentController extends Controller{
         }
     }
 
+    public function unreport(){
+        $comment = new Comment();
+        if(!empty($_GET['comment']) && !empty($_GET['chapter']) && $_GET['report'] == 1){
+            $newComment = new Comment(['id' => $_GET['comment']]);
+            $comment->unreport($newComment);
+            header('Location: index.php?action=view&id=' .$_GET['chapter'] . '#comments');
+            exit();
+        }
+    }
+
     public function getComments($chapter_id){
         return $_VIEW['comments'] = Comment::getComments($chapter_id);
     }
