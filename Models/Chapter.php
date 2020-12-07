@@ -39,7 +39,7 @@ class Chapter extends Model{
 
         if (isset($data['creation_date']))
         {
-            self::getInstance()->setDate($data['creation_date']);
+            self::getInstance()->setCreation_date($data['creation_date']);
         }
 
         if (isset($data['preview']))
@@ -66,7 +66,20 @@ class Chapter extends Model{
         {
             self::getInstance()->setDeleted($data['deleted']);
         }
-	}
+    }
+
+    public function toArray(){
+        return [
+            "id" => $this->getId(),
+            "title" => $this->getTitle(),
+            "creation_date" => $this->getCreation_date(),
+            "preview" => $this->getPreview(),
+            "chapter_image" => $this->getChapter_image(),
+            "content" => $this->getContent(),
+            "published" => $this->getPublished(),
+            "deleted" => $this->getDeleted()
+        ];
+    }
 
 	// GETTERS
 
@@ -193,7 +206,7 @@ class Chapter extends Model{
 
 	static function getChapters(){
 		$chapters = [];
-        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, deleted, published FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
+        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date, preview, chapter_image, content, deleted, published FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
         $query->execute();
         while($data = $query->fetch(PDO::FETCH_ASSOC)){
 			$chapters = new Chapter($data);
@@ -204,16 +217,18 @@ class Chapter extends Model{
 	static function getPosted(){
 		// return a list of published chapters in an objects array
         $chapters = [];
-		$query = self::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date_fr, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
+		$query = self::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
-			$chapters[] = new Chapter($data);
-		}
+            //var_dump($data);
+            array_push($chapters, (new Chapter($data))->toArray());
+        }
+        //die;
         return $chapters;
 	}
 
 	static function getChapter($id){
-        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date_fr, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?');
+        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?');
         $query->execute([$id]);
         if($query->rowcount() == 1){
             $chapter = $query->fetch(PDO::FETCH_ASSOC);

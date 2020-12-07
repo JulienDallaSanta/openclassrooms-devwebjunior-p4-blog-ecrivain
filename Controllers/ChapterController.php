@@ -91,8 +91,9 @@ class ChapterController extends Controller{
         require $this->View('admin');
     }
 
-    public function getChapter($id){
-        return $_VIEW['chapter'] = Chapter::getChapter($id);
+    static function getChapter($id){
+        $chapter = Chapter::getChapter($id);
+        return $chapter;
     }
 
     public function deleteChapter($chapter){
@@ -115,6 +116,12 @@ class ChapterController extends Controller{
         $chapters = self::getInstance()->getPosted();
         $_VIEW['chapters'] = $chapters;
         return self::View('blog', $_VIEW);
+    }
+
+    static function printChapter($id){
+        $chapter = self::getInstance()->getChapter($id);
+        $_VIEW['chapter'] = $chapter;
+        return self::View('chapitre', $_VIEW);
     }
 }
 
