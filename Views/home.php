@@ -85,7 +85,7 @@
                     <div id="chap6Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 6 :<br/>Peine de mort</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/6">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div id="chap5" class="chaptersSliderDiv">
@@ -93,7 +93,7 @@
                     <div id="chap5Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 5 :<br/>Manger ou être mangé</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/5">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div id="chap4" class="chaptersSliderDiv">
@@ -101,7 +101,7 @@
                     <div id="chap4Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 4 :<br/>On the road again</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/4">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div id="chap3" class="chaptersSliderDiv">
@@ -109,7 +109,7 @@
                     <div id="chap3Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 3 :<br/>Une âme perdue</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/3">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div id="chap2" class="chaptersSliderDiv">
@@ -117,7 +117,7 @@
                     <div id="chap2Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 2 :<br/>Prendre de la hauteur</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/2">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div id="chap1" class="chaptersSliderDiv">
@@ -125,7 +125,7 @@
                     <div id="chap1Content" class="chaptersSliderDivContent">
                         <span class="dateTime">jj/mm/aaaa</span>
                         <h4>Chapitre 1 :<br/>Un vrai défi</h4>
-                        <a class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                        <a class="pageLink" href="chapitre/1">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
                 <div class="sliderIndex">
