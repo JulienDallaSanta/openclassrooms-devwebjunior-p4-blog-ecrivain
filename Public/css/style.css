@@ -1043,6 +1043,9 @@ footer p, footer a{
   bottom: 0;
   right: 0;
 }
+.chapterAndComments{
+  width: 100%;
+}
 .chapterEntireText{
   width: 98%;
   height: 40vh;
@@ -1327,4 +1330,42 @@ footer p, footer a{
   height: 3em;
   padding: 0.5% 1%;
   margin: 2% 0 5% 0;
+}
+
+
+.page404{
+  padding: 0;
+}
+#pageContent404{
+  padding: 0;
+  background: url('../images/404vector.png') no-repeat center fixed;
+  background-size: cover;
+  -webkit-background-size: cover;
+  height: 95vh;
+}
+#page404div{
+  position: absolute;
+  right: 2%;
+  top: 32%;
+  width: 20%;
+  line-height:2em;
+}
+#page404div p{
+  color: #4060A9;
+}
+#page404div div{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-around;
+}
+.button404{
+  padding: 0;
+  color: #4060A9;
+  border-color: #4060A9;
+  background-color: rgba(0, 0, 0, 0);
+  width: 40%;
+}
+.button404:hover{
+  background-color: #4060A9;
+  color: white;
 }

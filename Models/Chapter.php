@@ -119,49 +119,41 @@ class Chapter extends Model{
 
     static function setId($id){
         self::getInstance()->id = $id;
-
         return self::getInstance();
     }
 
     static function setTitle($title){
         self::getInstance()->title = htmlspecialchars($title);
-
         return self::getInstance();
     }
 
     static function setContent($content){
         self::getInstance()->content = htmlspecialchars_decode($content);
-
         return self::getInstance();
     }
 
     static function setCreation_date($creation_date){
         self::getInstance()->creation_date = $creation_date;
-
         return self::getInstance();
     }
 
     static function setPreview($preview){
         self::getInstance()->preview = $preview;
-
         return self::getInstance();
     }
 
     static function setChapter_image($chapter_image){
         self::getInstance()->chapter_image = $chapter_image;
-
         return self::getInstance();
 	}
 
 	static function setPublished($published){
         self::getInstance()->published = $published;
-
         return self::getInstance();
 	}
 
 	static function setDeleted($deleted){
         self::getInstance()->deleted = $deleted;
-
         return self::getInstance();
     }
 
@@ -206,7 +198,7 @@ class Chapter extends Model{
 
 	static function getChapters(){
 		$chapters = [];
-        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date, preview, chapter_image, content, deleted, published FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
+        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, %d/%m/%Y à %Hh%imin%ss) AS creation_date, preview, chapter_image, content, deleted, published FROM chapter WHERE deleted = 0 ORDER BY creation_date DESC');
         $query->execute();
         while($data = $query->fetch(PDO::FETCH_ASSOC)){
 			$chapters = new Chapter($data);
@@ -220,34 +212,38 @@ class Chapter extends Model{
 		$query = self::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
-            //var_dump($data);
             array_push($chapters, (new Chapter($data))->toArray());
         }
-        //die;
         return $chapters;
+    }
+
+    static function get4lastChapters(){
+		// return a list of 4 last chapters in an objects array
+        $lastChapters = [];
+		$query = self::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY id DESC LIMIT 4");
+        $query->execute();
+        while ($data = $query->fetch(PDO::FETCH_ASSOC)){
+            array_push($lastChapters, (new Chapter($data))->toArray());
+        }
+        return $lastChapters;
 	}
 
 	static function getChapter($id){
-        $query = self::getInstance()->db->prepare('SELECT id, title, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?');
+        $query = self::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?");
         $query->execute([$id]);
-        if($query->rowcount() == 1){
-            $chapter = $query->fetch(PDO::FETCH_ASSOC);
-            return new Chapter($chapter);
-        } else{
-            throw new Exception("Aucun chapitre ne correspond à l'identifiant '$id'");
-        }
+        $chapter = $query->fetch(PDO::FETCH_ASSOC);
+        return $chapter;
+
 	}
 
 	static function exists($id){
-        if (is_numeric($id))
-        {
+        if (is_numeric($id)){
             $query = self::getInstance()->db->prepare('SELECT id FROM chapter WHERE id = ?');
             $query->execute([$id]);
 
             return $query->fetch(PDO::FETCH_ASSOC);
         }
-        else
-        {
+        else{
             return false;
         }
     }

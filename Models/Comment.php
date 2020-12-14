@@ -83,7 +83,7 @@ class Comment extends Model{
 
         if (isset($data['creation_date']))
         {
-            self::getInstance()->setDate($data['creation_date']);
+            self::getInstance()->setCreation_date($data['creation_date']);
         }
 
         if (isset($data['content']))
@@ -100,7 +100,19 @@ class Comment extends Model{
         {
             self::getInstance()->setReport_date($data['report_date']);
         }
-	}
+    }
+
+    public function toArray(){
+        return [
+            "id" => $this->getId(),
+            "chapter_id" => $this->getChapter_id(),
+            "pseudo" => $this->getPseudo(),
+            "creation_date" => $this->getCreation_date(),
+            "content" => $this->getContent(),
+            "report" => $this->getReport(),
+            "report_date" => $this->getReport_date()
+        ];
+    }
 
 	// GETTERS
 
@@ -149,7 +161,7 @@ class Comment extends Model{
         return self::getInstance();
     }
 
-    static function setChapter_id($chapter_id)
+    public function setChapter_id($chapter_id)
     {
         self::getInstance()->chapter_id = htmlspecialchars($chapter_id);
 
@@ -215,13 +227,20 @@ class Comment extends Model{
     static function getComments($chapter_id){
         // return a list of comments in an array
         $comments = [];
-
         $query = self::getInstance()->db->prepare('SELECT id, chapter_id, pseudo, content, creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC');
         $query->execute([$chapter_id]);
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
-            $comments[] = new Comment($data);
+            array_push($comments, (new Comment($data))->toArray());
         }
         return $comments;
+    }
+
+    static function getNumberOfComments($chapter_id){
+        $comments = [];
+        $query = self::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE chapter_id = ?');
+        $query->execute([$chapter_id]);
+        $data = $query->fetch();
+        return (int) $data['nb'];
     }
 
     static function unreport(Comment $comment){

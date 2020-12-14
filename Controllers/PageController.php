@@ -11,5 +11,8 @@ class PageController extends Controller{
     static function printBiography(){
         return self::View('biography');
     }
+    static function print404(){
+        return self::View('404');
+    }
 }
 ?>

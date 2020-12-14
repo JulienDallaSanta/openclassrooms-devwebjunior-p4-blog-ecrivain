@@ -88,8 +88,14 @@ class CommentController extends Controller{
         }
     }
 
-    public function getComments($chapter_id){
-        return $_VIEW['comments'] = Comment::getComments($chapter_id);
+    static function getComments($chapter_id){
+        $comments = Comment::getComments($chapter_id);
+        return $comments;
+    }
+
+    static function getNumberOfComments($chapter_id){
+        $numberOfComments = Comment::getNumberOfComments($chapter_id);
+        return $numberOfComments;
     }
 
     public function deleteComment($comment){

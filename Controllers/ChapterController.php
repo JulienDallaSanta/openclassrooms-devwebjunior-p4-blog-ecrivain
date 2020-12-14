@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Controllers\Controller;
+use Controllers\CommentController;
 
 use Models\Chapter;
 use Models\Comment;
@@ -85,6 +86,11 @@ class ChapterController extends Controller{
         return $chapters;
     }
 
+    static function get4lastChapters(){
+        $lastChapters = Chapter::get4lastChapters(); // Call to a function of this object
+        return $lastChapters;
+    }
+
     public function getChapters(){
         $Chapters = Chapter::getChapters(); // Call to a function of this object
         $_VIEW['allChapters'] = $Chapters;
@@ -108,8 +114,14 @@ class ChapterController extends Controller{
         return $_VIEW['updateChapter'] = Chapter::updateChapter($chapter);
     }
 
-    public function exists($id){
+    static function exists($id){
         return $_VIEW['chapterExists'] = Chapter::exists($id);
+    }
+
+    static function printLastChapters(){
+        $lastChapters = self::getInstance()->get4lastChapters();
+        $_VIEW['lastChapters'] = $lastChapters;
+        return self::View('home', $_VIEW);
     }
 
     static function printBlog(){
@@ -121,6 +133,10 @@ class ChapterController extends Controller{
     static function printChapter($id){
         $chapter = self::getInstance()->getChapter($id);
         $_VIEW['chapter'] = $chapter;
+        $comments = CommentController::getComments($id);
+        $_VIEW['comments'] = $comments;
+        $commentsCount = CommentController::getNumberOfComments($id);
+        $_VIEW['commentsCount'] = $commentsCount;
         return self::View('chapitre', $_VIEW);
     }
 }

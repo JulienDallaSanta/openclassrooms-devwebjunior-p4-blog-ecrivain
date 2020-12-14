@@ -24,15 +24,24 @@ class Model{
     * @return static
     */
     public static function getInstance() {
-        if(is_null(static::$_instance)) {
-          static::$_instance = new static();
-        }
-        return static::$_instance;
+        // if(is_null(static::$_instance)) {
+        //   static::$_instance = new static();
+        // }
+        // return static::$_instance;
+        return(new static);
     }
 
     public static function __callStatic($name, $arguments){
         if(method_exists(__CLASS__, $name) || method_exists(get_parent_class(__CLASS__), $name)){
             return static::getInstance()->$name(...$arguments);
         }
+    }
+
+    public function toArray(){
+        $res = [];
+        foreach(static::getInstance()as $propertyName => $propertyValue){
+            $res[$propertyName ] = $propertyValue;
+        }
+        return $res;
     }
 }

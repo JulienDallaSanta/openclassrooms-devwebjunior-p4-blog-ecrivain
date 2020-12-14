@@ -20,7 +20,7 @@ class Comment{
         `));
     }
     eraseComment(){
-        
+
     }
 }
 
@@ -51,8 +51,6 @@ function publishComment(event){
 }
 
 $(document).ready(function(){
-    $(".chapterEntireText").hide();
-    $("#chapter1").show();
     $("#commentCreateForm").hide();
     //chapter selection
     $(".chapterSelectA").on('click', function(){

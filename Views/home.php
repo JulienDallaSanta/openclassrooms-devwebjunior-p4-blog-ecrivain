@@ -80,58 +80,21 @@
                 <h4>Les 4 derniers chapitres :</h4>
             </div>
             <div id="chaptersSlider">
-                <div id="chap6" class="chaptersSliderDiv">
-                    <div id="chap6Img" class="chap6Img chapImg"></div>
-                    <div id="chap6Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 6 :<br/>Peine de mort</h4>
-                        <a class="pageLink" href="chapitre/6">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+            <?php
+            var_dump($_VIEW['lastChapters']);
+            foreach ($_VIEW['lastChapters'] as $lastChapter){
+            ?>
+                <div id="chap<?php $lastChapter['id']?>" class="chaptersSliderDiv">
+                    <div id="chap<?php $lastChapter['id']?>Img" class="chap<?php $lastChapter['id']?>Img chapImg"></div>
+                    <div id="chap<?php $lastChapter['id']?>Content" class="chaptersSliderDivContent">
+                        <span class="dateTime"><?php $lastChapter['creation_date']?></span>
+                        <h4>Chapitre <?php $lastChapter['id']?> :<br/><?php $lastChapter['title']?></h4>
+                        <a class="pageLink" href="chapitre/<?php $lastChapter['id']?>">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
-                <div id="chap5" class="chaptersSliderDiv">
-                    <div id="chap5Img" class="chap5Img chapImg"></div>
-                    <div id="chap5Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 5 :<br/>Manger ou être mangé</h4>
-                        <a class="pageLink" href="chapitre/5">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-                <div id="chap4" class="chaptersSliderDiv">
-                    <div id="chap4Img" class="chap4Img chapImg"></div>
-                    <div id="chap4Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 4 :<br/>On the road again</h4>
-                        <a class="pageLink" href="chapitre/4">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-                <div id="chap3" class="chaptersSliderDiv">
-                    <div id="chap3Img" class="chap3Img chapImg"></div>
-                    <div id="chap3Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 3 :<br/>Une âme perdue</h4>
-                        <a class="pageLink" href="chapitre/3">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-                <div id="chap2" class="chaptersSliderDiv">
-                    <div id="chap2Img" class="chap2Img chapImg"></div>
-                    <div id="chap2Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 2 :<br/>Prendre de la hauteur</h4>
-                        <a class="pageLink" href="chapitre/2">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-                <div id="chap1" class="chaptersSliderDiv">
-                    <div id="chap1Img" class="chap1Img chapImg"></div>
-                    <div id="chap1Content" class="chaptersSliderDivContent">
-                        <span class="dateTime">jj/mm/aaaa</span>
-                        <h4>Chapitre 1 :<br/>Un vrai défi</h4>
-                        <a class="pageLink" href="chapitre/1">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-                <div class="sliderIndex">
-                    <div id="lastChaptersPrev" class="sliderIndex1"></div>
-                    <div id="lastChaptersNext" class="sliderIndex2"></div>
-                </div>
+            <?php
+            }
+            ?>
             </div>
         </div>
     </section>
