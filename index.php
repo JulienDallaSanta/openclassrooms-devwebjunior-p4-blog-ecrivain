@@ -20,7 +20,8 @@
         PageController::print404();
     }
     if($path[0] == 'home' || $path[0] == 'accueil' || $path[0] == ''){
-        PageController::printHome();
+        //PageController::printHome();
+        ChapterController::printLastChapters();
     }
     if($path[0] == 'biographie' || $path[0] == 'bio' || $path[0] == 'biography'){
         PageController::printBiography();
