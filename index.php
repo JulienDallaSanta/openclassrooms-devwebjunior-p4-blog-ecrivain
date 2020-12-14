@@ -10,10 +10,15 @@
 
     use Controllers\PageController;
     use Controllers\ChapterController;
+    use Controllers\CommentController;
 
     $rawPath = $_SERVER['REQUEST_URI'];
     $path = explode("/", $rawPath);
     array_shift($path);
+
+    if($path[0] == '404'){
+        PageController::print404();
+    }
     if($path[0] == 'home' || $path[0] == 'accueil' || $path[0] == ''){
         PageController::printHome();
     }
@@ -24,10 +29,21 @@
         ChapterController::printBlog();
     }
     if($path[0] == 'chapitre' || $path[0] == 'chapter'){
-        ChapterController::printChapter();
+        $chapterId = $path[1];
+        if(isset($chapterId) && is_numeric($chapterId) && ($chapterId > 0)){
+            $exist = ChapterController::exists($chapterId);
+            if($exist != false){
+                ChapterController::printChapter($chapterId);
+            } else{
+                $path[0] == '404';
+            }
+        }else{
+            $path[0] == '404';
+        }
     }
     if($path[0] == 'admin'){
         PageController::printAdmin();
     }
+
 
 ?>
