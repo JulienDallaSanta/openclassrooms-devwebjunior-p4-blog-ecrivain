@@ -1200,6 +1200,10 @@ footer p, footer a{
   color: #FC4850;
   font-size: 200%;
 }
+/*--CRUD--*/
+.commentReported{
+  font-weight: 500;
+}
 /*----------------connexion modal box-----------*/
 #connectModalContent{
   height: 32vh;
@@ -1295,10 +1299,8 @@ footer p, footer a{
   margin: 0 auto;
   margin-bottom: 2%;
 }
-#exitRate{
+#exitRate,#chaptersManagement, #commentsManagement{
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   flex-wrap: wrap;
   width: 95%;
   background-color: rgba(0, 0, 0, .025);
@@ -1307,12 +1309,43 @@ footer p, footer a{
   margin: 5% 0;
   padding: 2% 0;
 }
+#exitRate{
+  flex-direction: row;
+  justify-content: space-around;
+}
 .exitRateDiv{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+}
+#chaptersManagement, #commentsManagement{
+  flex-direction: column;
+  justify-content:space-around;
+  align-items: center;
+}
+#chapterEdit{
+  width: 100%;
+  height: 75vh;
+  margin: 2em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#chapterEdit form{
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+#textareaDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #adminPageContent{
   display: flex;
@@ -1324,9 +1357,13 @@ footer p, footer a{
 }
 .tox-tinymce{
   width: 96%!important;
+  height: 50vh!important;
+}
+#chapterSubmitDiv{
+  width: 10%;
 }
 #chapterSubmit{
-  width: 12%;
+  width: 100%;
   height: 3em;
   padding: 0.5% 1%;
   margin: 2% 0 5% 0;

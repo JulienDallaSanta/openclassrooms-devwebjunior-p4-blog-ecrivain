@@ -12,13 +12,13 @@
             foreach ($_VIEW['chapters'] as $chapter){
             ?>
             <div class="chaptersDiv">
-                <div class="chap<?=$chapter['id']?>Img chaptersImg"></div>
+                <div class="chap<?= $chapter['id'] ?>Img chaptersImg"></div>
                 <div class="chaptersDivContent">
-                    <p class="chaptersP"><?=$chapter['preview']?>
+                    <p class="chaptersP"><?= $chapter['preview'] ?>
                     </p>
-                    <span class="chaptersDatetime"><?=$chapter['creation_date']?></span>
-                    <h4 class='chaptersH4'>Chapitre <?=$chapter['id']?> : <?=$chapter['title']?></h4>
-                    <a id="pageLink<?=$chapter['id']?>" class="pageLink" href="chapitre">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                    <span class="chaptersDatetime"><?= $chapter['creation_date'] ?></span>
+                    <h4 class='chaptersH4'>Chapitre <?= $chapter['id'] ?> : <?=$chapter['title'] ?></h4>
+                    <a id="pageLink<?= $chapter['id'] ?>" class="pageLink" href="chapitre/<?= $chapter['id'] ?>">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                 </div>
             </div>
             <?php

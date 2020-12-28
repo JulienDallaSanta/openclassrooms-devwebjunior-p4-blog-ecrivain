@@ -68,37 +68,37 @@ class Comment extends Model{
     {
         if (isset($data['id']))
         {
-            self::getInstance()->setId($data['id']);
+            static::getInstance()->setId($data['id']);
         }
 
         if (isset($data['chapter_id']))
         {
-            self::getInstance()->setChapter_id($data['chapter_id']);
+            static::getInstance()->setChapter_id($data['chapter_id']);
         }
 
         if (isset($data['pseudo']))
         {
-            self::getInstance()->setPseudo($data['pseudo']);
+            static::getInstance()->setPseudo($data['pseudo']);
         }
 
         if (isset($data['creation_date']))
         {
-            self::getInstance()->setCreation_date($data['creation_date']);
+            static::getInstance()->setCreation_date($data['creation_date']);
         }
 
         if (isset($data['content']))
         {
-            self::getInstance()->setContent($data['content']);
+            static::getInstance()->setContent($data['content']);
 		}
 
 		if (isset($data['report']))
         {
-            self::getInstance()->setReport($data['report']);
+            static::getInstance()->setReport($data['report']);
 		}
 
 		if (isset($data['report_date']))
         {
-            self::getInstance()->setReport_date($data['report_date']);
+            static::getInstance()->setReport_date($data['report_date']);
         }
     }
 
@@ -118,37 +118,37 @@ class Comment extends Model{
 
     static function getId()
     {
-        return self::getInstance()->id;
+        return static::getInstance()->id;
     }
 
     static function getChapter_id()
     {
-        return self::getInstance()->chapter_id;
+        return static::getInstance()->chapter_id;
 	}
 
     static function getPseudo()
     {
-        return self::getInstance()->pseudo;
+        return static::getInstance()->pseudo;
     }
 
 	static function getCreation_date()
 	{
-		return self::getInstance()->creation_date;
+		return static::getInstance()->creation_date;
 	}
 
     static function getContent()
     {
-        return self::getInstance()->content;
+        return static::getInstance()->content;
     }
 
     static function getReport()
     {
-        return self::getInstance()->report;
+        return static::getInstance()->report;
     }
 
     static function getReport_date()
     {
-        return self::getInstance()->report_date;
+        return static::getInstance()->report_date;
 	}
 
 
@@ -156,49 +156,49 @@ class Comment extends Model{
 
     static function setId($id)
     {
-        self::getInstance()->id = $id;
+        static::getInstance()->id = $id;
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     public function setChapter_id($chapter_id)
     {
-        self::getInstance()->chapter_id = htmlspecialchars($chapter_id);
+        static::getInstance()->chapter_id = htmlspecialchars($chapter_id);
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     static function setPseudo($pseudo)
     {
-        self::getInstance()->pseudo = $pseudo;
+        static::getInstance()->pseudo = $pseudo;
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     static function setCreation_date($creation_date)
     {
-        self::getInstance()->creation_date = $creation_date;
+        static::getInstance()->creation_date = $creation_date;
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     static function setContent($content)
     {
-        self::getInstance()->content = htmlspecialchars_decode($content);
+        static::getInstance()->content = htmlspecialchars_decode($content);
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     static function setReport($report){
-        self::getInstance()->report = $report;
+        static::getInstance()->report = $report;
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     static function setReport_date($report_date){
-        self::getInstance()->report_date = $report_date;
+        static::getInstance()->report_date = $report_date;
 
-        return self::getInstance();
+        return static::getInstance();
     }
 
     /**
@@ -206,7 +206,7 @@ class Comment extends Model{
      */
     static function getReported(){
         $report = false;
-        $query = self::getInstance()->db->prepare('SELECT * FROM comment WHERE report = 1');
+        $query = static::getInstance()->db->prepare('SELECT * FROM comment WHERE report = 1');
         $query->execute();
         $queryReport = $query->fetch(PDO::FETCH_ASSOC);
         if($queryReport){
@@ -216,7 +216,7 @@ class Comment extends Model{
     }
 
     static function addComment(Comment $comment){
-        $query = self::getInstance()->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
+        $query = static::getInstance()->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
         $query->execute([
             'chapter_id' => $comment->getChapter_id(),
             'pseudo' => $comment->getPseudo(),
@@ -227,7 +227,7 @@ class Comment extends Model{
     static function getComments($chapter_id){
         // return a list of comments in an array
         $comments = [];
-        $query = self::getInstance()->db->prepare('SELECT id, chapter_id, pseudo, content, creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC');
+        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report FROM comment WHERE chapter_id = ? ORDER BY report, creation_date DESC");
         $query->execute([$chapter_id]);
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($comments, (new Comment($data))->toArray());
@@ -237,26 +237,26 @@ class Comment extends Model{
 
     static function getNumberOfComments($chapter_id){
         $comments = [];
-        $query = self::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE chapter_id = ?');
+        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE chapter_id = ?');
         $query->execute([$chapter_id]);
         $data = $query->fetch();
         return (int) $data['nb'];
     }
 
     static function unreport(Comment $comment){
-        $query = self::getInstance()->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
+        $query = static::getInstance()->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
         $result = $query->execute([$comment->getId()]);
 
         return (bool) $result;
     }
 
     static function report(Comment $comment){
-        $query = self::getInstance()->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
+        $query = static::getInstance()->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
         $query->execute([$comment->getId()]);
     }
 
     static function deleteComment(Comment $comment){
-        $query = self::getInstance()->db->prepare("DELETE FROM comment WHERE id = ?");
+        $query = static::getInstance()->db->prepare("DELETE FROM comment WHERE id = ?");
         $result = $query->execute([$comment->getId()]);
 
         return (bool) $result;

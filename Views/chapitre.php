@@ -85,8 +85,8 @@
             </div>
             <section id="comments">
                 <?php
-                var_dump($_VIEW['comments']);
-                foreach($_VIEW['comments'] as $comment[]){
+
+                foreach($_VIEW['comments'] as $comment){
                 ?>
                 <div class="commentDiv">
                     <p class="namePublishDate">
@@ -94,7 +94,17 @@
                         <em> le <span class="dateOfPublish"><?= $comment['creation_date']; ?></span></em>
                     </p>
                     <p class="comment"><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
-                    <a href="" class="commentReport">Signaler le commentaire</a>
+                    <?php
+                    if($comment['report'] == 1){
+                        ?>
+                        <p class="commentReported">Commentaire signalé</p>
+                        <?php
+                    } else{
+                        ?>
+                        <a href='' class="commentReport">Signaler le commentaire</a>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <?php
                 }

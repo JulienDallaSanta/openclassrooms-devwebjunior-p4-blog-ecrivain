@@ -1,30 +1,5 @@
-let pseudoAdmin = 'admin';
-let passwordAdmin = 'admin';
-let pseudo = $("#identifiant").val();
-let password = $("#password").val();
+//---create button & connexion form---
 
-
-//---connexion à l'admin---
-function connection(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    $("#identifiant").attr('value', localStorage.getItem(pseudo));
-    if((pseudo=pseudoAdmin) && (password=passwordAdmin)){
-        localStorage.setItem('pseudo', pseudo);
-        localStorage.setItem('password', password);
-        console.log('ok');
-        $("#connectModal").remove();
-        $(window).load("file://wsl%24/Debian/var/www/p4.localhost/Views/admin.html#");
-        $("#connexionButton").prepend($(`
-            <a id="disconnectLink" href="home.html" data-title="Se déconnecter">Se déconnecter</a>
-        `));
-        $("#connexionLink").hide();
-        $("#connectModal").remove();
-    }else{
-        alert("Accès refusé à l'administration du site");
-    }
-}
 function closeConnectModal(event){
     event.preventDefault();
     event.stopPropagation();
@@ -51,11 +26,59 @@ $("#connexionLink").on('click', ()=>{
         </div>
     `));
 });
-//---déconnexion de l'admin---
-$("#disconnectLink").on('click', ()=>{
-    $("#connexionLink").show();
-    $("#disconnectLink").remove();
-    $(window).load("home.html");
+
+//---connexion/déconnexion à l'admin---
+
+$(document).ready(function(){
+
+    $("#connectFormSubmit").on('click', function (event){
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('Connect');
+
+        $.post(
+            'connexion.php', // Un script PHP que l'on va créer juste après
+            {
+                username : $("#identifiant").val(),  // Nous récupérons la valeur de nos inputs que l'on fait passer à connexion.php
+                password : $("#password").val()
+            },
+
+            function(data){
+                if(data == 'Success'){
+                    // Le membre est connecté. Ajoutons lui un message dans la page HTML.
+                    document.location.reload();
+                    $("#menu_items").append($(`
+                        <li><a href="\admin"><i class="icon fa fa-crown fa-2x"></i><span> Admin</span></a></li>
+                    `));
+                    $("#connexionButton").prepend($(`
+                        <a id="disconnectLink" href="home.html" data-title="Se déconnecter">Se déconnecter</a>
+                    `));
+                    $("#connexionLink").hide();
+                    $("#connectModal").remove();
+                    $("#helloAdmin").html("Bonjour Jean Forteroche !");
+               }
+               else{
+                    // Le membre n'a pas été connecté. (data vaut ici "failed")
+                    $("#connectModalContent>h3").css("color:red;")
+                    $("#connectModalContent>h3").html("Vos identifiant et mot de passe sont incorrects");
+               }
+            },
+
+            'text' // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
+         );
+
+    });
+
+    $("#disconnectLink").on('click', function (event){
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('disconnect');
+        $("#connexionLink").show();
+        $("#disconnectLink").remove();
+        $("#menu_items").last().remove();
+        $(window).load("home");
+    });
+
 });
 
 $(document).ready(()=>{
@@ -88,14 +111,4 @@ function saveChapter(){
         localStorage.setItem('chapter', chapter);
         saveToLocalStorage(chapter);
     });
-}
-
-class Chapters{
-    constructor(parent){
-        this.parent = parent;
-        this.buildChapter();
-    }
-    buildChapter(){
-
-    }
 }

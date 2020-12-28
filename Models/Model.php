@@ -24,11 +24,14 @@ class Model{
     * @return static
     */
     public static function getInstance() {
-        // if(is_null(static::$_instance)) {
-        //   static::$_instance = new static();
-        // }
-        // return static::$_instance;
-        return(new static);
+        if(is_null(static::$_instance)) {
+          static::$_instance = new static;
+        }
+        if(get_class(static::$_instance) !== static::class){
+            static::$_instance = new static;
+        }
+        return static::$_instance;
+        // return(new static);
     }
 
     public static function __callStatic($name, $arguments){

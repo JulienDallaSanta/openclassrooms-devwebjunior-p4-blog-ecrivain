@@ -81,15 +81,15 @@
             </div>
             <div id="chaptersSlider">
             <?php
-            var_dump($_VIEW['lastChapters']);
             foreach ($_VIEW['lastChapters'] as $lastChapter){
+                // var_dump($lastChapter);
             ?>
-                <div id="chap<?php $lastChapter['id']?>" class="chaptersSliderDiv">
-                    <div id="chap<?php $lastChapter['id']?>Img" class="chap<?php $lastChapter['id']?>Img chapImg"></div>
-                    <div id="chap<?php $lastChapter['id']?>Content" class="chaptersSliderDivContent">
-                        <span class="dateTime"><?php $lastChapter['creation_date']?></span>
-                        <h4>Chapitre <?php $lastChapter['id']?> :<br/><?php $lastChapter['title']?></h4>
-                        <a class="pageLink" href="chapitre/<?php $lastChapter['id']?>">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
+                <div id="chap<?= $lastChapter['id']?>" class="chaptersSliderDiv">
+                    <div id="chap<?= $lastChapter['id']?>Img" class="chap<?= $lastChapter['id']?>Img chapImg"></div>
+                    <div id="chap<?= $lastChapter['id']?>Content" class="chaptersSliderDivContent">
+                        <span class="dateTime"><?= $lastChapter['creation_date']?></span>
+                        <h4>Chapitre <?= $lastChapter['id']?> :<br/><?= $lastChapter['title']?></h4>
+                        <a class="pageLink" href="chapitre/<?= $lastChapter['id']?>">LIRE LE CHAPITRE<i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
             <?php
@@ -120,7 +120,7 @@
         </div>
         <div id="contactDiv">
             <h2>CONTACT</h2>
-            <form id="contactForm">
+            <form id="contactForm" method="post" action="">
                 <div id="contactColLeft">
                     <div class="contactFormDivs">
                         <label for="name">Nom</label>
