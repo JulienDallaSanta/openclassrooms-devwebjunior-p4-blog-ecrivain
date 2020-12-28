@@ -86,15 +86,25 @@ class ChapterController extends Controller{
         return $chapters;
     }
 
+    static function getDeletedChapters(){
+        $deletedChapters = Chapter::getDeletedChapters(); // Call to a function of this object
+        $_VIEW['deletedChapters'] = $deletedChapters;
+        return $deletedChapters;
+    }
+
+    static function getNumberOfDeletedChapters(){
+        $numberOfDeletedChapters = Chapter::getNumberOfDeletedChapters();
+        return $numberOfDeletedChapters;
+    }
+
     static function get4lastChapters(){
         $lastChapters = Chapter::get4lastChapters(); // Call to a function of this object
         return $lastChapters;
     }
 
-    public function getChapters(){
-        $Chapters = Chapter::getChapters(); // Call to a function of this object
-        $_VIEW['allChapters'] = $Chapters;
-        require $this->View('admin');
+    static function getChapters(){
+        $allChapters = Chapter::getChapters(); // Call to a function of this object
+        return $allChapters;
     }
 
     static function getChapter($id){
@@ -119,25 +129,35 @@ class ChapterController extends Controller{
     }
 
     static function printLastChapters(){
-        $lastChapters = self::getInstance()->get4lastChapters();
+        $lastChapters = static::getInstance()->get4lastChapters();
         $_VIEW['lastChapters'] = $lastChapters;
         return self::View('home', $_VIEW);
     }
 
     static function printBlog(){
-        $chapters = self::getInstance()->getPosted();
+        $chapters = static::getInstance()->getPosted();
         $_VIEW['chapters'] = $chapters;
         return self::View('blog', $_VIEW);
     }
 
     static function printChapter($id){
-        $chapter = self::getInstance()->getChapter($id);
+        $chapter = static::getInstance()->getChapter($id);
         $_VIEW['chapter'] = $chapter;
         $comments = CommentController::getComments($id);
         $_VIEW['comments'] = $comments;
         $commentsCount = CommentController::getNumberOfComments($id);
         $_VIEW['commentsCount'] = $commentsCount;
         return self::View('chapitre', $_VIEW);
+    }
+
+    static function printAdmin(){
+        $allChapters = static::getInstance()->getChapters();
+        $_VIEW['allChapters'] = $allChapters;
+        $numberOfDeletedChapters = static::getInstance()->getNumberOfDeletedChapters();
+        $_VIEW['numberOfDeletedChapters'] = $numberOfDeletedChapters;
+        $deletedChapters = static::getInstance()->getDeletedChapters();
+        $_VIEW['deletedChapters'] = $deletedChapters;
+        return self::View('admin', $_VIEW);
     }
 }
 
