@@ -43,7 +43,7 @@
         }
     }
     if($path[0] == 'admin'){
-        PageController::printAdmin();
+        ChapterController::printAdmin();
     }
 
 
