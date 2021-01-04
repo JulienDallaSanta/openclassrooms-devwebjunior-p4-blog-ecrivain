@@ -120,7 +120,7 @@
         </div>
         <div id="contactDiv">
             <h2>CONTACT</h2>
-            <form id="contactForm" method="post" action="">
+            <form id="contactForm" method="post">
                 <div id="contactColLeft">
                     <div class="contactFormDivs">
                         <label for="name">Nom</label>
