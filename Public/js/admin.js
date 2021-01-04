@@ -1,12 +1,10 @@
-//---create button & connexion form---
+//---create button & connection form---
 
 function closeConnectModal(event){
     event.preventDefault();
     event.stopPropagation();
     $("#connectModal").remove();
 }
-
-
 
 //---connexion/déconnexion à l'admin---
 
@@ -35,7 +33,7 @@ $(document).ready(function(){
             event.preventDefault();
             event.stopPropagation();
 
-
+            // AJAX call for connection
             $.ajax({
                 type: "POST",
                 url:'/api/user/login',
@@ -50,18 +48,17 @@ $(document).ready(function(){
                     },
                     400: function() {
                         $("#connectModalContent>h3").css("color:red;")
-                        $("#connectModalContent>h3").html("Merci de renseigner l'identifiant ET le mot de passe");
+                        $("#connectModalContent>h3").html("Merci de renseigner tous les champs du formulaire");
                     },
                     401: function() {
                         $("#connectModalContent>h3").css("color:red;")
-                        $("#connectModalContent>h3").html("Vos identifiant et mot de passe sont incorrects");
+                        $("#connectModalContent>h3").html("Votre email n'est pas valide");
                     }
                 },
                 dataType: "json"
             });
         });
     });
-
 
     $("#disconnectLink").on('click', function (event){
         event.preventDefault();
@@ -81,6 +78,69 @@ $(document).ready(function(){
 
 });
 
+$(document).ready(function(){
+    $("#contactDiv>p").remove();
+    $(".formSubmit").on('click', function(event){
+        console.log(event);
+        event.preventDefault();
+        event.stopPropagation();
+        let name = $("#name").val();
+        let firstname = $("#firstname").val();
+        let email = $("#email").val();
+        let object = $("#object").val();
+        let message = $("#message").val();
+        localStorage.setItem('name', name);
+        localStorage.setItem('firstname', firstname);
+        localStorage.setItem('email', email);
+        localStorage.setItem('object', object);
+        localStorage.setItem('message', message);
+        saveToLocalStorage();
+
+        // AJAX call for contactForm
+        $.ajax({
+            type: "POST",
+            url:'/api/user/message',
+            data:{
+                name : $("#name").val(),
+                firstname : $("#firstname").val(),
+                email : $("#email").val(),
+                object : $("#object").val(),
+                message : $("#message").val()
+            },
+            statusCode:{
+                200: function(){
+                    document.location.reload();
+                    $(".page").prepend($(`
+                        <div id="connectModal">
+                            <div id="connectModalContent">
+                                <i id="connectModalClose" class="fas fa-times-circle" onclick="closeConnectModal(event)"></i>
+                                <h3>Votre message a bien été envoyé.</h3>
+                                <span>nom : ${localStorage.getItem('name')}</span>
+                                <span>prénom : ${localStorage.getItem('firstname')}</span>
+                                <span>nom : ${localStorage.getItem('email')}</span>
+                                <span>nom : ${localStorage.getItem('object')}</span>
+                                <p>nom : ${localStorage.getItem('message')}</p>
+                            </div>
+                        </div>
+                    `));
+                },
+                400: function() {
+                    $("#contactDiv>h2").after(`
+                    <p style='color:red'>Merci de renseigner l'identifiant ET le mot de passe</p>
+                    `);
+                },
+                401: function() {
+                    $("#contactDiv>h2").after(`
+                    <p style='color:red'>Vos identifiant et mot de passe sont incorrects</p>
+                    `);
+                }
+            },
+            dataType: "json"
+        });
+    });
+});
+
+// SEO stats animations
 $(document).ready(()=>{
     /*stats sessions*/
     var sessionsIntervalId;
@@ -105,6 +165,7 @@ function statsIncrement(container, value, valMax, intervalId, intervalDuration){
     }, intervalDuration);
 }
 
+// Chapters management
 function saveChapter(){
     $("#chapterSubmit").on('click', function(){
         let chapter = $(".tinymce").val();
