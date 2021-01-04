@@ -49,6 +49,9 @@
             if($path[2] == 'logout'){
                 return UserController::logout();
             }
+            if($path[2] == 'message'){
+                return UserController::message();
+            }
         }
     }
     http_response_code(404);
