@@ -53,6 +53,11 @@
                 return UserController::message();
             }
         }
+        if($path[1] == 'comment'){
+            if($path[2] == 'newcomment'){
+                return CommentController::addComment();
+            }
+        }
     }
     http_response_code(404);
     header('Content-Type: text/html; charset=utf-8');
