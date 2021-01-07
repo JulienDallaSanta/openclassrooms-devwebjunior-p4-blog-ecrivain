@@ -118,31 +118,32 @@
                 <div id="livresSliderNext" class="sliderIndex2"></div>
             </div>
         </div>
+
         <div id="contactDiv">
             <h2>CONTACT</h2>
             <form id="contactForm" method="post">
                 <div id="contactColLeft">
                     <div class="contactFormDivs">
                         <label for="name">Nom</label>
-                        <input type="text" name="name" id="name" class="storage" placeholder="Votre nom" value required>
+                        <input type="text" name="name" id="name" class="storage" placeholder="Votre nom" value="<?php if(isset($_POST['name'])) { echo $_POST['name'];}?>" value required>
                     </div>
                     <div class="contactFormDivs">
                         <label for="firstName">Prénom</label>
-                        <input type="text" name="firstName" id="firstName" class="storage" placeholder="Votre prénom" value required>
+                        <input type="text" name="firstName" id="firstName" class="storage" placeholder="Votre prénom" value="<?php if(isset($_POST['firstName'])) { echo $_POST['firstName'];}?>" value required>
                     </div>
                     <div class="contactFormDivs">
                         <label for="email">Adresse mail</label>
-                        <input type="email" name="email" id="email" class="storage" placeholder="Votre email" value required>
+                        <input type="email" name="email" id="email" class="storage" placeholder="Votre email" value="<?php if(isset($_POST['email'])) { echo $_POST['email'];}?>" value required>
                     </div>
                 </div>
                 <div id="contactColRight">
                     <div class="contactFormDivs">
                         <label for="object">Objet du message</label>
-                        <input type="text" name="object" id="object" class="storage" placeholder="L'objet de votre message" value required>
+                        <input type="text" name="object" id="object" class="storage" placeholder="L'objet de votre message" value="<?php if(isset($_POST['object'])) { echo $_POST['object'];}?>" value required>
                     </div>
                     <div class="contactFormDivs">
                         <label for="message">Message</label>
-                        <textarea name="message" id="message" class="storage" placeholder="Votre message" value required></textarea>
+                        <textarea name="message" id="message" class="storage" placeholder="Votre message" value="<?php if(isset($_POST['message'])) { echo $_POST['message'];}?>" value required></textarea>
                     </div>
                 </div>
                 <div class="captchaSend">
@@ -153,6 +154,7 @@
                     <input type="submit" name="submit" class="formSubmit" value="Envoyer">
                 </div>
             </form>
+
         </div>
     </section>
 </section>
