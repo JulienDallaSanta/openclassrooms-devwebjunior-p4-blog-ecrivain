@@ -88,7 +88,7 @@
             <h2>Gestion des chapitres :</h2>
             <div id="chapterEdit">
                 <h3>Édition d'un nouveau chapitre</h3>
-                <form action="index.php?action=addChapter" method="post">
+                <form enctype="multipart/form-data" method="post">
                     <div class="form-group">
                         <label for="chapter_image">Image du chapitre :</label>
                         <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control">
