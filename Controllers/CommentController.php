@@ -63,9 +63,9 @@ class CommentController extends Controller{
     }
 
 
-    public function addComment(){
+    static function addComment(){
         $comment = new Comment();
-        return $_VIEW['newComment'] = Chapter::addComment($comment);
+        return $_VIEW['newComment'] = Comment::addComment($comment);
     }
 
     public function report(){
