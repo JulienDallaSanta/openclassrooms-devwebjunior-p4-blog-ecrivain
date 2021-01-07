@@ -66,12 +66,11 @@
                     <p id="numberOfComments"><span><?= $_VIEW['commentsCount']; ?></span> commentaires</p>
                     <a id="writeAComment">Écrire un commentaire</a>
                 </div>
-                <form id="commentCreateForm">
+                <form id="commentCreateForm" method="post">
                     <span></span>
-                    <input id="firstname" class="storage commentCreateFormInput" type="text" name="firstname" placeholder="Prénom" required>
-                    <input id="name" class="storage commentCreateFormInput" type="text" name="name" placeholder="Nom" required>
+                    <input id="pseudo" class="storage commentCreateFormInput" type="text" name="pseudo" placeholder="Votre pseudo" required>
                     <div id="textAreaAndPublish">
-                        <textarea id="comment" class="storage" name="comment" placeholder="Commentaire" required></textarea>
+                        <textarea id="comment" class="storage" name="comment" placeholder="Votre commentaire" required></textarea>
                         <div id="commentCaptchaSend" class="captchaSend">
                             <div>
                                 <input type="checkbox" name="checkbox" id="checkbox" value required>
