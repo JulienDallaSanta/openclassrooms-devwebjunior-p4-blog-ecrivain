@@ -1,29 +1,3 @@
-class Comment{
-    constructor(parent){
-        this.parent = parent;
-        this.buildComment();
-        this.eraseComment();
-    }
-    buildComment(){
-        let index = ($(".commentDiv").length)+1;
-        let nom = localStorage.getItem('name') || "";
-        let prenom = localStorage.getItem('firstname') || "";
-        let comment = localStorage.getItem('comment') || "";
-        $(this.parent).prepend($(`
-        <div id="comment${index}" class="commentDiv">
-            <p class="namePublishDate"><span class="authorName">${prenom} ${nom}</span>
-                <em> le <span class="dateOfPublish">${localStorage.getItem('commentDate')}</span></em>
-            </p>
-            <p class="comment">${comment}</p>
-            <a class="commentReport">Signaler le commentaire</a>
-        </div>
-        `));
-    }
-    eraseComment(){
-
-    }
-}
-
 function abortComment(event){
     event.preventDefault();
     event.stopPropagation();
@@ -33,19 +7,13 @@ function abortComment(event){
 function publishComment(event){
     event.preventDefault();
     event.stopPropagation();
-    let firstname = $("#firstname").val();
-    let name = $("#name").val();
+    let pseudo = $("#pseudo").val();
     let comment = $("#comment").val();
-    let dateTime = new Date;
-    let options = {year:'numeric',month:'long', day:'numeric', hour:'numeric', minute:'numeric', second:'numeric'};
-    let commentDate = dateTime.toLocaleDateString('fr-FR', options);
-    saveToLocalStorage(firstname);
-    saveToLocalStorage(name);
     localStorage.setItem('comment', comment);
-    localStorage.setItem('commentDate', commentDate);
+    localStorage.setItem('pseudo', pseudo);
     $("#commentCreateForm").slideToggle();
     $("#checkCommentModal").hide();
-    new Comment($('#comments'));
+    document.location.reload();
     let numberofComments = $(".commentDiv");
     $("#numberOfComments>span").html(numberofComments.length);
 }
@@ -88,25 +56,61 @@ $(document).ready(function(){
                 $("#chapter6").show();
         }
     });
-    $("#writeAComment").on('click', function(){
-        $("#commentCreateForm").slideToggle();
-    });
+
     //create a comment
-    $("#commentFormSubmit").on('click', (event)=>{
-        event.stopPropagation();
-        event.preventDefault();
-        let comment = $("#comment").val();
-        console.log(comment);
-        $(".page").prepend($(`
-        <div id="checkCommentModal">
-            <p>Confirmer l'envoi de votre commentaire :</br>
-                <span id="commentSpan">"${comment}"</span>
-                <span>
-                    <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
-                    <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
-                </span>
-            </p>
-        </div>
-        `));
-    })
+    $("#writeAComment").on('click', function(){
+        $("#commentCreateForm").slideToggle(); //the form appears
+        if(localStorage.getItem('pseudo')){
+            $("#pseudo").val(localStorage.getItem('pseudo'));
+        }
+        //when submit...
+        $("#commentFormSubmit").on('click', (event)=>{
+            event.stopPropagation();
+            event.preventDefault();
+            let pseudo = $("#pseudo").val();
+            localStorage.setItem('pseudo',pseudo);
+            let comment = $("#comment").val();
+            console.log(comment);
+            $(".page").prepend($(`
+            <div id="checkCommentModal">
+                <p>Confirmer l'envoi de votre commentaire :</br>
+                    <span id="pseudoSpan">"${pseudo}"</span>
+                    <span id="commentSpan">"${comment}"</span>
+                    <span>
+                        <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
+                        <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
+                    </span>
+                </p>
+            </div>
+            `));
+
+            $.ajax({ //AJAX call to post data
+                type: "POST",
+                url:'/api/comment/newcomment',
+                data:{
+                    username : $("#pseudo").val(),  // Nous récupérons la valeur de nos inputs que l'on fait passer à connexion.php
+                    comment : $("#comment").val()
+                },
+                statusCode:{
+                    200: function(){
+                        // document.location.reload();
+
+                    },
+                    400: function() {
+                        $("#commentCreateForm").prepend(`
+                        <p style='color:red; font-weight:bold'>Merci de renseigner tous les champs du formulaire.</p>
+                        `);
+                    },
+                    401: function() {
+                        $("#commentCreateForm").prepend(`
+                        <p style='color:red; font-weight:bold'>Erreur : votre message n'a pas été envoyé.</p>
+                        `);
+                    }
+                },
+                dataType: "json"
+            });
+
+
+        })
+    });
 });
