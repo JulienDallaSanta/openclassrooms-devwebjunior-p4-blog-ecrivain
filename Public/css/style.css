@@ -808,6 +808,18 @@ a i{
   font-weight: bold;
   border: solid, 1px, #a8020a;
 }
+.ok, .no{
+  text-align: center;
+  width: 30%;
+}
+.ok{
+  color:mediumseagreen;
+  border-color: mediumseagreen;
+}
+.ok:hover{
+  background-color: mediumseagreen;
+  border-color: mediumseagreen;
+}
 footer{
   background: #a4a4a4;
   text-align: center;
@@ -1178,7 +1190,7 @@ footer p, footer a{
   display: flex;
   justify-content: center;
 }
-#checkCommentModal p, #connectModalContent{
+#checkCommentModal p, #connectModalContent, #disconnectModalContent{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1207,6 +1219,15 @@ footer p, footer a{
 /*----------------connexion modal box-----------*/
 #connectModalContent{
   height: 32vh;
+}
+#disconnectModalContent{
+  height: 10vh;
+}
+#disconnectButtons{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  width: 100%;
 }
 .connectFormDiv{
   display: flex;
