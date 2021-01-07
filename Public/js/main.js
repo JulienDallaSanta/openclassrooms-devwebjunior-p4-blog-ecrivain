@@ -20,7 +20,6 @@ $(document).ready(function(){
         $("#rgpd").hide();
     });
 
-
     // menu_toggle
     var $page = $('.page');
 
@@ -76,4 +75,94 @@ $(document).ready(function(){
             scrollTop: $(this).attr('href').offset().top -20
         }, 750);
     });
+
+    //---connexion/déconnexion à l'admin---
+    //---boite modale de connexion à l'admin---
+    $("#connexionLink").on('click', ()=>{
+        $(".page").prepend($(`
+            <div id="connectModal">
+                <form id="connectModalContent" method="post">
+                    <i id="connectModalClose" class="fas fa-times-circle" onclick="closeConnectModal(event)"></i>
+                    <h3>Connexion :</h3>
+                    <div id="connectId" class="connectFormDiv">
+                        <label for="username">Votre identifiant :</label>
+                        <input type="text" name="username" id="username" class="storage" value required>
+                    </div>
+                    <div id="connectPassword" class="connectFormDiv">
+                        <label for="password">Votre mot de passe :</label>
+                        <input type="password" name="password" id="password" class="storage" value required>
+                    </div>
+                    <input type="submit" id="connectFormSubmit" class="formSubmit" value="OK">
+                </form>
+            </div>
+        `));
+        $("#connectFormSubmit").on('click', function (event){
+            console.log(event);
+            event.preventDefault();
+            event.stopPropagation();
+
+            // AJAX call for connection
+            $.ajax({
+                type: "POST",
+                url:'/api/user/login',
+                data:{
+                    username : $("#username").val(),  // Nous récupérons la valeur de nos inputs que l'on fait passer à connexion.php
+                    password : $("#password").val()
+                },
+                statusCode:{
+                    200: function(){
+                        // Le membre est connecté. Ajoutons lui un message dans la page HTML.
+                        document.location.reload();
+                    },
+                    400: function() {
+                        $("#connectModalContent>h3").css("color:red;")
+                        $("#connectModalContent>h3").html("Merci de renseigner tous les champs du formulaire");
+                    },
+                    401: function() {
+                        $("#connectModalContent>h3").css("color:red;")
+                        $("#connectModalContent>h3").html("Votre email n'est pas valide");
+                    }
+                },
+                dataType: "json"
+            });
+        });
+    });
+
+    $("#disconnectLink").on('click', function (event){
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('disconnect');
+        $(".page").prepend($(`
+            <div id="connectModal">
+                <div id="disconnectModalContent">
+                    <h3>Confirmer la déconnexion :</h3>
+                    <div id="disconnectButtons">
+                        <a id="disconnectOk" class="formSubmit ok">OUI</a>
+                        <a id="disconnectNo" class="formSubmit no">NON</a>
+                    </div>
+                </div>
+            </div>
+        `));
+        $("#disconnectOk").on('click', function (event){
+            console.log(event);
+            event.preventDefault();
+            event.stopPropagation();
+            $("#connexionLink").show();
+            $("#disconnectLink").remove();
+            $("#menu_items").last().remove();
+            $.post(
+                '/api/user/logout',
+                {
+
+                }
+            );
+            window.location.reload();
+        });
+        $("#disconnectNo").on('click', function (event){
+            event.preventDefault();
+            event.stopPropagation();
+            $("#connectModal").remove();
+        });
+    });
+
 });
