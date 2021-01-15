@@ -234,6 +234,25 @@ class Chapter extends Model{
         return $chapters;
     }
 
+    static function getChaptersToPublish(){
+		// return a list of deleted chapters in an objects array
+        $chaptersToPublish = [];
+		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, published, deleted, deleted_date FROM chapter WHERE published = 0 ORDER BY creation_date");
+        $query->execute();
+        while ($data = $query->fetch(PDO::FETCH_ASSOC)){
+            array_push($chaptersToPublish, (new Chapter($data))->toArray());
+        }
+        return $chaptersToPublish;
+    }
+
+    static function getNumberOfChaptersToPublish(){
+        $chaptersToPublish = [];
+        $query = static::getInstance()->db->prepare("SELECT COUNT(*) as nb FROM chapter WHERE published = 0");
+        $query->execute();
+        $data = $query->fetchColumn();
+        return (int) $data;
+    }
+
     static function getDeletedChapters(){
 		// return a list of deleted chapters in an objects array
         $deletedChapters = [];
