@@ -39,6 +39,11 @@
     }
     if($path[0] == 'admin'){
         return ChapterController::printAdmin();
+        if($path[1] == 'chapter'){
+            if($path[2] == 'create'){
+                return ChapterController::addChapter();
+            }
+        }
     }
     if($path[0] == 'api'){
         header('Content-Type: application/json');
@@ -55,9 +60,14 @@
         }
         if($path[1] == 'comment'){
             if($path[2] == 'newcomment'){
-                return CommentController::addComment();
+                return CommentController::createComment();
+            }
+            if($path[2] == 'reportcomment'){
+                $commentId = '';
+                return CommentController::report($commentId);
             }
         }
+
     }
     http_response_code(404);
     header('Content-Type: text/html; charset=utf-8');
