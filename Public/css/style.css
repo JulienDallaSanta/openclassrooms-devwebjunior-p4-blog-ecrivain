@@ -101,6 +101,9 @@ a i{
 .menu_items li:nth-child(3) {
   margin-left: 80px;
 }
+.menu_items li:nth-child(4) {
+  margin-left: 120px;
+}
 .menu_items a {
   display: block;
   text-decoration: none;
@@ -1096,7 +1099,7 @@ footer p, footer a{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 1vh;
 }
 #numberOfComments{
@@ -1108,7 +1111,78 @@ footer p, footer a{
 }
 #writeAComment{
   margin-left: 2%;
-  color: black;
+  /* color: black; */
+  border: 1px solid;
+  width:15%;
+  height: 4vh;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5%;
+}
+#writeAComment span{
+  margin-left: 5%;
+  font-size:90%;
+  font-weight: 400;
+}
+#commentCreateIcon{
+  font-size:200%;
+}
+.yellowBg{
+  background-color:white;
+  color: #F2B634;
+  border-color:#F2B634
+}
+.yellowBg:hover{
+  background-color:#F2B634;
+  color: white;
+}
+.orangeBg{
+  background-color:white;
+  color: #FC7836;
+  border-color:#FC7836
+}
+.orangeBg:hover{
+  background-color:#FC7836;
+  color: white;
+}
+.redBg{
+  background-color:white;
+  color: #E53E63;
+  border-color:#E53E63
+}
+.redBg:hover{
+  background-color:#E53E63;
+  color: white;
+}
+.purpleBg{
+  background-color:white;
+  color: #BA36FC;
+  border-color:#BA36FC
+}
+.purpleBg:hover{
+  background-color:#BA36FC;
+  color: white;
+}
+.blueBg{
+  background-color:white;
+  color: #747EF2;
+  border-color:#747EF2
+}
+.blueBg:hover{
+  background-color:#747EF2;
+  color: white;
+}
+.lightBlueBg{
+  background-color:white;
+  color: #6BA9F0;
+  border-color:#6BA9F0
+}
+.lightBlueBg:hover{
+  background-color:#6BA9F0;
+  color: white;
 }
 #commentCreateForm{
   display: flex;
@@ -1133,6 +1207,7 @@ footer p, footer a{
   resize: none;
   margin-right: 5%;
 }
+
 .commentCreateFormInput, #textAreaAndPublish textarea{
   line-height: 2em;
   padding: 0.3% 1%;
@@ -1190,7 +1265,7 @@ footer p, footer a{
   display: flex;
   justify-content: center;
 }
-#checkCommentModal p, #connectModalContent, #disconnectModalContent{
+#checkCommentModal div, #connectModalContent, #disconnectModalContent{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1201,6 +1276,10 @@ footer p, footer a{
   width: 30%;
   height: 30vh;
   padding: 1%;
+}
+#checkCommentModal div{
+  width: 30%;
+  height: 10vh;
 }
 #commentSpan{
   overflow-y: auto;
