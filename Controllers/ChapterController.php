@@ -76,14 +76,48 @@ class ChapterController extends Controller{
     }
 
 
-    public function addChapter(){
+    static function addChapter(){
         $chapter = new Chapter();
+        if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) && isset($_POST['published']) ){
+            $chapter['title'] = htmlspecialchars($_POST['title']);
+            $chapter['content'] = htmlspecialchars($_POST['content']);
+            $chapter['chapter_image'] = $_POST['chapter_image'];
+            $chapter['published'] = $_POST['published'];
+            $apiResponse = [
+                'JSON'=> [
+                    'message' => 'OK'
+                ],
+                'code'=> 200
+            ];
+            http_response_code($apiResponse['code']);
+            echo(json_encode($apiResponse['JSON']));
+        }else{ // if one input is empty
+            $apiResponse = [
+                'JSON'=> [
+                    'error'=> 'Missing title, content, picture or published value'
+                ],
+                'code'=> 400
+            ];
+            http_response_code($apiResponse['code']);
+            echo(json_encode($apiResponse['JSON']));
+        }
         return $_VIEW['newChapter'] = Chapter::addChapter($chapter);
     }
 
     static function getPosted(){
         $chapters = Chapter::getPosted(); // Call to a function of this object
         return $chapters;
+    }
+
+    static function getChaptersToPublish(){
+        $chaptersToPublish = Chapter::getChaptersToPublish(); // Call to a function of this object
+        $_VIEW['chaptersToPublish'] = $chaptersToPublish;
+        return $chaptersToPublish;
+    }
+
+    static function getNumberOfChaptersToPublish(){
+        $numberOfChaptersToPublish = Chapter::getNumberOfChaptersToPublish();
+        return $numberOfChaptersToPublish;
     }
 
     static function getDeletedChapters(){
@@ -157,6 +191,10 @@ class ChapterController extends Controller{
         $_VIEW['numberOfDeletedChapters'] = $numberOfDeletedChapters;
         $deletedChapters = static::getInstance()->getDeletedChapters();
         $_VIEW['deletedChapters'] = $deletedChapters;
+        $numberOfChaptersToPublish = static::getInstance()->getNumberOfChaptersToPublish();
+        $_VIEW['numberOfChaptersToPublish'] = $numberOfChaptersToPublish;
+        $chaptersToPublish = static::getInstance()->getChaptersToPublish();
+        $_VIEW['chaptersToPublish'] = $chaptersToPublish;
         return self::View('admin', $_VIEW);
     }
 }
