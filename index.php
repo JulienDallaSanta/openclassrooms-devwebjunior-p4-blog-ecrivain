@@ -39,11 +39,6 @@
     }
     if($path[0] == 'admin'){
         return ChapterController::printAdmin();
-        if($path[1] == 'chapter'){
-            if($path[2] == 'create'){
-                return ChapterController::addChapter();
-            }
-        }
     }
     if($path[0] == 'api'){
         header('Content-Type: application/json');
@@ -56,6 +51,11 @@
             }
             if($path[2] == 'message'){
                 return UserController::message();
+            }
+        }
+        if($path[1] == 'chapter'){
+            if($path[2] == 'create'){
+                return ChapterController::addChapter();
             }
         }
         if($path[1] == 'comment'){
