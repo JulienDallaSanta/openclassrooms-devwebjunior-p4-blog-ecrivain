@@ -9,7 +9,53 @@ $(document).ready(()=>{
     /*pages par session*/
     var bounceRateIntervalId;
     statsIncrement($("#bounceRateNumber"), 0, 17, bounceRateIntervalId, 100);
-    saveChapter();
+    // Chapters management
+    $("#saveChapter").on('click', function(){
+        tinyMCE.triggerSave();//Calls the save method on all editor instances in the collection.
+        let title = $("#chapterContent_ifr");
+        $(".page").prepend($(`
+            <div id="chapterModal">
+                <div id="chapterModalContent">
+                    <h3>Enregistrer le chapitre sans le publier ?</h3>
+                    <h5>Titre : ${localStorage.getItem('title')}</h5>
+                    <p>Texte : ${localStorage.getItem('content')}</p>
+                    <img>email : ${localStorage.getItem('chapter_image')}</img>
+                    <span>objet : ${localStorage.getItem('object')}</span>
+                    <p>message : ${localStorage.getItem('message')}</p>
+                    <div class="confirmButtons">
+                        <i id="saveChapterOk" class="fas fa-check-circle" onclick="saveChapter(event)"></i>
+                        <i class="fas fa-times-circle saveChapterNo" onclick="closeChapterModal(event)"></i>
+                    </div>
+                </div>
+            </div>
+        `));
+        let chapter = $(".tinymce").val();
+        localStorage.setItem('chapter', chapter);
+        saveToLocalStorage(chapter);
+    });
+    $("#saveAndPublishChapter").on('click', function(){
+        tinyMCE.triggerSave();//Calls the save method on all editor instances in the collection.
+        let title = $("#chapterContent_ifr");
+        $(".page").prepend($(`
+            <div id="chapterModal">
+                <div id="chapterModalContent">
+                    <h3>Enregistrer le chapitre sans le publier ?</h3>
+                    <h5>Titre : ${localStorage.getItem('title')}</h5>
+                    <p>Texte : ${localStorage.getItem('content')}</p>
+                    <img>email : ${localStorage.getItem('chapter_image')}</img>
+                    <span>objet : ${localStorage.getItem('status')}</span>
+                    <div class="confirmButtons">
+                        <i id="saveAndPublishChapterOk" class="fas fa-check-circle" onclick="saveChapter(event)"></i>
+                        <i class="fas fa-times-circle saveChapterNo" onclick="closeChapterModal(event)"></i>
+                    </div>
+                </div>
+            </div>
+        `));
+        let chapter = $(".tinymce").val();
+        localStorage.setItem('chapter', chapter);
+        saveToLocalStorage(chapter);
+    });
+
 });
 
 function statsIncrement(container, value, valMax, intervalId, intervalDuration){
@@ -23,26 +69,8 @@ function statsIncrement(container, value, valMax, intervalId, intervalDuration){
     }, intervalDuration);
 }
 
-// Chapters management
-function saveChapter(){
-    $("#chapterSubmit").on('click', function(){
-        tinyMCE.triggerSave();//Calls the save method on all editor instances in the collection.
-        let title = $("#chapterContent_ifr");
-        $(".page").prepend($(`
-            <div id="chapterModal">
-                <div id="chapterModalContent">
-                    <i id="chapterModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
-                    <h3>confirmer la publication du chapitre</h3>
-                    <h5>Titre : ${localStorage.getItem('title')}</h5>
-                    <p>Texte : ${localStorage.getItem('content')}</p>
-                    <img>email : ${localStorage.getItem('chapter_image')}</img>
-                    <span>objet : ${localStorage.getItem('object')}</span>
-                    <p>message : ${localStorage.getItem('message')}</p>
-                </div>
-            </div>
-        `));
-        let chapter = $(".tinymce").val();
-        localStorage.setItem('chapter', chapter);
-        saveToLocalStorage(chapter);
-    });
+function closeChapterModal(event){
+    event.stopPropagation();
+    event.preventDefault();
+    $("#chapterModal").remove();
 }
