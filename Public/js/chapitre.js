@@ -166,14 +166,17 @@ $(document).ready(function(){
             console.log(chapter);
             $(".page").prepend($(`
             <div id="checkCommentModal">
-                <p>Confirmer l'envoi de votre commentaire pour le chapitre ${chapter} :</br>
-                    <span id="pseudoSpan">Votre pseudo : ${pseudo}</span>
-                    <span id="commentSpan">Votre commentaire : <em>${comment}</em></span>
-                    <span>
-                        <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
-                        <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
-                    </span>
-                </p>
+                <div id="connectModalContent">
+                    <p>Confirmer l'envoi de votre commentaire pour le chapitre ${chapter} :</br>
+                        <span id="pseudoSpan">Votre pseudo : ${pseudo}</span>
+                        <span id="commentSpan">Votre commentaire : <em>${comment}</em></span>
+                        <span>
+                            <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
+                            <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
+                        </span>
+                    </p>
+                </div>
+
             </div>
             `));
         })
