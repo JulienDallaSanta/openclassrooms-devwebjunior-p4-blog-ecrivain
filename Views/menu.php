@@ -9,7 +9,7 @@
     <?php
     if(isset($_SESSION['grade']) && $_SESSION['grade']==='admin'){
         ?>
-        <li><a href="/admin"><i class="icon fa fa-crown fa-2x"></i><span> Admin</span></a></li>
+        <li><a href="\admin"><i class="icon fa fa-crown fa-2x"></i><span> Admin</span></a></li>
         <?php
     }
     ?>
