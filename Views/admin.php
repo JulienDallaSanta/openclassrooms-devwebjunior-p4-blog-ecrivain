@@ -102,8 +102,18 @@
                         <label for="chapterContent">Contenu du chapitre :</label>
                         <textarea id="chapterContent" name="content" class="tinymce form-control"></textarea>
                     </div>
-                    <div class="form-group" id='chapterSubmitDiv'>
-                        <input id="chapterSubmit" type="submit" name="submit" class="formSubmit" value="Enregistrer" />
+                    <div class="form-group" id='saveAndPublishDiv'>
+                        <div>
+                            <input type="checkbox" id="save" name="save"checked>
+                            <label for="save">ENREGISTRER</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="saveAndPublish" name="saveAndPublish">
+                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id='createChapterSubmitDiv'>
+                        <span id="createChapterSubmit">OK</span>
                     </div>
                 </form>
             </div>
@@ -188,7 +198,7 @@
                                 <em> le <span class="dateOfPublish"><?= $reportedComment['creation_date']; ?></span></em>
                             </p>
                             <p class="comment"><?php echo nl2br(htmlspecialchars($reportedComment['content'])); ?></p>
-                            <div class="unreportOrdelete">
+                            <div class="unreportOrDelete">
                                 <a class="unreport">Annuler le signalement</a>
                                 <a class="deleteComment">Supprimer le commentaire</a>
                             </div>
