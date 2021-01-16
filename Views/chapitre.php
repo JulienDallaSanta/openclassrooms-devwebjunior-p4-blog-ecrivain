@@ -64,11 +64,13 @@
             <div id="commentCreate">
                 <div id="commentCreateHeader">
                     <p id="numberOfComments"><span><?= $_VIEW['commentsCount']; ?></span> commentaires</p>
-                    <a id="writeAComment">Écrire un commentaire</a>
+                    <p id="writeAComment"><i id="commentCreateIcon" class="fas fa-pen-square"></i><span>Écrire un commentaire</span></p>
+                    <span id="chapterId" style="display: none"><?= $chapter['id']; ?></span>
                 </div>
                 <form id="commentCreateForm" method="post">
                     <span></span>
                     <input id="pseudo" class="storage commentCreateFormInput" type="text" name="pseudo" placeholder="Votre pseudo" required>
+
                     <div id="textAreaAndPublish">
                         <textarea id="comment" class="storage" name="comment" placeholder="Votre commentaire" required></textarea>
                         <div id="commentCaptchaSend" class="captchaSend">
@@ -89,21 +91,22 @@
                 ?>
                 <div class="commentDiv">
                     <p class="namePublishDate">
+                        <span class="commentId" style="display: none"><?= htmlspecialchars($comment['id']); ?></span>
                         <span class="authorName"><?= htmlspecialchars($comment['pseudo']); ?></span>
                         <em> le <span class="dateOfPublish"><?= $comment['creation_date']; ?></span></em>
                     </p>
                     <p class="comment"><?php echo nl2br(htmlspecialchars($comment['content'])); ?></p>
-                    <?php
-                    if($comment['report'] == 1){
-                        ?>
-                        <p class="commentReported">Commentaire signalé</p>
-                        <?php
-                    } else{
-                        ?>
-                        <a href='' class="commentReport">Signaler le commentaire</a>
-                        <?php
-                    }
+                <?php
+                if($comment['report'] == 1){
                     ?>
+                    <p class="commentReported">Commentaire signalé</p>
+                    <?php
+                } else{
+                    ?>
+                    <a class="commentReport">Signaler le commentaire</a>
+                    <?php
+                }
+                ?>
                 </div>
                 <?php
                 }
