@@ -86,13 +86,13 @@
         </div>
         <div id="chaptersManagement">
             <h2>Gestion des chapitres :</h2>
+
             <div id="chapterEdit">
                 <h3>Édition d'un nouveau chapitre</h3>
                 <form enctype="multipart/form-data" method="post">
                     <div class="form-group">
                         <label for="chapter_image">Image du chapitre :</label>
                         <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control">
-                        <button >Envoyer</button>
                     </div>
                     <div class="form-group">
                         <label for="title">Titre du chapitre :</label>
@@ -113,6 +113,7 @@
                 var_dump($_VIEW['allChapters']);
                 ?>
             </div>
+
             <div id="chaptersDeleted">
                 <h3>Chapitres supprimés :</h3>
                 <?php
@@ -138,10 +139,64 @@
                 }
                 ?>
             </div>
+
+            <div id="chaptersToPublish">
+                <h3>Chapitres à publier :</h3>
+                <?php
+                $chaptersToPublish = $_VIEW['chaptersToPublish'];
+                if($_VIEW['numberOfChaptersToPublish'] == 0){
+                    ?>
+                    <p>Aucun chapitre n'est à publier.</p>
+                    <?php
+                } else{
+                    ?>
+                    <p>Il y a <?= $_VIEW['numberOfChaptersToPublish']?> chapitres non publiés :</p>
+
+                    // foreach($_VIEW['chaptersToPublish'] as $chapterToPublish){
+                    ?>
+                    <!-- <div>
+                        <h3 id="blogTitleH3">CHAPITRE <?= $chapterToPublish['id'] ?> : <?= $chapterToPublish['title'] ?></h3>
+                        <span class="chapterPubliDate"><em>Publié le <?= $chapterToPublish['creation_date'] ?></em></span>
+                        <span class="chapterPubliDate"><em>Supprimé le <?= $chapterToPublish['deleted_date'] ?></em></span>
+                        <p class="chaptersP"><?= $chapterToPublish['preview'] ?></p>
+                    </div> -->
+                <?php
+                // }
+                }
+                ?>
+            </div>
         </div>
         <div id="commentsManagement">
             <h2>Gestion des commentaires :</h2>
             <h3>Commentaires signalés :</h3>
+            <?php
+                $reportedComments = $_VIEW['reportedComments'];
+                if($_VIEW['numberOfReportedComments'] == 0){
+                    ?>
+                    <p>Aucun commentaire n'a été signalé.</p>
+                    <?php
+                } else{
+                    ?>
+                    <p>Il y a <?= $_VIEW['numberOfReportedComments']?> commentaires signalés :</p>
+
+                    // foreach($_VIEW['reportedComments'] as $reportedComment){
+                    ?>
+                        <!-- <div class="commentDiv">
+                            <p class="namePublishDate">
+                                <span class="commentId" style="display: none"><?= htmlspecialchars($reportedComment['id']); ?></span>
+                                <span class="authorName"><?= htmlspecialchars($reportedComment['pseudo']); ?></span>
+                                <em> le <span class="dateOfPublish"><?= $reportedComment['creation_date']; ?></span></em>
+                            </p>
+                            <p class="comment"><?php echo nl2br(htmlspecialchars($reportedComment['content'])); ?></p>
+                            <div class="unreportOrdelete">
+                                <a class="unreport">Annuler le signalement</a>
+                                <a class="deleteComment">Supprimer le commentaire</a>
+                            </div>
+                        </div> -->
+                <?php
+                // }
+                }
+                ?>
                 <p>
                     <span class="red">Signalé le :</span>
                     <a href="index.php?action=setCancelReport&amp;id=" title="supprimer" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce signalement ?'));">
