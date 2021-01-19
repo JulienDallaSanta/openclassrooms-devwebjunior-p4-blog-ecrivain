@@ -6,6 +6,9 @@
 html, body {
   font-family: 'Roboto Condensed', sans-serif;
 }
+body.preventScroll{
+  overflow: hidden;
+}
 .page{
   overflow: hidden;
   background-color: #fff;
@@ -88,6 +91,10 @@ a i{
   list-style-type: none;
   margin: 0;
   padding: 0;
+  pointer-events:none;
+}
+.page.shazam .menu_items{
+  pointer-events:initial;
 }
 .menu_items li {
   height: 60px;
@@ -1112,9 +1119,8 @@ footer p, footer a{
 }
 #writeAComment{
   margin-left: 2%;
-  /* color: black; */
   border: 1px solid;
-  width:15%;
+  width:11%;
   height: 4vh;
   text-align: center;
   display: flex;
@@ -1124,7 +1130,7 @@ footer p, footer a{
   padding: 0.5%;
 }
 #writeAComment span{
-  margin-left: 5%;
+  margin-left: 3%;
   font-size:90%;
   font-weight: 400;
 }
@@ -1266,7 +1272,7 @@ footer p, footer a{
   display: flex;
   justify-content: center;
 }
-#checkCommentModal div, #connectModalContent, #disconnectModalContent, #chapterModalContent{
+#checkCommentModalContent, #connectModalContent, #disconnectModalContent, #chapterModalContent{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1278,9 +1284,24 @@ footer p, footer a{
   height: 30vh;
   padding: 1%;
 }
-#checkCommentModal div{
-  width: 30%;
-  height: 10vh;
+#checkCommentModalContent h3{
+  text-align: center;
+}
+#connectModalContent{
+  justify-content: space-around;
+}
+#connectModalData{
+  background-color:rgba(252, 72, 80, .1);
+  width: 100%;
+  padding: 3%;
+  box-shadow: 0 12.5px 10px rgba(0, 0, 0, 0.073), 0 100px 80px rgba(0, 0, 0, 0.1);
+}
+.formSeparator{
+  margin: 2.5% 0;
+  width: 100%;
+  height: 1px;
+  background-color: #FC4850;
+  opacity: 0.25;
 }
 #commentSpan{
   overflow-y: auto;
@@ -1338,8 +1359,9 @@ footer p, footer a{
 }
 /*----------------admin page-----------*/
 #adminPage{
-  padding: 8% 2%;
+  padding: 8% 2% 0 2%;
   overflow: hidden;
+  min-height: 97vh;
 }
 .adminFuncSelectA{
   border-color: #FC4850;
@@ -1357,16 +1379,18 @@ footer p, footer a{
 }
 .seoStat{
   position: relative;
-  background-color: rgba(0, 0, 0, .025);
   width: 20%;
   margin: 0 auto;
 }
 .seoStat:after{
   content: '';
   display: block;
-  padding-bottom: 100%;
+  padding-bottom: 65%;
   box-shadow: 0 12.5px 10px rgba(0, 0, 0, 0.073),
               0 100px 80px rgba(0, 0, 0, 0.1);
+}
+.seoStatsDiv{
+  background-color:#ECECF8;
 }
 .seoStatContent{
   position: absolute;
@@ -1386,13 +1410,15 @@ footer p, footer a{
   align-items: center;
   margin: auto 0;
 }
-.seoStatContent span{
+.seoStatContent span, .exitRateDiv span{
   font-size: 3em;
   font-weight: bold;
+  color: #FC4850;
 }
 #sessionsNumberSpan{
   font-size: 1em;
   font-weight: normal;
+  color: #000;
 }
 #exitRate h3{
   text-align: center;
@@ -1404,15 +1430,18 @@ footer p, footer a{
   display: flex;
   flex-wrap: wrap;
   width: 95%;
-  background-color: rgba(0, 0, 0, .025);
   box-shadow: 0 12.5px 10px rgba(0, 0, 0, 0.073),
               0 100px 80px rgba(0, 0, 0, 0.1);
-  margin: 5% 0;
   padding: 2% 0;
+}
+#chaptersManagement, #commentsManagement{
+  background-color: rgba(0, 0, 0, .025);
+
 }
 #exitRate{
   flex-direction: row;
   justify-content: space-around;
+  margin: 5% 0;
 }
 .exitRateDiv{
   display: flex;
@@ -1425,6 +1454,64 @@ footer p, footer a{
   flex-direction: column;
   justify-content:space-around;
   align-items: center;
+}
+#chaptersManagementTable{
+  width: 95%;
+  border-collapse: collapse;
+}
+.chaptersManagementTableTh, #chaptersManagementTable td{
+  border: solid #FC4850 1px;
+  text-align: center;
+  padding: 0.5% 0.25%;
+}
+.chaptersManagementTableTh{
+  border: none;
+  background-color: #FC4850;
+  color: white;
+}
+#chaptersActions{
+  border: solid #FC4850 1px;
+}
+.chaptersActionsContainer{
+  /* min-height: 20vh; */
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+}
+.chaptersActionsContent{
+  display: flex;
+  flex-direction: column;
+}
+.chaptersActionsContent span{
+  font-size:75%;
+}
+.chaptersActionsIcons{
+  font-size: 150%;
+  color: rgba(0, 0, 0, .4);
+}
+.chaptersActionsIcons:hover{
+  color: #FC4850;
+}
+#addChapterCallToAction{
+  border: solid 1px #FC4850;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  margin-top:2%;
+  width: 15%;
+  height: 4vh;
+  color: #FC4850;
+  font-weight: bold;
+  font-size: 150%;
+  display: flex;
+  justify-content:space-around;
+  align-items:center;
+}
+#addChapterCallToAction:hover{
+  color: white;
+  background-color: #FC4850;
+  border: #FC4850;
+  cursor: grab;
 }
 #chapterEdit{
   width: 100%;
@@ -1485,6 +1572,19 @@ footer p, footer a{
   background-color:#FC4850;
   color: white;
   border-color: #FC4850;
+}
+#commentsAdminBloc{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.commentAdmin{
+  position: relative;
+  /* margin: auto auto; */
+  width: 30%;
 }
 
 /* -----------PAGE 404 ----------*/
