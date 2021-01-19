@@ -63,20 +63,17 @@ class CommentController extends Controller{
     }
 
 
-    static function addComment(){
-        $comment = new Comment();
-        return $_VIEW['newComment'] = Comment::addComment($comment);
+    static function addComment($newComment){
+        $comment = new Comment($newComment);
+        return Comment::addComment($comment);
     }
 
     static function createComment(){
-        if( isset($_POST['pseudo']) && isset($_POST['comment']) && isset($_POST['chapterId']) ){
+        var_dump($_POST);
+        if( isset($_POST['pseudo']) && isset($_POST['comment']) && isset($_POST['chapter_id']) ){
             $newComment['pseudo'] = htmlspecialchars($_POST['pseudo']);
             $newComment['content'] = htmlspecialchars($_POST['comment']);
             $rawPath = $_SERVER['REQUEST_URI'];
-            $path = explode("/", $rawPath);
-            array_shift($path);
-            $_POST['chapter_id'] = $path[1];
-            var_dump($path[1]);
             $newComment['chapter_id'] = $_POST['chapter_id'];
             $apiResponse = [
                 'JSON'=> [
@@ -102,7 +99,7 @@ class CommentController extends Controller{
     /**
      * @param int $commentId
      */
-    static function report($reportId){
+    static function report(){
         $apiResponse = [
             'JSON'=> [
                 'message' => 'OK'
@@ -111,9 +108,8 @@ class CommentController extends Controller{
         ];
         http_response_code($apiResponse['code']);
         echo(json_encode($apiResponse['JSON']));
-        $report['reportId'] = Comment::setReport($reportId);
-        $report['reportDate'] = Comment::setReport_date($report_date);
-        return $report;
+        Comment::report(Comment::getCommentById($_POST['id']));
+        return;
     }
 
     // public function unreport(){
@@ -134,6 +130,20 @@ class CommentController extends Controller{
     static function getNumberOfComments($chapter_id){
         $numberOfComments = Comment::getNumberOfComments($chapter_id);
         return $numberOfComments;
+    }
+    static function getReported(){
+        $reportedComments = Comment::getReported();
+        return $reportedComments;
+    }
+
+    static function getNumberOfReportedComments(){
+        $numberOfReportedComments = Comment::getNumberOfReportedComments();
+        return $numberOfReportedComments;
+    }
+
+    static function getNumberOfNonReportedComments($chapter_id){
+        $numberOfNonReportedComments = Comment::getNumberOfNonReportedComments($chapter_id);
+        return $numberOfNonReportedComments;
     }
 
     public function deleteComment($comment){
