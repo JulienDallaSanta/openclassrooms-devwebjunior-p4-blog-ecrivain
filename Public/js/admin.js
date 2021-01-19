@@ -1,5 +1,23 @@
 // SEO stats animations
 $(document).ready(()=>{
+    $("#chapterEdit").hide();
+    /*Menu Admin*/
+    $(".AdminSection").hide();
+    $("#seoStats").show();
+    $("#statSite").show();
+    $("#statSite").on("click", ()=>{
+        $(".AdminSection").hide();
+        $("#seoStats").show();
+    });
+    $("#chapterAdmin").on("click", ()=>{
+        $(".AdminSection").hide();
+        $("#chaptersManagement").show();
+    });
+    $("#commentsAdmin").on("click", ()=>{
+        $(".AdminSection").hide();
+        $("#commentsManagement").show();
+    });
+
     /*stats sessions*/
     var sessionsIntervalId;
     statsIncrement($("#sessionsNumber"), 0, 259, sessionsIntervalId, 10);
@@ -9,7 +27,43 @@ $(document).ready(()=>{
     /*pages par session*/
     var bounceRateIntervalId;
     statsIncrement($("#bounceRateNumber"), 0, 17, bounceRateIntervalId, 100);
-    // Chapters management
+
+    /*Chapters management*/
+    $(".selectChapter:first").prop("checked", true);
+    $("#addChapterCallToAction").on("click", ()=>{
+        $("#chapterEdit").slideToggle();
+    });
+    $(".fa-edit").on("click", ()=>{ // modify chapter when click on the modify button
+
+    });
+    $(".fa-trash-alt").on("click", ()=>{ // delete chapter when click on the delete button
+
+    });
+    $(".fa-trash-restore").on("click", ()=>{ // restore chapter when click on the restore button
+
+    });
+    $(".fa-newspaper").on("click", ()=>{ // edit chapter when click on the edit button
+
+    });
+    $("#createChapterSubmit").on("click", ()=>{ //open modal to confirm chapter creation
+        console.log($(".mce-content-body>p").html());
+        tinyMCE.triggerSave();//Calls the save method on all editor instances in the collection.
+        let title = $("#title").val();
+        $(".page").prepend($(`
+            <div id="chapterModal">
+                <div id="chapterModalContent">
+                    <h3>Enregistrer le chapitre sans le publier ?</h3>
+                    <h5>Titre : ${title}</h5>
+                    <p>Texte : ${localStorage.getItem('content')}</p>
+                    <img>Image : ${localStorage.getItem('chapter_image')}</img>
+                    <div class="confirmButtons">
+                        <i id="saveChapterOk" class="fas fa-check-circle" onclick="saveChapter(event)"></i>
+                        <i class="fas fa-times-circle saveChapterNo" onclick="closeChapterModal(event)"></i>
+                    </div>
+                </div>
+            </div>
+        `));
+    }) ;
     $("#saveChapter").on('click', function(){
         tinyMCE.triggerSave();//Calls the save method on all editor instances in the collection.
         let title = $("#chapterContent_ifr");
