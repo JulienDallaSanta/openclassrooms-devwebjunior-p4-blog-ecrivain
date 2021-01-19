@@ -27,6 +27,7 @@ $(document).ready(function(){
         event.preventDefault();
         event.stopPropagation();
     $page.toggleClass('shazam');
+    $("body").toggleClass('preventScroll');
     });
     $('.content').on('click', function(){
     $page.removeClass('shazam');
