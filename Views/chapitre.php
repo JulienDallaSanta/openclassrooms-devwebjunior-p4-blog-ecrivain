@@ -89,7 +89,7 @@
 
                 foreach($_VIEW['comments'] as $comment){
                 ?>
-                <div class="commentDiv">
+                <div class="commentDiv" data-comment-id="<?php echo $comment['id']; ?>">
                     <p class="namePublishDate">
                         <span class="commentId" style="display: none"><?= htmlspecialchars($comment['id']); ?></span>
                         <span class="authorName"><?= htmlspecialchars($comment['pseudo']); ?></span>
