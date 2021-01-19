@@ -17,6 +17,7 @@ class Chapter extends Model{
 	private $chapter_image;
 	private $content;
 	private $published;
+    private $published_date;
 	private $deleted;
     private $deleted_date;
 
@@ -63,6 +64,11 @@ class Chapter extends Model{
             static::getInstance()->setPublished($data['published']);
 		}
 
+        if (isset($data['published_date']))
+        {
+            static::getInstance()->setPublishedDate($data['published_date']);
+		}
+
 		if (isset($data['deleted']))
         {
             static::getInstance()->setDeleted($data['deleted']);
@@ -83,6 +89,7 @@ class Chapter extends Model{
             "chapter_image" => $this->getChapter_image(),
             "content" => $this->getContent(),
             "published" => $this->getPublished(),
+            "published_date" => $this->getPublishedDate(),
             "deleted" => $this->getDeleted(),
             "deleted_date" => $this->getDeletedDate()
         ];
@@ -116,6 +123,10 @@ class Chapter extends Model{
 
 	static function getPublished(){
         return static::getInstance()->published;
+	}
+
+    static function getPublishedDate(){
+        return static::getInstance()->published_date;
 	}
 
 	static function getDeleted(){
@@ -161,6 +172,11 @@ class Chapter extends Model{
 
 	static function setPublished($published){
         static::getInstance()->published = $published;
+        return static::getInstance();
+	}
+
+    static function setPublishedDate($published_date){
+        static::getInstance()->published_date = $published_date;
         return static::getInstance();
 	}
 
@@ -215,13 +231,21 @@ class Chapter extends Model{
 
 	static function getChapters(){
 		$chapters = [];
-        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, deleted, published FROM chapter ORDER BY creation_date DESC");
+        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, deleted, DATE_FORMAT(deleted_date, '%d/%m/%Y à %Hh%imin') AS deleted_date, published, DATE_FORMAT(published_date, '%d/%m/%Y à %Hh%imin') AS published_date FROM chapter ORDER BY id");
         $query->execute();
         while($data = $query->fetch(PDO::FETCH_ASSOC)){
-			$chapters = new Chapter($data);
+			array_push($chapters, (new Chapter($data))->toArray());
 		}
         return $chapters;
 	}
+
+    static function getNumberOfChapters(){
+        $chapters = [];
+        $query = static::getInstance()->db->prepare("SELECT COUNT(*) as nb FROM chapter");
+        $query->execute();
+        $data = $query->fetchColumn();
+        return (int) $data;
+    }
 
 	static function getPosted(){
 		// return a list of published chapters in an objects array
