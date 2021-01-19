@@ -56,15 +56,22 @@
         if($path[1] == 'chapter'){
             if($path[2] == 'create'){
                 return ChapterController::addChapter();
+            }elseif($path[2] == 'modify'){
+                return ChapterController::updateChapter($chapter);
+            }elseif($path[2] == 'delete'){
+                return ChapterController::deleteChapter($chapter);
+            }elseif($path[2] == 'undelete'){
+                return ChapterController::undeleteChapter($chapter);
+            }elseif($path[2] == 'publish'){
+                return ChapterController::publishChapter($published, $published_date);
             }
         }
         if($path[1] == 'comment'){
             if($path[2] == 'newcomment'){
                 return CommentController::createComment();
             }
-            if($path[2] == 'reportcomment'){
-                $commentId = '';
-                return CommentController::report($commentId);
+            if($path[2] == 'report'){
+                return CommentController::report();
             }
         }
 
