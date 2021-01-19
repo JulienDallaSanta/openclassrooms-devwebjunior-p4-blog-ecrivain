@@ -61,12 +61,14 @@ $(document).ready(function(){
             <div id="connectModal">
                 <div id="connectModalContent">
                     <i id="connectModalClose" class="fas fa-times-circle" onclick="closeConnectModal(event)"></i>
-                    <h3>Votre message a bien été envoyé.</h3>
-                    <span>nom : ${localStorage.getItem('name')}</span>
-                    <span>prénom : ${localStorage.getItem('firstName')}</span>
-                    <span>email : ${localStorage.getItem('email')}</span>
-                    <span>objet : ${localStorage.getItem('object')}</span>
-                    <p>message : ${localStorage.getItem('message')}</p>
+                    <h3>${localStorage.getItem('firstName')} ${localStorage.getItem('name')}, votre message a bien été envoyé.</h3>
+                    <div id="connectModalData">
+                        <p><strong><em>De</em> : </strong>${localStorage.getItem('email')}</p>
+                        <p class="formSeparator"></p>
+                        <p><strong><em>Objet</em> : </strong>${localStorage.getItem('object')}</p>
+                        <p class="formSeparator"></p>
+                        <p><strong><em>Message</em> : </strong><br/>${localStorage.getItem('message')}</p>
+                    </div>
                 </div>
             </div>
         `));
