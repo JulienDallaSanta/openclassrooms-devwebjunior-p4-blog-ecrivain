@@ -26,76 +26,147 @@
                 Gestion des commentaires
             </a>
         </div>
-        <div id="seoStats">
-            <div id="sessions" class="seoStat">
+        <div id="seoStats" class="AdminSection">
+            <div id="sessions" class="seoStat seoStatsDiv">
                 <div class="seoStatContent">
                     <h3>Nombre de sessions :</h3>
                     <div>
-                        <span id="sessionsNumber"></span>
+                        <span id="sessionsNumber" class="seoData"></span>
                         <span id="sessionsNumberSpan">Visites sur le site</span>
                     </div>
                 </div>
             </div>
-            <div id="pagesPerSessions" class="seoStat">
+            <div id="pagesPerSessions" class="seoStat seoStatsDiv">
                 <div class="seoStatContent">
                     <h3>Pages par session :</h3>
                     <div>
-                        <span id="pagesPerSessionsNumber"></span>
+                        <span id="pagesPerSessionsNumber" class="seoData"></span>
                     </div>
                 </div>
             </div>
-            <div id="sessionLength" class="seoStat">
+            <div id="sessionLength" class="seoStat seoStatsDiv">
                 <div class="seoStatContent">
                     <h3>Durée de session :</h3>
                     <div>
                         <p id="sessionLengthNumber">
-                            <span id="sessionLengthNumberH">00</span>h
-                            <span id="sessionLengthNumberM">35</span>m
-                            <span id="sessionLengthNumberS">27</span>s
+                            <span id="sessionLengthNumberH" class="seoData">00</span>h
+                            <span id="sessionLengthNumberM" class="seoData">35</span>m
+                            <span id="sessionLengthNumberS" class="seoData">27</span>s
                         </p>
                     </div>
                 </div>
             </div>
-            <div id="bounceRate" class="seoStat">
+            <div id="bounceRate" class="seoStat seoStatsDiv">
                 <div class="seoStatContent">
                     <h3>Taux de rebond :</h3>
                     <div>
-                        <span id="bounceRateNumber"></span>
+                        <span id="bounceRateNumber" class="seoData"></span>
                     </div>
                 </div>
             </div>
-            <div id="exitRate" >
+            <div id="exitRate" class="seoStatsDiv">
                 <h3>Taux de sortie :</h3>
                 <div class="exitRateDiv">
                     <h4>Page HOME</h4>
-                    <span>100%</span>
+                    <span class="seoData">100%</span>
                 </div>
                 <div class="exitRateDiv">
                     <h4>Page BIOGRAPHIE</h4>
-                    <span>100%</span>
+                    <span class="seoData">100%</span>
                 </div>
                 <div class="exitRateDiv">
                     <h4>Page BLOG</h4>
-                    <span>100%</span>
+                    <span class="seoData">100%</span>
                 </div>
                 <div class="exitRateDiv">
                     <h4>Page CHAPITRE</h4>
-                    <span>100%</span>
+                    <span class="seoData">100%</span>
                 </div>
             </div>
         </div>
-        <div id="chaptersManagement">
+        <div id="chaptersManagement" class="AdminSection">
             <h2>Gestion des chapitres :</h2>
+            <table id="chaptersManagementTable">
+                <tr>
+                    <th class="chaptersManagementTableTh">Chapitre</th>
+                    <th class="chaptersManagementTableTh">Titre</th>
+                    <th class="chaptersManagementTableTh">Crée le</th>
+                    <th class="chaptersManagementTableTh">Statut</th>
+                    <th class="chaptersManagementTableTh">Sélectionner</th>
+                </tr>
+                <?php
+                foreach ($_VIEW['allChapters'] as $chapter){
+                ?>
+                    <tr class="chapterLine">
+                        <td><?= $chapter['id']; ?></td>
+                        <td><?= $chapter['title']; ?></td>
+                        <td><?= $chapter['creation_date']; ?></td>
+                        <td><?php
+                        if($chapter['published'] == 1){
+                            ?>publié le <?= $chapter['published_date'];
+                        }elseif($chapter['deleted'] == 1){
+                            ?>supprimé le <?= $chapter['published_date'];
+                            }elseif($chapter['published'] == 0 && $chapter['deleted'] == 0){
+                            ?>Sauvegardé le <?php echo $chapter['creation_date'];
+                            }?>
+                        </td>
+                        <td>
+                            <div class="chaptersActionsContainer">
+                                <?php
+                                if($chapter['published'] == 1){
+                                ?>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-edit chaptersActionsIcons"></i>
+                                    <span>Modifier</span>
+                                </div>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-trash-alt chaptersActionsIcons"></i>
+                                    <span>Supprimer</span>
+                                </div>
+                                <?php
+                                }elseif($chapter['published'] == 0 && $chapter['deleted'] == 0){
+                                ?>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-newspaper chaptersActionsIcons"></i>
+                                    <span>Publier</span>
+                                </div>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-edit chaptersActionsIcons"></i>
+                                    <span>Modifier</span>
+                                </div>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-trash-alt chaptersActionsIcons"></i>
+                                    <span>Supprimer</span>
+                                </div>
+                                <?php
+                                }elseif($chapter['deleted'] == 1){
+                                ?>
+                                <div class="chaptersActionsContent">
+                                    <i class="fas fa-trash-restore chaptersActionsIcons"></i>
+                                    <span>Restaurer</span>
+                                </div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </td>
 
+                    </tr>
+                <?php
+                }
+                ?>
+
+            </table>
+            <div id="addChapterCallToAction"><i class="fas fa-plus-square"></i> <p>Ajouter un chapitre</p></div>
             <div id="chapterEdit">
                 <h3>Édition d'un nouveau chapitre</h3>
                 <form enctype="multipart/form-data" method="post">
                     <div class="form-group">
-                        <label for="chapter_image">Image du chapitre :</label>
+                        <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
                         <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="title">Titre du chapitre :</label>
+                        <label for="title">Titre :</label><br/>
                         <input type="text" id="title" name="title"  class="form-control input-sm"/>
                     </div>
                     <div class="form-group" id='textareaDiv'>
@@ -104,11 +175,11 @@
                     </div>
                     <div class="form-group" id='saveAndPublishDiv'>
                         <div>
-                            <input type="checkbox" id="save" name="save"checked>
+                            <input type="radio" id="save" name="saveAndPublish"checked>
                             <label for="save">ENREGISTRER</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="saveAndPublish" name="saveAndPublish">
+                            <input type="radio" id="saveAndPublish" name="saveAndPublish">
                             <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
                         </div>
                     </div>
@@ -117,96 +188,48 @@
                     </div>
                 </form>
             </div>
-            <div id="allChapters">
-                <h3>Tous les chapitres (en cours de rédaction/publiés/supprimés):</h3>
-                <?php
-                var_dump($_VIEW['allChapters']);
-                ?>
-            </div>
-
-            <div id="chaptersDeleted">
-                <h3>Chapitres supprimés :</h3>
-                <?php
-                $deletedChapters = $_VIEW['deletedChapters'];
-                if($_VIEW['numberOfDeletedChapters'] == 0){
-                    ?>
-                    <p>Aucun chapitre n'a été supprimé.</p>
-                    <?php
-                } else{
-                    ?>
-                    <p>Il y a <?= $_VIEW['numberOfDeletedChapters']?> chapitres supprimés :</p>
-
-                    // foreach($_VIEW['chaptersDeleted'] as $chapterDeleted){
-                    ?>
-                    <!-- <div>
-                        <h3 id="blogTitleH3">CHAPITRE <?= $chapterDeleted['id'] ?> : <?= $chapterDeleted['title'] ?></h3>
-                        <span class="chapterPubliDate"><em>Publié le <?= $chapterDeleted['creation_date'] ?></em></span>
-                        <span class="chapterPubliDate"><em>Supprimé le <?= $chapterDeleted['deleted_date'] ?></em></span>
-                        <p class="chaptersP"><?= $chapterDeleted['preview'] ?></p>
-                    </div> -->
-                <?php
-                // }
-                }
-                ?>
-            </div>
-
-            <div id="chaptersToPublish">
-                <h3>Chapitres à publier :</h3>
-                <?php
-                $chaptersToPublish = $_VIEW['chaptersToPublish'];
-                if($_VIEW['numberOfChaptersToPublish'] == 0){
-                    ?>
-                    <p>Aucun chapitre n'est à publier.</p>
-                    <?php
-                } else{
-                    ?>
-                    <p>Il y a <?= $_VIEW['numberOfChaptersToPublish']?> chapitres non publiés :</p>
-
-                    // foreach($_VIEW['chaptersToPublish'] as $chapterToPublish){
-                    ?>
-                    <!-- <div>
-                        <h3 id="blogTitleH3">CHAPITRE <?= $chapterToPublish['id'] ?> : <?= $chapterToPublish['title'] ?></h3>
-                        <span class="chapterPubliDate"><em>Publié le <?= $chapterToPublish['creation_date'] ?></em></span>
-                        <span class="chapterPubliDate"><em>Supprimé le <?= $chapterToPublish['deleted_date'] ?></em></span>
-                        <p class="chaptersP"><?= $chapterToPublish['preview'] ?></p>
-                    </div> -->
-                <?php
-                // }
-                }
-                ?>
-            </div>
         </div>
-        <div id="commentsManagement">
+        <div id="commentsManagement" class="AdminSection">
             <h2>Gestion des commentaires :</h2>
             <h3>Commentaires signalés :</h3>
+        <?php
+        $reportedComments = $_VIEW['reportedComments'];
+        if($_VIEW['numberOfReportedComments'] == 0){
+            ?>
+            <p>Aucun commentaire n'a été signalé.</p>
             <?php
-                $reportedComments = $_VIEW['reportedComments'];
-                if($_VIEW['numberOfReportedComments'] == 0){
-                    ?>
-                    <p>Aucun commentaire n'a été signalé.</p>
-                    <?php
-                } else{
-                    ?>
-                    <p>Il y a <?= $_VIEW['numberOfReportedComments']?> commentaires signalés :</p>
+        } else{
+            ?>
+            <p>Il y a <?= $_VIEW['numberOfReportedComments']?> commentaires signalés :</p>
+            <div id="commentsAdminBloc">
+            <?php
+            foreach($_VIEW['reportedComments'] as $reportedComment){
+            ?>
+                <div class="commentDiv commentAdmin">
+                    <p class="namePublishDate">
+                        <span class="commentId" style="display: none"><?= htmlspecialchars($reportedComment['id']); ?></span>
+                        <p class="">
+                            <span>Posté par  : </span>
+                            <span class="authorName"><?= htmlspecialchars($reportedComment['pseudo']); ?></span>
+                            <em> le <span class="dateOfPublish"><?= $reportedComment['creation_date']; ?></span></em>
+                        </p>
+                    </p>
+                    <p class="comment">
+                        <span>Contenu du commentaire :</span></br>
+                        <?php echo nl2br(htmlspecialchars($reportedComment['content'])); ?></p>
+                    <div class="unreportOrDelete">
+                        <a class="unreport">Annuler le signalement</a>
+                        <a class="deleteComment">Supprimer le commentaire</a>
+                    </div>
+                </div>
+        <?php
+            }
+        ?>
+            </div>
 
-                    // foreach($_VIEW['reportedComments'] as $reportedComment){
-                    ?>
-                        <!-- <div class="commentDiv">
-                            <p class="namePublishDate">
-                                <span class="commentId" style="display: none"><?= htmlspecialchars($reportedComment['id']); ?></span>
-                                <span class="authorName"><?= htmlspecialchars($reportedComment['pseudo']); ?></span>
-                                <em> le <span class="dateOfPublish"><?= $reportedComment['creation_date']; ?></span></em>
-                            </p>
-                            <p class="comment"><?php echo nl2br(htmlspecialchars($reportedComment['content'])); ?></p>
-                            <div class="unreportOrDelete">
-                                <a class="unreport">Annuler le signalement</a>
-                                <a class="deleteComment">Supprimer le commentaire</a>
-                            </div>
-                        </div> -->
-                <?php
-                // }
-                }
-                ?>
+        <?php
+        }
+        ?>
                 <p>
                     <span class="red">Signalé le :</span>
                     <a href="index.php?action=setCancelReport&amp;id=" title="supprimer" onclick="return(confirm('Etes-vous sûr de vouloir supprimer ce signalement ?'));">
