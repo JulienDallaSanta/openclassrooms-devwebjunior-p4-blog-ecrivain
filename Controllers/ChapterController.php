@@ -104,7 +104,7 @@ class ChapterController extends Controller{
         return $_VIEW['newChapter'] = Chapter::addChapter($chapter);
     }
 
-    static function getPosted(){
+    static function getPosted(){ //return published chapters
         $chapters = Chapter::getPosted(); // Call to a function of this object
         return $chapters;
     }
@@ -136,7 +136,7 @@ class ChapterController extends Controller{
         return $lastChapters;
     }
 
-    static function getChapters(){
+    static function getChapters(){ //return all chapters (deleted, published, non published...)
         $allChapters = Chapter::getChapters(); // Call to a function of this object
         return $allChapters;
     }
@@ -162,6 +162,11 @@ class ChapterController extends Controller{
         return $_VIEW['chapterExists'] = Chapter::exists($id);
     }
 
+    static function publishChapter($published, $published_date){
+        $_VIEW['publishChapter'] = Chapter::setPublished($published);
+        $_VIEW['publishChapterDate'] = Chapter::setPublishedDate($published_date);
+    }
+
     static function printLastChapters(){
         $lastChapters = static::getInstance()->get4lastChapters();
         $_VIEW['lastChapters'] = $lastChapters;
@@ -179,7 +184,7 @@ class ChapterController extends Controller{
         $_VIEW['chapter'] = $chapter;
         $comments = CommentController::getComments($id);
         $_VIEW['comments'] = $comments;
-        $commentsCount = CommentController::getNumberOfComments($id);
+        $commentsCount = CommentController::getNumberOfNonReportedComments($id);
         $_VIEW['commentsCount'] = $commentsCount;
         return self::View('chapitre', $_VIEW);
     }
@@ -187,6 +192,8 @@ class ChapterController extends Controller{
     static function printAdmin(){
         $allChapters = static::getInstance()->getChapters();
         $_VIEW['allChapters'] = $allChapters;
+        $numberOfChapters = Chapter::getNumberOfChapters();
+        $_VIEW['numberOfChapters'] = $numberOfChapters;
         $numberOfDeletedChapters = static::getInstance()->getNumberOfDeletedChapters();
         $_VIEW['numberOfDeletedChapters'] = $numberOfDeletedChapters;
         $deletedChapters = static::getInstance()->getDeletedChapters();
@@ -195,6 +202,10 @@ class ChapterController extends Controller{
         $_VIEW['numberOfChaptersToPublish'] = $numberOfChaptersToPublish;
         $chaptersToPublish = static::getInstance()->getChaptersToPublish();
         $_VIEW['chaptersToPublish'] = $chaptersToPublish;
+        $reportedComments = CommentController::getReported();
+        $_VIEW['reportedComments'] = $reportedComments;
+        $numberOfReportedComments = CommentController::getNumberOfReportedComments();
+        $_VIEW['numberOfReportedComments'] = $numberOfReportedComments;
         return self::View('admin', $_VIEW);
     }
 }
