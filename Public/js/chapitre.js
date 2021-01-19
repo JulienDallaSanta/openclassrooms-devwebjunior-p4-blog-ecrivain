@@ -1,7 +1,7 @@
 function abortComment(event){
     event.preventDefault();
     event.stopPropagation();
-    $("#checkCommentModal").hide();
+    $("#checkCommentModal").remove();
 }
 
 function publishComment(event){
@@ -19,7 +19,7 @@ function publishComment(event){
         data:{
             pseudo : $("#pseudo").val(),  // Nous récupérons la valeur de nos inputs
             comment : $("#comment").val(),
-            chapterId : $("#chapterId").html()
+            chapter_id : $("#chapterId").html()
 
         },
         statusCode:{
@@ -35,22 +35,17 @@ function publishComment(event){
         },
         dataType: "json"
     });
-    // document.location.reload();
-    let numberofComments = $(".commentDiv");
-    $("#numberOfComments>span").html(numberofComments.length);
+    document.location.reload();
+    // let numberofComments = $(".commentDiv");
+    // $("#numberOfComments>span").html(numberofComments.length);
 }
 
-function reportComment(event) {
-    event.preventDefault();
-    event.stopPropagation();
+function reportComment(commentId){
     $.ajax({ //AJAX call to post data from comment create form
         type: "POST",
-        url:'/api/comment/reportcomment',
+        url:'/api/comment/report',
         data:{
-            report : $(".commentId").val(),  // Nous récupérons la valeur de nos inputs
-            report_date : new Date(),
-            chapterId : $("#chapterId").html()
-
+            id : commentId
         },
         statusCode:{
             200: function(){
@@ -65,9 +60,10 @@ function reportComment(event) {
         },
         dataType: "json"
     });
+    document.location.reload();
 }
 
-function abortReportComment(event){
+function closeCheckCommentModal(event){
     event.preventDefault();
     event.stopPropagation();
     $("#checkCommentModal").remove();
@@ -102,52 +98,6 @@ $(document).ready(function(){
             $("#writeAComment").removeClass();
             $("#writeAComment").addClass('lightBlueBg');
     }
-    //chapter selection
-    // $(".chapterSelectA").on('click', function(){
-    //     console.log('ok');
-    //     let elementId = this.id;
-    //     // switch(elementId) {
-    //     //     case 'chapterSelect1':
-    //     //         $("#blogTitleH3").text('CHAPITRE 1 : UN VRAI DÉFI');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").text(1);
-    //     //         console.log($("#chapterId").text());
-    //     //         $("#chapter1").show();
-    //     //         break;
-    //     //     case 'chapterSelect2':
-    //     //         $("#blogTitleH3").text('CHAPITRE 2 : PRENDRE DE LA HAUTEUR');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").html("2");
-    //     //         console.log($("#chapterId").html());
-    //     //         $("#chapter2").show();
-    //     //         break;
-    //     //     case 'chapterSelect3':
-    //     //         $("#blogTitleH3").text('CHAPITRE 3 : UNE ÂME PERDUE');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").html("3");
-    //     //         console.log($("#chapterId").html());
-    //     //         $("#chapter3").show();
-    //     //         break;
-    //     //     case 'chapterSelect4':
-    //     //         $("#blogTitleH3").text('CHAPITRE 4 : ON THE ROAD AGAIN');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").html("4");
-    //     //         console.log($("#chapterId").html());
-    //     //         $("#chapter4").show();
-    //     //         break;
-    //     //     case 'chapterSelect5':
-    //     //         $("#blogTitleH3").text('CHAPITRE 5 : MANGER OU ÊTRE MANGÉ');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").html("5");
-    //     //         $("#chapter5").show();
-    //     //         break;
-    //     //     case 'chapterSelect6':
-    //     //         $("#blogTitleH3").text('CHAPITRE 6 : PEINE DE MORT');
-    //     //         $(".chapterEntireText").hide();
-    //     //         $("#chapterId").html("6");
-    //     //         $("#chapter6").show();
-    //     // }
-    // });
 
     //create a comment
     $("#writeAComment").on('click', function(){
@@ -166,15 +116,14 @@ $(document).ready(function(){
             console.log(chapter);
             $(".page").prepend($(`
             <div id="checkCommentModal">
-                <div id="connectModalContent">
-                    <p>Confirmer l'envoi de votre commentaire pour le chapitre ${chapter} :</br>
-                        <span id="pseudoSpan">Votre pseudo : ${pseudo}</span>
-                        <span id="commentSpan">Votre commentaire : <em>${comment}</em></span>
-                        <span>
-                            <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
-                            <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
-                        </span>
-                    </p>
+                <div id="checkCommentModalContent">
+                    <h3>Confirmer l'envoi de votre commentaire pour le chapitre ${chapter} :</h3>
+                    <p id="pseudoSpan"><strong><em>Votre pseudo : </em></strong>${pseudo}</p>
+                    <p id="commentSpan"><strong><em>Votre commentaire</em> : </strong><br/>"${comment}"</p>
+                    <span>
+                        <i id="commentFormPublish" class="fas fa-check-circle" onclick="publishComment(event)"></i>
+                        <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortComment(event)"></i>
+                    </span>
                 </div>
 
             </div>
@@ -182,19 +131,18 @@ $(document).ready(function(){
         })
     });
 
-    //report comment
-    $(".commentReport").on('click', ()=>{
+    //---modal for report comment---
+    $(".commentReport").on('click', (event)=>{
+        const commentId = event.target.parentElement.dataset.commentId;
         // Check report confirmation
         $(".page").prepend($(`
             <div id="checkCommentModal">
-                <div>
-                    <h3>Confirmer le signalement du commentaire :</h3>
-                    <span>
-                        <i id="commentFormPublish" class="fas fa-check-circle" onclick="reportComment(event)"></i>
-                        <i id="commentFormAbort" class="fas fa-times-circle" onclick="abortReportComment(event)"></i>
-                    </span>
-                </div>
-
+            <div id="connectModalContent">
+                <h3>Confirmer le signalement du commentaire :</h3>
+                <span>
+                    <i id="commentFormPublish" class="fas fa-check-circle" onclick="reportComment(${commentId})"></i>
+                    <i id="commentFormAbort" class="fas fa-times-circle" onclick="closeCheckCommentModal(event)"></i>
+                </span>
             </div>
         `));
     });
