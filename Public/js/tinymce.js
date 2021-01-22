@@ -1,5 +1,5 @@
 tinymce.init({
-    selector: 'textarea.tinymce',
+    selector: '#chapterContent',
     width: 1000,
     height: 400,
     language: 'fr_FR',
