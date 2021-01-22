@@ -266,12 +266,10 @@ class Comment extends Model{
         return (int) $data['nb'];
     }
 
-    // static function unreport(Comment $comment){
-    //     $query = static::getInstance()->db->prepare("UPDATE comment SET report = 0 WHERE id = ?");
-    //     $result = $query->execute([$comment->getId()]);
-
-    //     return (bool) $result;
-    // }
+    static function unreport(Comment $comment){
+        $query = static::getInstance()->db->prepare("UPDATE comment SET report = 0, report_date = NULL WHERE id = ?");
+        $query->execute([$comment->getId()]);
+    }
 
     static function report(Comment $comment){
         $query = static::getInstance()->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
@@ -280,8 +278,6 @@ class Comment extends Model{
 
     static function deleteComment(Comment $comment){
         $query = static::getInstance()->db->prepare("DELETE FROM comment WHERE id = ?");
-        $result = $query->execute([$comment->getId()]);
-
-        return (bool) $result;
+        $query->execute([$comment->getId()]);
     }
 }
