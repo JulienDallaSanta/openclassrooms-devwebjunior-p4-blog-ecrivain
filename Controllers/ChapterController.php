@@ -76,6 +76,30 @@ class ChapterController extends Controller{
     }
 
 
+    static function uploadImage(){
+        if ( 0 < $_FILES['file']['error'] ) {
+            $apiResponse = [
+                'JSON'=> [
+                    'error'=> 'Une erreur est survenue lors de l\'envoi de l\'image'
+                ],
+                'code'=> 500
+            ];
+        }
+        else {
+            move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].'/Public/uploads/'. $_FILES['file']['name']);
+            $apiResponse = [
+                'JSON'=> [
+                    'message'=> 'OK',
+                    'url' => 'http://'.$_SERVER['SERVER_NAME'].'/Public/uploads/'.$_FILES['file']['name'],
+                ],
+                'code'=> 200
+            ];
+
+        }
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+    }
+
     static function addChapter(){
         $chapter = new Chapter();
         if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) && isset($_POST['published']) ){
