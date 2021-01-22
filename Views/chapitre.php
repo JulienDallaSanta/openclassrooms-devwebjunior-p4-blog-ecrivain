@@ -56,7 +56,7 @@
         </div>
         <div class="chapterAndComments">
             <div class="chapterEntireText">
-                <div class="chapterImg" style="background-image: ;"></div>
+                <img class="chapImg chapImgSize" src="<?= $chapter['chapter_image'] ?>"></img>
                 <p class="chapterText"><?php echo htmlspecialchars($chapter['content']); ?></p>
             </div>
         </div>

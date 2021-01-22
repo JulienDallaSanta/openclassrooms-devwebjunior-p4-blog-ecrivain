@@ -12,7 +12,7 @@
             foreach ($_VIEW['chapters'] as $chapter){
             ?>
             <div class="chaptersDiv">
-                <div class="chap<?= $chapter['id'] ?>Img chaptersImg"></div>
+                <img class="chaptersImg" src="<?php echo $chapter['chapter_image']; ?>"></img>
                 <div class="chaptersDivContent">
                     <p class="chaptersP"><?= $chapter['preview'] ?>
                     </p>

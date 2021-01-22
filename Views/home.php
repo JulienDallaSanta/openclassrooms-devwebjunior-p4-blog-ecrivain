@@ -82,10 +82,9 @@
             <div id="chaptersSlider">
             <?php
             foreach ($_VIEW['lastChapters'] as $lastChapter){
-                // var_dump($lastChapter);
             ?>
                 <div id="chap<?= $lastChapter['id']?>" class="chaptersSliderDiv">
-                    <div id="chap<?= $lastChapter['id']?>Img" class="chap<?= $lastChapter['id']?>Img chapImg"></div>
+                    <img class="chapImg" src="<?= $lastChapter['chapter_image'] ?>"></img>
                     <div id="chap<?= $lastChapter['id']?>Content" class="chaptersSliderDivContent">
                         <span class="dateTime"><?= $lastChapter['creation_date']?></span>
                         <h4>Chapitre <?= $lastChapter['id']?> :<br/><?= $lastChapter['title']?></h4>
