@@ -620,31 +620,22 @@ a i{
 .chapImg{
   width: 60%;
   height: 10em;
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  object-position: center;
   position: relative;
   bottom: -5%;
 }
-.chap6Img{
-  background-image: url(../images/peine_de_mort.jpg);
-}
-.chap5Img{
-  background-image: url(../images/manger_ou_etre_mange.jpg);
-}
-.chap4Img{
-  background-image: url(../images/chap4.jpg);
-}
-.chap3Img{
-  background-image: url(../images/chap3.jpg);
-}
-.chap2Img{
-  background-image: url(../images/chap2.jpg);
-}
-.chap1Img{
-  background-image: url(../images/chap1.jpg);
+.chapImgSize{
+  width: 15vw;
+  height: 40vh;
+  bottom: 0;
 }
 .chaptersSliderDivContent{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  height: 15vh;
   background-color: rgba(0, 0, 0, 0.05);
   box-shadow: 0 12.5px 10px rgba(0, 0, 0, 0.073),
               0 100px 80px rgba(0, 0, 0, 0.1);
@@ -918,6 +909,7 @@ footer p, footer a{
   position: relative;
   top: -5vh;
   width: 100%;
+  height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -932,8 +924,8 @@ footer p, footer a{
   position: relative;
   height: 30vh;
   width: 70%;
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  object-position: center;
 }
 .chaptersP{
   text-align: justify;
@@ -1075,11 +1067,6 @@ footer p, footer a{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-.chapterImg{
-  width: 15vw;
-  height: 40vh;
-
 }
 .chapterText{
   width: 85vw;
@@ -1261,7 +1248,7 @@ footer p, footer a{
   margin:0.5% 0;
   font-weight: bold;
 }
-#checkCommentModal, #connectModal, #chapterModal{
+#checkCommentModal, #connectModal, #chapterModal, #chapterImageModal{
   position: fixed;
   top: 0;
   left: 0;
@@ -1272,7 +1259,7 @@ footer p, footer a{
   display: flex;
   justify-content: center;
 }
-#checkCommentModalContent, #connectModalContent, #disconnectModalContent, #chapterModalContent{
+#checkCommentModalContent, #connectModalContent, #disconnectModalContent, #chapterModalContent, #createChapterModalContent, #chapterImageModalContent{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1283,6 +1270,10 @@ footer p, footer a{
   width: 30%;
   height: 30vh;
   padding: 1%;
+}
+#createChapterModalContent{
+  width: 91%;
+  height: 80vh;
 }
 #checkCommentModalContent h3{
   text-align: center;
@@ -1498,20 +1489,27 @@ footer p, footer a{
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   margin-top:2%;
-  width: 15%;
+  width: 98%;
   height: 4vh;
-  color: #FC4850;
+  color: white;
+  background-color: #FC4850;
   font-weight: bold;
   font-size: 150%;
   display: flex;
-  justify-content:space-around;
+  flex-direction: row;
+  justify-content:center;
   align-items:center;
 }
 #addChapterCallToAction:hover{
-  color: white;
-  background-color: #FC4850;
-  border: #FC4850;
+  color: #FC4850;
+  background-color: white;
   cursor: grab;
+}
+#addChapterCallToAction p{
+  margin-right: 1%;
+}
+.hiddenChevron{
+  display: none!important;
 }
 #chapterEdit{
   width: 100%;
@@ -1554,7 +1552,25 @@ footer p, footer a{
   justify-content:center;
   align-items:center;
 }
-#createChapterSubmit{
+#adminChapterImg{
+  width: 20%;
+  height: 90%;
+  object-fit: cover;
+  object-position: center;
+}
+#adminChapterDiv{
+  width: 95%;
+  height: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#adminChapterP{
+  height: 90%;
+  width: 75%;
+  column-width: 40vh;
+}
+.createChapterSubmit{
   height: 4vh;
   width: 5%;
   background-color: white;
@@ -1568,10 +1584,16 @@ footer p, footer a{
   text-align: center;
   line-height:4vh;
 }
-#createChapterSubmit:hover{
+.createChapterSubmit:hover{
   background-color:#FC4850;
   color: white;
   border-color: #FC4850;
+}
+#saveChapterOk{
+  color: forestgreen;
+}
+.saveChapterNo{
+  color: #FC4850;
 }
 #commentsAdminBloc{
   width: 100%;
