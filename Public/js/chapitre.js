@@ -36,8 +36,6 @@ function publishComment(event){
         dataType: "json"
     });
     document.location.reload();
-    // let numberofComments = $(".commentDiv");
-    // $("#numberOfComments>span").html(numberofComments.length);
 }
 
 function reportComment(commentId){
