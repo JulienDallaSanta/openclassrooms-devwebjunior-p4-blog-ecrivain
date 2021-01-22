@@ -100,6 +100,7 @@ class CommentController extends Controller{
      * @param int $commentId
      */
     static function report(){
+        Comment::report(Comment::getCommentById($_POST['id']));
         $apiResponse = [
             'JSON'=> [
                 'message' => 'OK'
@@ -108,19 +109,21 @@ class CommentController extends Controller{
         ];
         http_response_code($apiResponse['code']);
         echo(json_encode($apiResponse['JSON']));
-        Comment::report(Comment::getCommentById($_POST['id']));
         return;
     }
 
-    // public function unreport(){
-    //     $comment = new Comment();
-    //     if(!empty($_GET['comment']) && !empty($_GET['chapter']) && $_GET['report'] == 1){
-    //         $newComment = new Comment(['id' => $_GET['comment']]);
-    //         $comment->unreport($newComment);
-    //         header('Location: index.php?action=view&id=' .$_GET['chapter'] . '#comments');
-    //         exit();
-    //     }
-    // }
+    static function unreport(){
+        Comment::unreport(Comment::getCommentById($_POST['id']));
+        $apiResponse = [
+            'JSON'=> [
+                'message' => 'OK'
+            ],
+            'code'=> 200
+        ];
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+        return;
+    }
 
     static function getComments($chapter_id){
         $comments = Comment::getComments($chapter_id);
@@ -146,8 +149,17 @@ class CommentController extends Controller{
         return $numberOfNonReportedComments;
     }
 
-    public function deleteComment($comment){
-        Comment::deleteComment($comment);
+    static function deleteComment(){
+        Comment::deleteComment(Comment::getCommentById($_POST['id']));
+        $apiResponse = [
+            'JSON'=> [
+                'message' => 'OK'
+            ],
+            'code'=> 200
+        ];
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+        return;
     }
 }
 
