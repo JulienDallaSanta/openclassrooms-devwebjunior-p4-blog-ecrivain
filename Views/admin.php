@@ -85,6 +85,40 @@
             </div>
         </div>
         <div id="chaptersManagement" class="AdminSection">
+            <div id="addChapterCallToAction"><p>Ajouter un chapitre</p> <i class="fas fa-chevron-down hiddenChevron"></i><i class="fas fa-chevron-up"></i></div>
+            <div id="chapterEdit" style="display:none">
+                <h3>Édition d'un nouveau chapitre</h3>
+                <form enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="50000" />
+                        <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control" required>
+                        <button id="upload_image">Envoyer le fichier</button>
+                        <input type="hidden" id="urlImgInput" name="urlImg" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Titre :</label><br/>
+                        <input type="text" id="title" name="title"  class="form-control input-sm" required>
+                    </div>
+                    <div class="form-group" id='textareaDiv'>
+                        <label for="chapterContent">Contenu du chapitre :</label>
+                        <textarea id="chapterContent" name="content" class="tinymce form-control" required></textarea>
+                    </div>
+                    <div class="form-group" id='saveAndPublishDiv'>
+                        <div>
+                            <input type="radio" id="save" name="saveAndPublish"checked>
+                            <label for="save">ENREGISTRER</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="saveAndPublish" name="saveAndPublish">
+                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
+                        </div>
+                    </div>
+                    <div class="form-group" id='createChapterSubmitDiv'>
+                        <span class="createChapterSubmit">OK</span>
+                    </div>
+                </form>
+            </div>
             <h2>Gestion des chapitres :</h2>
             <table id="chaptersManagementTable">
                 <tr>
@@ -157,37 +191,7 @@
                 ?>
 
             </table>
-            <div id="addChapterCallToAction"><i class="fas fa-plus-square"></i> <p>Ajouter un chapitre</p></div>
-            <div id="chapterEdit">
-                <h3>Édition d'un nouveau chapitre</h3>
-                <form enctype="multipart/form-data" method="post">
-                    <div class="form-group">
-                        <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
-                        <input type="file" id="chapter_image" name="chapter_image" accept="image/png, image/jpeg" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Titre :</label><br/>
-                        <input type="text" id="title" name="title"  class="form-control input-sm"/>
-                    </div>
-                    <div class="form-group" id='textareaDiv'>
-                        <label for="chapterContent">Contenu du chapitre :</label>
-                        <textarea id="chapterContent" name="content" class="tinymce form-control"></textarea>
-                    </div>
-                    <div class="form-group" id='saveAndPublishDiv'>
-                        <div>
-                            <input type="radio" id="save" name="saveAndPublish"checked>
-                            <label for="save">ENREGISTRER</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="saveAndPublish" name="saveAndPublish">
-                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
-                        </div>
-                    </div>
-                    <div class="form-group" id='createChapterSubmitDiv'>
-                        <span id="createChapterSubmit">OK</span>
-                    </div>
-                </form>
-            </div>
+
         </div>
         <div id="commentsManagement" class="AdminSection">
             <h2>Gestion des commentaires :</h2>
@@ -205,7 +209,7 @@
             <?php
             foreach($_VIEW['reportedComments'] as $reportedComment){
             ?>
-                <div class="commentDiv commentAdmin">
+                <div class="commentDiv commentAdmin" data-comment-id="<?php echo $reportedComment['id']; ?>">
                     <p class="namePublishDate">
                         <span class="commentId" style="display: none"><?= htmlspecialchars($reportedComment['id']); ?></span>
                         <p class="">
