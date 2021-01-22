@@ -54,6 +54,9 @@
             }
         }
         if($path[1] == 'chapter'){
+            if($path[2] == 'image'){
+                return ChapterController::uploadImage();
+            }
             if($path[2] == 'create'){
                 return ChapterController::addChapter();
             }elseif($path[2] == 'modify'){
@@ -65,6 +68,7 @@
             }elseif($path[2] == 'publish'){
                 return ChapterController::publishChapter($published, $published_date);
             }
+
         }
         if($path[1] == 'comment'){
             if($path[2] == 'newcomment'){
@@ -72,6 +76,12 @@
             }
             if($path[2] == 'report'){
                 return CommentController::report();
+            }
+            if($path[2] == 'unreport'){
+                return CommentController::unreport();
+            }
+            if($path[2] == 'delete'){
+                return CommentController::deleteComment();
             }
         }
 
