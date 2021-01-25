@@ -22,10 +22,6 @@ class ChapterController extends Controller{
         $_VIEW['creation_date'] = Chapter::getCreation_date();
     }
 
-    public function getPreview(){
-        $_VIEW['preview'] = Chapter::getPreview();
-    }
-
     public function getChapter_image(){
         $_VIEW['chapter_image'] = Chapter::getChapter_image();
     }
@@ -57,10 +53,6 @@ class ChapterController extends Controller{
 
     public function setCreation_date($creation_date){
         Chapter::setCreation_date();
-    }
-
-    public function setPreview($preview){
-        Chapter::setPreview();
     }
 
     public function setChapter_image($chapter_image){
@@ -100,8 +92,12 @@ class ChapterController extends Controller{
         echo(json_encode($apiResponse['JSON']));
     }
 
-    static function addChapter(){
-        $chapter = new Chapter();
+    static function addChapter($newChapter){
+        $chapter = new Chapter($newChapter);
+        return Chapter::addChapter($chapter);
+    }
+
+    static function createChapter(){
         if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) && isset($_POST['published']) ){
             $chapter['title'] = htmlspecialchars($_POST['title']);
             $chapter['content'] = htmlspecialchars($_POST['content']);
@@ -115,6 +111,7 @@ class ChapterController extends Controller{
             ];
             http_response_code($apiResponse['code']);
             echo(json_encode($apiResponse['JSON']));
+            chapterController::addChapter($chapter);
         }else{ // if one input is empty
             $apiResponse = [
                 'JSON'=> [
@@ -125,7 +122,6 @@ class ChapterController extends Controller{
             http_response_code($apiResponse['code']);
             echo(json_encode($apiResponse['JSON']));
         }
-        return $_VIEW['newChapter'] = Chapter::addChapter($chapter);
     }
 
     static function getPosted(){ //return published chapters
