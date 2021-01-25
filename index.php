@@ -57,8 +57,8 @@
             if($path[2] == 'image'){
                 return ChapterController::uploadImage();
             }
-            if($path[2] == 'create'){
-                return ChapterController::addChapter();
+            elseif($path[2] == 'create'){
+                return ChapterController::createChapter();
             }elseif($path[2] == 'modify'){
                 return ChapterController::updateChapter($chapter);
             }elseif($path[2] == 'delete'){
