@@ -13,7 +13,6 @@ class Chapter extends Model{
 	private $id;
     private $title;
     private $creation_date;
-	private $preview;
 	private $chapter_image;
 	private $content;
 	private $published;
@@ -42,11 +41,6 @@ class Chapter extends Model{
         if (isset($data['creation_date']))
         {
             static::getInstance()->setCreation_date($data['creation_date']);
-        }
-
-        if (isset($data['preview']))
-        {
-            static::getInstance()->setPreview($data['preview']);
         }
 
         if (isset($data['chapter_image']))
@@ -85,7 +79,6 @@ class Chapter extends Model{
             "id" => $this->getId(),
             "title" => $this->getTitle(),
             "creation_date" => $this->getCreation_date(),
-            "preview" => $this->getPreview(),
             "chapter_image" => $this->getChapter_image(),
             "content" => $this->getContent(),
             "published" => $this->getPublished(),
@@ -108,10 +101,6 @@ class Chapter extends Model{
 	static function getCreation_date(){
 		return static::getInstance()->creation_date;
 	}
-
-    static function getPreview(){
-        return static::getInstance()->preview;
-    }
 
     static function getChapter_image(){
         return static::getInstance()->chapter_image;
@@ -160,11 +149,6 @@ class Chapter extends Model{
         return static::getInstance();
     }
 
-    static function setPreview($preview){
-        static::getInstance()->preview = $preview;
-        return static::getInstance();
-    }
-
     static function setChapter_image($chapter_image){
         static::getInstance()->chapter_image = $chapter_image;
         return static::getInstance();
@@ -209,29 +193,28 @@ class Chapter extends Model{
 	}
 
 	static function addChapter(Chapter $chapter){ // parameter must be a Chapter object
-		$query = static::getInstance()->db->prepare('INSERT INTO `chapter`(`id`, `title`, `creation_date`, `preview`, `chapter_image`, `content`, `published`, `deleted`) VALUES (?,?,NOW(),?,?,?,?,0)');
+		$query = static::getInstance()->db->prepare("INSERT INTO chapter(title, creation_date, chapter_image, content, published, deleted) VALUES (:title, NOW(), :chapter_image, :content, :published,0)");
 		$query->execute([
-			$chapter->getTitle(),
-			$chapter->getContent(),
-			$chapter->getPreview(),
-			$chapter->getPublished()
+			'title' => $chapter->getTitle(),
+			'chapter_image' => $chapter->getChapter_image(),
+			'content' => $chapter->getContent(),
+            'published' => $chapter->getPublished()
 		]);
 	}
 
 	static function updateChapter(Chapter $chapter){
-		$query = static::getInstance()->db->prepare('UPDATE chapter SET title = :title, preview = :preview, chapter_image = :chapter_image, content = :content, published = :published WHERE id = :id')
+		$query = static::getInstance()->db->prepare('UPDATE chapter SET title = :title, chapter_image = :chapter_image, content = :content, published = :published WHERE id = :id')
 		or die(print_r(static::getInstance()->db->errorInfo()));
 		$query->execute([
 			':title' => $chapter->getTitle(),
 			':content' => $chapter->getContent(),
-			':preview' => $chapter->getPreview(),
 			':published' => $chapter->getPublished()
 		]);
 	}
 
 	static function getChapters(){
 		$chapters = [];
-        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, deleted, DATE_FORMAT(deleted_date, '%d/%m/%Y à %Hh%imin') AS deleted_date, published, DATE_FORMAT(published_date, '%d/%m/%Y à %Hh%imin') AS published_date FROM chapter ORDER BY id");
+        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, chapter_image, content, deleted, DATE_FORMAT(deleted_date, '%d/%m/%Y à %Hh%imin') AS deleted_date, published, DATE_FORMAT(published_date, '%d/%m/%Y à %Hh%imin') AS published_date FROM chapter ORDER BY id");
         $query->execute();
         while($data = $query->fetch(PDO::FETCH_ASSOC)){
 			array_push($chapters, (new Chapter($data))->toArray());
@@ -250,7 +233,7 @@ class Chapter extends Model{
 	static function getPosted(){
 		// return a list of published chapters in an objects array
         $chapters = [];
-		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
+		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY creation_date");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($chapters, (new Chapter($data))->toArray());
@@ -261,7 +244,7 @@ class Chapter extends Model{
     static function getChaptersToPublish(){
 		// return a list of deleted chapters in an objects array
         $chaptersToPublish = [];
-		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, published, deleted, deleted_date FROM chapter WHERE published = 0 ORDER BY creation_date");
+		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, chapter_image, content, published, deleted, deleted_date FROM chapter WHERE published = 0 ORDER BY creation_date");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($chaptersToPublish, (new Chapter($data))->toArray());
@@ -280,7 +263,7 @@ class Chapter extends Model{
     static function getDeletedChapters(){
 		// return a list of deleted chapters in an objects array
         $deletedChapters = [];
-		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, published, deleted, deleted_date FROM chapter WHERE deleted = 1 ORDER BY deleted_date");
+		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, chapter_image, content, published, deleted, deleted_date FROM chapter WHERE deleted = 1 ORDER BY deleted_date");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($deletedChapters, (new Chapter($data))->toArray());
@@ -300,7 +283,7 @@ class Chapter extends Model{
 		// return a list of 4 last chapters in an objects array
         $lastChapters = [];
         // $instance = static::getInstance();
-		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY id DESC LIMIT 4");
+		$query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, chapter_image, content, published, deleted FROM chapter WHERE deleted = 0 AND published = 1 ORDER BY id DESC LIMIT 4");
         $query->execute();
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($lastChapters, (new Chapter($data))->toArray());
@@ -309,7 +292,7 @@ class Chapter extends Model{
 	}
 
 	static function getChapter($id){
-        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, preview, chapter_image, content, published, deleted FROM chapter WHERE id = ?");
+        $query = static::getInstance()->db->prepare("SELECT id, title, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS creation_date, chapter_image, content, published, deleted FROM chapter WHERE id = ?");
         $query->execute([$id]);
         $chapter = $query->fetch(PDO::FETCH_ASSOC);
         return $chapter;
