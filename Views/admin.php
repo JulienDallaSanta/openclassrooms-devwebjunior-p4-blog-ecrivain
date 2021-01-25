@@ -106,13 +106,14 @@
                     </div>
                     <div class="form-group" id='saveAndPublishDiv'>
                         <div>
-                            <input type="radio" id="save" name="saveAndPublish"checked>
+                            <input type="radio" id="save" name="saveAndPublish" value="save">
                             <label for="save">ENREGISTRER</label>
                         </div>
                         <div>
-                            <input type="radio" id="saveAndPublish" name="saveAndPublish">
+                            <input type="radio" id="saveAndPublish" name="saveAndPublish" value="save and publish">
                             <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
                         </div>
+                        <div id="log" style="display: none"></div>
                     </div>
                     <div class="form-group" id='createChapterSubmitDiv'>
                         <span class="createChapterSubmit">OK</span>
