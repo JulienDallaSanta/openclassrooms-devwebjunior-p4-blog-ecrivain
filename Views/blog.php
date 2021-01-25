@@ -14,7 +14,7 @@
             <div class="chaptersDiv">
                 <img class="chaptersImg" src="<?php echo $chapter['chapter_image']; ?>"></img>
                 <div class="chaptersDivContent">
-                    <p class="chaptersP"><?= $chapter['preview'] ?>
+                    <p class="chaptersP"><?= $chapter['content'] ?>...
                     </p>
                     <span class="chaptersDatetime"><?= $chapter['creation_date'] ?></span>
                     <h4 class='chaptersH4'>Chapitre <?= $chapter['id'] ?> : <?=$chapter['title'] ?></h4>
