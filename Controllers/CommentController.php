@@ -69,7 +69,6 @@ class CommentController extends Controller{
     }
 
     static function createComment(){
-        var_dump($_POST);
         if( isset($_POST['pseudo']) && isset($_POST['comment']) && isset($_POST['chapter_id']) ){
             $newComment['pseudo'] = htmlspecialchars($_POST['pseudo']);
             $newComment['content'] = htmlspecialchars($_POST['comment']);
