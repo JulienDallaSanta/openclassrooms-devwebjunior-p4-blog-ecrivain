@@ -1,3 +1,6 @@
+.dark-mode{
+  filter: invert(1) hue-rotate(180deg);
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,6 +15,9 @@ body.preventScroll{
 .page{
   overflow: hidden;
   background-color: #fff;
+}
+h3{
+  font-size: 1vw;
 }
 #connectModalClose{
   position: absolute;
@@ -34,6 +40,10 @@ body.preventScroll{
 a{
   font-size: 75%;
   text-decoration: none;
+  color: rgba(0, 0, 0, .45);
+  cursor: pointer;
+}
+a:hover{
   color: #FC4850;
 }
 a i{
@@ -929,9 +939,12 @@ footer p, footer a{
 }
 .chaptersP{
   height: 15vh;
+  max-width: 100%;
   text-align: justify;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden
 }
 #nextChapter{
   margin: 0 auto;
@@ -960,21 +973,33 @@ footer p, footer a{
   transform: translate(0, 0);
   margin-right: 1%;
   width: 12%;
-  height: 6vh;
+  max-height: 3vw;
   text-align: center;
-  line-height: 60px;
+  line-height: 2vw;
   font-family: Roboto, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
-  letter-spacing: 6px;
+  letter-spacing: 0.1vw;
   border: 2px solid;
-  font-size: 100%;
+  font-size: 1.3vw;
   font-weight: bold;
   transition: .5s;
   overflow: hidden;
 }
 .adminFuncSelectA{
-  width: 30%;
+  width: 25%;
+  font-size: 1.5vw;
+  border-color: #FC4850;
+  color: #FC4850;
+  white-space: nowrap;
+  padding: 0.5%;
+}
+.adminFuncSelectA span{
+  background-color: #FC4850;
+}
+.focusAdminMenu{
+  background-color: #FC4850;
+  color: white;
 }
 #chapterSelect1{
   border-color: #F0B126;
@@ -1316,7 +1341,7 @@ footer p, footer a{
   height: 32vh;
 }
 #disconnectModalContent{
-  height: 10vh;
+  height: 8vw;
 }
 #disconnectButtons{
   display: flex;
@@ -1356,13 +1381,6 @@ footer p, footer a{
   padding: 8% 2% 0 2%;
   overflow: hidden;
   min-height: 97vh;
-}
-.adminFuncSelectA{
-  border-color: #FC4850;
-  color: #FC4850;
-}
-.adminFuncSelectA span{
-  background-color: #FC4850;
 }
 #seoStats{
   width: 100%;
@@ -1404,15 +1422,17 @@ footer p, footer a{
   align-items: center;
   margin: auto 0;
 }
-.seoStatContent span, .exitRateDiv span{
-  font-size: 3em;
+.seoStatContent .seoData, .exitRateDiv span{
+  font-size: 3vw;
   font-weight: bold;
   color: #FC4850;
 }
 #sessionsNumberSpan{
-  font-size: 1em;
   font-weight: normal;
   color: #000;
+}
+.seoSpan{
+  font-size: 1vw;
 }
 #exitRate h3{
   text-align: center;
@@ -1449,8 +1469,15 @@ footer p, footer a{
   justify-content:space-around;
   align-items: center;
 }
+#chaptersManagementContent{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  align-items:center;
+  width: 100%;
+}
 #chaptersManagementTable{
-  width: 95%;
+  width: 60%;
   border-collapse: collapse;
 }
 .chaptersManagementTableTh, #chaptersManagementTable td{
@@ -1459,9 +1486,35 @@ footer p, footer a{
   padding: 0.5% 0.25%;
 }
 .chaptersManagementTableTh{
-  border: none;
   background-color: #FC4850;
   color: white;
+}
+.chapterLineFocus{
+  background-color: rgba(0, 0, 0, .8);
+  border-color:black;
+  color: white;
+}
+.chapterLineFocus td{
+    border-color: black!important;
+    font-weight: bold;
+    font-style: italic;
+}
+.chapterLineFocus .chaptersActionsIcons{
+  color: white;
+  font-weight: 900;
+}
+.chapterLineGrey{
+  background-color: rgba(0, 0, 0, .2);
+}
+.chapterPreviewSelect{
+  border: solid #FC4850 1px;
+  border-radius:50%;
+  width: 1vw;
+  height: 1vw;
+  margin: auto;
+}
+.chapterPreviewSelect.focus{
+  background-color:#FC4850;
 }
 #chaptersActions{
   border: solid #FC4850 1px;
@@ -1476,6 +1529,9 @@ footer p, footer a{
   display: flex;
   flex-direction: column;
 }
+.chaptersActionsContent i{
+  color: rgba(0, 0, 0, .5);
+}
 .chaptersActionsContent span{
   font-size:75%;
 }
@@ -1486,12 +1542,60 @@ footer p, footer a{
 .chaptersActionsIcons:hover{
   color: #FC4850;
 }
+.chapterPreviewContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
+  align-items:center;
+  width: 38%;
+}
+.fa-caret-left{
+  font-size: 2vw;
+  color: white;
+  -webkit-text-stroke: #FC4850 1px;
+}
+.chapterpreview{
+  background-color: white;
+  border: solid #FC4850 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-around;
+  align-items:center;
+  padding: 1vw;
+  width: 98%;
+}
+.previewh3, .chapterPreviewStatus{
+  margin-bottom: 1vw;
+}
+.chapterpreviewContent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+}
+.chapterPreviewTextImage{
+  display: flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items: center;
+  height: 20vw;
+  overflow: auto;
+}
+.chapterPreviewImage{
+  width: 20%;
+  height: auto;
+  margin-bottom: 1vw;
+}
+.chapterPreviewText{
+  text-align: justify;
+  line-height: 1.5em;
+}
 #addChapterCallToAction{
   border: solid 1px #FC4850;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  margin-top:2%;
+  margin-top: 2vw;;
   width: 98%;
   height: 4vh;
   color: white;
@@ -1612,8 +1716,10 @@ footer p, footer a{
 }
 .commentAdmin{
   position: relative;
-  /* margin: auto auto; */
   width: 30%;
+}
+.unreport{
+  margin-right: 5%;
 }
 
 /* -----------PAGE 404 ----------*/
