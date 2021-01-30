@@ -166,12 +166,43 @@ class ChapterController extends Controller{
         return $chapter;
     }
 
-    public function deleteChapter($chapter){
-        return $_VIEW['deleteChapter'] = Chapter::deleteChapter($chapter);
+    static function publishChapter(){
+        Chapter::publishChapter(Chapter::getChapterById($_POST['id']));
+        $apiResponse = [
+            'JSON'=> [
+                'message' => 'OK'
+            ],
+            'code'=> 200
+        ];
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+        return;
     }
 
-    public function undeleteChapter($chapter){
-        return $_VIEW['undeleteChapter'] = Chapter::undeleteChapter($chapter);
+    static function deleteChapter(){
+        Chapter::deleteChapter(Chapter::getChapterById($_POST['id']));
+        $apiResponse = [
+            'JSON'=> [
+                'message' => 'OK'
+            ],
+            'code'=> 200
+        ];
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+        return;
+    }
+
+    static function undeleteChapter(){
+        Chapter::undeleteChapter(Chapter::getChapterById($_POST['id']));
+        $apiResponse = [
+            'JSON'=> [
+                'message' => 'OK'
+            ],
+            'code'=> 200
+        ];
+        http_response_code($apiResponse['code']);
+        echo(json_encode($apiResponse['JSON']));
+        return;
     }
 
     public function updateChapter($chapter){
@@ -180,11 +211,6 @@ class ChapterController extends Controller{
 
     static function exists($id){
         return $_VIEW['chapterExists'] = Chapter::exists($id);
-    }
-
-    static function publishChapter($published, $published_date){
-        $_VIEW['publishChapter'] = Chapter::setPublished($published);
-        $_VIEW['publishChapterDate'] = Chapter::setPublishedDate($published_date);
     }
 
     static function printLastChapters(){
