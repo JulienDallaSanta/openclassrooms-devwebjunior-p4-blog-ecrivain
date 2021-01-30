@@ -17,6 +17,8 @@ $(document).ready(()=>{
         e.stopPropagation();
         $(".AdminSection").hide();
         $("#seoStats").show();
+        $(".adminFuncSelectA").removeClass("focusAdminMenu");
+        $("#statSite").toggleClass("focusAdminMenu");
     });
     $("#chapterAdmin").on("click", (e)=>{
         e.preventDefault();
@@ -35,12 +37,16 @@ $(document).ready(()=>{
             });
         }
         checkIfChapterDataIsAlreadySet();
+        $(".adminFuncSelectA").removeClass("focusAdminMenu");
+        $("#chapterAdmin").toggleClass("focusAdminMenu");
     });
     $("#commentsAdmin").on("click", (e)=>{
         e.stopPropagation();
         e.preventDefault();
         $(".AdminSection").hide();
         $("#commentsManagement").show();
+        $(".adminFuncSelectA").removeClass("focusAdminMenu");
+        $("#commentsAdmin").toggleClass("focusAdminMenu");
     });
 
     /*stats sessions*/
@@ -54,6 +60,8 @@ $(document).ready(()=>{
     statsIncrement($("#bounceRateNumber"), 0, 17, bounceRateIntervalId, 100);
 
     /*Chapters management*/
+    autoColorChapterLine();
+
     //Store radio input value into a div & in local storage
     $("input[name='saveAndPublish']").click(function(){
         let log = $("input[name='saveAndPublish']:checked").val();
@@ -208,16 +216,160 @@ $(document).ready(()=>{
     }) ;
 
     $(".fa-edit").on("click", ()=>{ // modify chapter when click on the modify button
-
+        // getChapterById
+        $(".page").prepend($(`
+            <div id="chapterModal">
+                <div id="createChapterModalContent">
+                    <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
+                    <h2>Modifier le chapitre ?</h2>
+                    <form enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="50000" />
+                        <input type="file" id="chapter_image_modal" name="chapter_image" accept="image/png, image/jpeg" class="form-control" required>
+                        <button id="upload_image">Envoyer le fichier</button>
+                        <input type="hidden" id="urlImgInput_modal" name="urlImg" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Titre :</label><br/>
+                        <input type="text" id="title_modal" name="title"  class="form-control input-sm" required>
+                    </div>
+                    <div class="form-group" id='textareaDiv_modal'>
+                        <label for="chapterContent">Contenu du chapitre :</label>
+                        <textarea id="chapterContent_modal" name="content" class="tinymce form-control" required></textarea>
+                    </div>
+                    <div class="form-group" id='saveAndPublishDiv_modal'>
+                        <div>
+                            <input type="radio" id="save_modal" name="saveAndPublish" value="save">
+                            <label for="save">ENREGISTRER</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="saveAndPublish_modal" name="saveAndPublish" value="save and publish">
+                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
+                        </div>
+                        <div id="log_modal" style="display: none"></div>
+                    </div>
+                    <div class="form-group" id='createChapterSubmitDiv_modal'>
+                        <span class="createChapterSubmit">OK</span>
+                    </div>
+                </form>
+                    // <h3>${chapterTitle}</h3>
+                    // <h4><em>édité le ${creation_date}</em></h4>
+                    // <div id="adminChapterDiv">
+                    //     <img id="adminChapterImg" src="${chapterImage}">
+                    //     <div id="adminChapterP">${chapterContent}</div>
+                    // </div>
+                    // <span class="createChapterSubmit" onclick="saveAndPublishChapter(event)">Sauvegarder ET Publier</span>
+                </div>
+            </div>
+        `));
     });
-    $(".fa-trash-alt").on("click", ()=>{ // delete chapter when click on the delete button
+    $(".fa-trash-alt").on("click", (event)=>{ // delete chapter when click on the delete button
+        event.preventDefault();
+        event.stopPropagation();
+        let chapterId = returnIdInTable(event);
+        console.log(chapterId);
+        $.ajax({ //AJAX call to post data from comment create form
+            type: "POST",
+            url:'/api/chapter/delete',
+            data:{
+                id : chapterId
+            },
+            statusCode:{
+                200: function(){
+                    console.log('chapitre supprimé');
+                    document.location.reload();
 
+                },
+                400: function() {
+                    console.log('erreur suppression chapitre');
+                },
+            },
+            dataType: "json"
+        });
     });
-    $(".fa-trash-restore").on("click", ()=>{ // restore chapter when click on the restore button
 
+    $(".fa-trash-restore").on("click", (event)=>{ // restore chapter when click on the restore button
+        event.preventDefault();
+        event.stopPropagation();
+        let chapterId = returnIdInTable(event);
+        console.log(chapterId);
+        $.ajax({ //AJAX call to post data from comment create form
+            type: "POST",
+            url:'/api/chapter/restore',
+            data:{
+                id : chapterId
+            },
+            statusCode:{
+                200: function(){
+                    console.log('chapitre restauré');
+                    document.location.reload();
+
+                },
+                400: function() {
+                    console.log('erreur restauration chapitre');
+                },
+            },
+            dataType: "json"
+        });
     });
-    $(".fa-newspaper").on("click", ()=>{ // edit chapter when click on the edit button
 
+    $(".fa-newspaper").on("click", (event)=>{ // edit chapter when click on the edit button
+        event.preventDefault();
+        event.stopPropagation();
+        let chapterId = returnIdInTable(event);
+        console.log(chapterId);
+        $.ajax({ //AJAX call to post data from comment create form
+            type: "POST",
+            url:'/api/chapter/publish',
+            data:{
+                id : chapterId
+            },
+            statusCode:{
+                200: function(){
+                    console.log('chapitre publié');
+                    // document.location.reload();
+
+                },
+                400: function() {
+                    console.log('erreur publication chapitre');
+                },
+            },
+            dataType: "json"
+        });
+    });
+
+    //focus on the 1st table line
+    $(".chapterLine[data-id='1']").css('background-color', 'style.backgroundColor = "#3e3e3e"');
+    $(".chapterPreviewSelect:first").addClass('focus');
+    $(".chapterPreviewContainer").hide();
+    $(".chapterPreviewContainer[data-id='1']").show();
+
+    //focus on "aperçu" button and show the chapter associated
+    $(".chapterPreviewSelect").click((event)=>{
+        event.stopPropagation();
+        event.preventDefault();
+        $(".chapterPreviewSelect").removeClass('focus');
+        event.target.classList.add('focus');
+        let line = event.target.parentNode.parentNode;
+        $(".chapterLine").removeClass('chapterLineFocus');
+
+        line.classList.toggle("chapterLineFocus");
+
+        autoColorChapterLine();
+        if(line.classList.contains("chapterLineGrey")){
+            line.classList.toggle("chapterLineGrey");
+        }
+        let chapterId = line.getAttribute("data-id");
+        $(".chapterPreviewContainer").hide();
+        let previewContainers = document.getElementsByClassName("chapterPreviewContainer");
+        for(let i = 0; i < previewContainers.length; i++){
+            console.log(previewContainers[i].getAttribute("data-id"));
+            if(previewContainers[i].getAttribute("data-id") == chapterId){
+                previewContainers[i].style.display = 'flex';
+                console.log('show');
+            }
+        };
     });
 
     /*Comments management*/
@@ -265,6 +417,23 @@ function statsIncrement(container, value, valMax, intervalIdStats, intervalDurat
             clearInterval(intervalIdStats);
         }
     }, intervalDuration);
+}
+
+function autoColorChapterLine(){
+    let chapterLines = $(".chapterLine");
+    chapterLines.each((item)=>{
+        console.log(item);
+        if(item%2 == 1){
+            chapterLines[item].classList.add("chapterLineGrey");
+        }
+    });
+    // for(let i = 0; i<chapterLines.length; i++){
+    //     console.log(i%2);
+    //     console.log(chapterLines[i]);
+    //     if(i%2 == 1){
+    //         chapterLines[i].style.backgroundColor = "rgba(255,255,255,0.45)";
+    //     }
+    // }
 }
 
 function checkIfChapterDataIsAlreadySet(){
@@ -381,6 +550,14 @@ function saveAndPublishChapter(event){
     });
 }
 
+function returnIdInTable(event){
+    let target = event.target;
+    let line = target.parentElement.parentElement.parentElement.parentElement;
+    let data_id = line.getAttribute("data-id");
+    console.log(data_id);
+    return data_id;
+}
+
 function unreportComment(commentId){
     $.ajax({ //AJAX call to post data from comment create form
         type: "POST",
@@ -390,7 +567,7 @@ function unreportComment(commentId){
         },
         statusCode:{
             200: function(){
-                // window.location.reload();
+                window.location.reload();
             },
             400: function() {
             },
