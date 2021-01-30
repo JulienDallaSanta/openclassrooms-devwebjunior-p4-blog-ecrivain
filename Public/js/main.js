@@ -1,4 +1,8 @@
 $(document).ready(function(){
+    //dark mode script
+    $("#darkModeButton").click((e)=>{
+        $("html").toggleClass('dark-mode');
+    });
     //-----------rgpd for mobiles & gestion bouton backtotop---------
     $("#mobiletopbtn").hide();
     var largeur = $(window).width();
