@@ -54,6 +54,9 @@
             }
         }
         if($path[1] == 'chapter'){
+            if($path[2] == 'getchapter'){
+                // return ChapterController::();
+            }
             if($path[2] == 'image'){
                 return ChapterController::uploadImage();
             }
@@ -62,11 +65,11 @@
             }elseif($path[2] == 'modify'){
                 return ChapterController::updateChapter($chapter);
             }elseif($path[2] == 'delete'){
-                return ChapterController::deleteChapter($chapter);
-            }elseif($path[2] == 'undelete'){
-                return ChapterController::undeleteChapter($chapter);
+                return ChapterController::deleteChapter();
+            }elseif($path[2] == 'restore'){
+                return ChapterController::undeleteChapter();
             }elseif($path[2] == 'publish'){
-                return ChapterController::publishChapter($published, $published_date);
+                return ChapterController::publishChapter();
             }
 
         }
