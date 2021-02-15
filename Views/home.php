@@ -116,6 +116,19 @@
                 <div id="livresSliderPrev" class="sliderIndex1"></div>
                 <div id="livresSliderNext" class="sliderIndex2"></div>
             </div>
+            <div id="mobile_slider">
+                <div id="mobile_slider_livres">
+                    <img id="mobile_book1" class="mobile_slider_img" src="/Public/images/book1.png">
+                    <img id="mobile_book2" class="mobile_slider_img" src="/Public/images/book2.png">
+                    <img id="mobile_book3" class="mobile_slider_img" src="/Public/images/book3.png">
+                    <img id="mobile_book4" class="mobile_slider_img" src="/Public/images/book4.png">
+                    <img id="mobile_book5" class="mobile_slider_img" src="/Public/images/book5.png">
+                    <img id="mobile_book6" class="mobile_slider_img" src="/Public/images/book6.png">
+                    <img id="mobile_book7" class="mobile_slider_img" src="/Public/images/book7.png">
+                </div>
+                <div id="mobile_sliderIndex_container"></div>
+            </div>
+
         </div>
 
         <div id="contactDiv">
