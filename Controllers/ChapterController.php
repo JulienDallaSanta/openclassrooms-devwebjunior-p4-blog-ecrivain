@@ -98,11 +98,10 @@ class ChapterController extends Controller{
     }
 
     static function createChapter(){
-        if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) && isset($_POST['published']) ){
+        if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) ){
             $chapter['title'] = htmlspecialchars($_POST['title']);
             $chapter['content'] = htmlspecialchars($_POST['content']);
             $chapter['chapter_image'] = $_POST['chapter_image'];
-            $chapter['published'] = $_POST['published'];
             $apiResponse = [
                 'JSON'=> [
                     'message' => 'OK'
@@ -205,8 +204,30 @@ class ChapterController extends Controller{
         return;
     }
 
-    public function updateChapter($chapter){
-        return $_VIEW['updateChapter'] = Chapter::updateChapter($chapter);
+    static function updateChapter(){
+        if( isset($_POST['title']) && isset($_POST['content']) && isset($_POST['chapter_image']) ){
+            $chapter['title'] = htmlspecialchars($_POST['title']);
+            $chapter['content'] = htmlspecialchars($_POST['content']);
+            $chapter['chapter_image'] = $_POST['chapter_image'];
+            $apiResponse = [
+                'JSON'=> [
+                    'message' => 'OK'
+                ],
+                'code'=> 200
+            ];
+            http_response_code($apiResponse['code']);
+            echo(json_encode($apiResponse['JSON']));
+            Chapter::updateChapter(Chapter::getChapterById($_POST['id']));
+        }else{ // if one input is empty
+            $apiResponse = [
+                'JSON'=> [
+                    'error'=> 'Missing title, content, picture or published value'
+                ],
+                'code'=> 400
+            ];
+            http_response_code($apiResponse['code']);
+            echo(json_encode($apiResponse['JSON']));
+        }
     }
 
     static function exists($id){
