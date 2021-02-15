@@ -95,7 +95,6 @@
                         <th class="chaptersManagementTableTh">Titre</th>
                         <th class="chaptersManagementTableTh">Crée le</th>
                         <th class="chaptersManagementTableTh">Statut</th>
-                        <th class="chaptersManagementTableTh">Sélectionner</th>
                     </tr>
                     <?php
                     foreach ($_VIEW['allChapters'] as $chapter){
@@ -109,52 +108,11 @@
                             if($chapter['published'] == 1){
                                 ?>publié le <?= $chapter['published_date'];
                             }elseif($chapter['deleted'] == 1){
-                                ?>supprimé le <?= $chapter['published_date'];
+                                ?>supprimé le <?= $chapter['deleted_date'];
                             }elseif($chapter['published'] == 0 && $chapter['deleted'] == 0){
                                 ?>Sauvegardé le <?php echo $chapter['creation_date'];
                             }?>
                             </td>
-                            <td>
-                                <div class="chaptersActionsContainer">
-                                    <?php
-                                    if($chapter['published'] == 1){
-                                    ?>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-edit chaptersActionsIcons"></i>
-                                        <span>Modifier</span>
-                                    </div>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-trash-alt chaptersActionsIcons"></i>
-                                        <span>Supprimer</span>
-                                    </div>
-                                    <?php
-                                    }elseif($chapter['published'] == 0 && $chapter['deleted'] == 0){
-                                    ?>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-newspaper chaptersActionsIcons"></i>
-                                        <span>Publier</span>
-                                    </div>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-edit chaptersActionsIcons"></i>
-                                        <span>Modifier</span>
-                                    </div>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-trash-alt chaptersActionsIcons"></i>
-                                        <span>Supprimer</span>
-                                    </div>
-                                    <?php
-                                    }elseif($chapter['deleted'] == 1){
-                                    ?>
-                                    <div class="chaptersActionsContent">
-                                        <i class="fas fa-trash-restore chaptersActionsIcons"></i>
-                                        <span>Restaurer</span>
-                                    </div>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                            </td>
-
                         </tr>
                     <?php
                     }
@@ -165,7 +123,6 @@
                 foreach ($_VIEW['allChapters'] as $chapter){
                 ?>
                 <div class="chapterPreviewContainer" data-id="<?php echo $chapter['id']?>">
-                    <i class="fas fa-caret-left"></i>
                     <div class="chapterpreview">
                         <h3 class="previewh3">Aperçu du chapitre <?php echo $chapter['id']?> :</h3>
                         <div class="chapterpreviewContent">
@@ -186,6 +143,44 @@
                                 <img class="chapterPreviewImage" src="<?= $chapter['chapter_image'] ?>">
                                 <div class="chapterPreviewText"><?= $chapter['content'] ?></div>
                             </div>
+                        </div>
+                        <div class="chaptersActionsContainer">
+                            <?php
+                            if($chapter['published'] == 1){
+                            ?>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/editIcon_nb.png" class="fa-edit chaptersActionsIcons">
+                                <span>Modifier</span>
+                            </div>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/deleteIcon_nb.png" class="fa-trash-alt chaptersActionsIcons">
+                                <span>Supprimer</span>
+                            </div>
+                            <?php
+                            }elseif($chapter['published'] == 0 && $chapter['deleted'] == 0){
+                            ?>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/publishIcon_nb.png" class="fa-newspaper chaptersActionsIcons">
+                                <span>Publier</span>
+                            </div>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/editIcon_nb.png" class="fa-edit chaptersActionsIcons">
+                                <span>Modifier</span>
+                            </div>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/deleteIcon_nb.png" class="fa-trash-alt chaptersActionsIcons">
+                                <span>Supprimer</span>
+                            </div>
+                            <?php
+                            }elseif($chapter['deleted'] == 1){
+                            ?>
+                            <div class="chaptersActionsContent">
+                                <img src="../Public/images/restoreIcon_nb.png" class="fa-trash-restore chaptersActionsIcons">
+                                <span>Restaurer</span>
+                            </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -212,17 +207,6 @@
                     <div class="form-group" id='textareaDiv'>
                         <label for="chapterContent">Contenu du chapitre :</label>
                         <textarea id="chapterContent" name="content" class="tinymce form-control" required></textarea>
-                    </div>
-                    <div class="form-group" id='saveAndPublishDiv'>
-                        <div>
-                            <input type="radio" id="save" name="saveAndPublish" value="save">
-                            <label for="save">ENREGISTRER</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="saveAndPublish" name="saveAndPublish" value="save and publish">
-                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
-                        </div>
-                        <div id="log" style="display: none"></div>
                     </div>
                     <div class="form-group" id='createChapterSubmitDiv'>
                         <span class="createChapterSubmit">OK</span>
