@@ -56,10 +56,63 @@ a i{
   transform-origin: top left;
   transition: transform 0.7s cubic-bezier(1, 0.005, 0.24, 1);
 }
+
 .discretMenu{
   transform-origin: top left;
   transform: scale(0.6);
   transition: 0s;
+}
+.mobile_menu_first_separator{
+  position: fixed;
+  top: 15vw;
+  width: 100%;
+}
+.mobile_menu_separator{
+  width: 50%;
+}
+.mobile_menu_first_separator, .mobile_menu_separator{
+  height: 1px;
+  background-color: black;
+  z-index: 901;
+}
+.mobile_menu_toggle{
+  z-index: 900;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  cursor: pointer;
+  width: 100%;
+  height: 15vw;
+  background-color: #FC4850;
+}
+.mobile_menu_toggle i{
+  color: #fefefe;
+}
+.mobile_menu_items{
+  position: fixed;
+  top: 15vw;
+  list-style-type: none;
+  margin: 0;
+  padding: 4vw;
+  width: 100%;
+  min-height:40vw;
+  pointer-events:none;
+  display: flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items: center;
+  background-color: #fefefe;
+  z-index: 900;
+}
+.mobile_menu_items li a{
+  color: #FC4850;
+  font-size: 100%;
+}
+.mobile_menu_items li a span{
+  font-weight: bold;
 }
 .menu_toggle {
   z-index: 900;
@@ -181,6 +234,7 @@ a i{
 }
 .pages{
   padding: 5% 0 3% 0;
+  min-height: 96.7vh;
 }
 
 /*------------------------RGPD & BacktoTopButton-------------------------*/
@@ -246,7 +300,10 @@ a i{
 #rgpd.forMobileDevices{
   position: fixed;
   opacity: 0.9;
-  height: 100vh;
+  height: 24vh;
+  width: 90vw;
+  left: 5vw;
+  right:0;
 }
 #rgpd.forMobileDevices #rgpdContent i{
   position: absolute;
@@ -282,10 +339,11 @@ a i{
   transition: 0s;
 }
 #header{
+  width: 50%;
   position: fixed;
   top: 0;
+  right: 0;
   z-index: 2;
-  width: 100%;
   padding: 1% 1%;
   display: flex;
   flex-direction: row;
@@ -295,95 +353,6 @@ a i{
   transform: scale(0.8)!important;
   transform-origin: top;
   transition: 0.7s;
-}
-#darkModeDiv{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 0 0 45%;
-}
-#darkModeDiv span{
-  margin-bottom: 0.5em;
-  font-weight: bold;
-  font-size: 70%;
-}
-#darkModeButton{
-  position: relative;
-  width: 80px;
-  height: 30px;
-  -webkit-appearance: none;
-  background: linear-gradient(0deg, #333, #000);
-  outline: none;
-  border-radius: 20px;
-  box-shadow: 0 0 0 4px #353535, 0 0 0 5px #3e3e3e, inset 0 0 10px
-              rgba(0, 0, 0, 1), 0 5px 20px rgba(0, 0, 0, .5), inset 0 0 15px rgba(0, 0, 0, .2);
-  transform: scale(.75);
-}
-#darkModeButton:checked{
-  background: linear-gradient(0deg, #6dd1ff, #20b7ff);
-  box-shadow: 0 0 2px #6dd1ff,0 0 0 4px #353535, 0 0 0 5px #3e3e3e, inset 0 0 10px
-              rgba(0, 0, 0, 1), 0 5px 20px rgba(0, 0, 0, .5), inset 0 0 15px rgba(0, 0, 0, .2);
-}
-#darkModeButton:before{
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 60px;
-  height: 30px;
-  background: linear-gradient(0deg, #000, #6b6b6b);
-  border-radius: 20px;
-  box-shadow: 0 0 0 1px #232323;
-  transform: scale(.98,.96);
-  transition: .5s;
-}
-#darkModeButton:checked:before{
-  left: 20px;
-}
-#darkModeButton:after{
-  content: '';
-  position: absolute;
-  top: calc(50% - 2px);
-  left: 40px;
-  width: 4px;
-  height: 4px;
-  background: linear-gradient(0deg, #6b6b6b, #000);
-  border-radius: 50%;
-  transition: .5s;
-}
-#darkModeButton:checked:after{
-  background: #63cdff;
-  left: 60px;
-  box-shadow: 0 0 5px #13b3ff, 0 0 15px #13b3ff;
-}
-#darkLight{
-  width: 5%;
-  display: block;
-  margin: 0 auto;
-  border: solid black 1px;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-}
-#darkMode, #lightMode{
-  height: 100%;
-  width: 50%;
-  border: none;
-  float: left;
-}
-#darkMode:hover, #darkMode:active{
-  border-radius: 10px 0 0 10px;
-  -webkit-border-radius: 10px 0 0 10px;
-  -moz-border-radius: 10px 0 0 10px;
-}#lightMode:hover, #lightMode:active{
-  border-radius: 0 10px 10px 0;
-  -webkit-border-radius: 0 10px 10px 0;
-  -moz-border-radius: 0 10px 10px 0;
-}
-#darkMode:hover, #lightMode:hover, .activeMode{
-  background-color: black;
-  color: white;
 }
 .discretButton{
   transform: scale(0.3)!important;
@@ -437,6 +406,24 @@ a i{
 }
 #connexionLink:hover:after, #disconnectLink:hover:after{
   top: -100%;
+}
+@media screen and (max-width: 768px) {
+  .content{
+    margin-top: 15vw;
+  }
+  #header {
+    z-index: 901;
+    left: 33%;
+  }
+  #helloAdmin{
+    display: none;
+  }
+  #disconnectLink{
+    right: -15vw;
+  }
+  #connexionButton{
+    width: 0%;
+  }
 }
 /*----------------homeHeader-----------*/
 #home_header{
@@ -534,6 +521,35 @@ a i{
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+@media screen and (max-width: 768px){
+  #home_header_center{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #homeTitle h1{
+    font-size: 300%;
+  }
+  #homeTitle h2{
+    font-size: 140%;
+  }
+  #biography{
+    margin: 20vw 0 2vw 0;
+    width: 95%;
+    align-items: flex-start;
+  }
+  #jfPortrait{
+    height: 45vw;
+  }
+  #biographyBloc h3{
+    position: relative;
+    left: 7%;
+    font-size: 4vw;
+  }
+  #bioP{
+    display: none;
+  }
 }
 
 /*----------------blog-----------*/
@@ -678,6 +694,59 @@ a i{
 .sliderIndex1{
   margin-right: 4px;
 }
+@media screen and (max-width: 768px){
+  #blog{
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    margin:auto;
+  }
+  #blogLeftCol{
+    width: 100%;
+  }
+  #blogLeftCol h3{
+    display: none;
+  }
+  #alaskaDiv{
+    flex-direction:column!important;
+    align-items: center;
+  }
+  #alaskaDivImg{
+    width: 100%;
+  }
+  #alaskaDivP a{
+    margin-bottom: 3vw !important;
+  }
+  #blogDbleCol{
+    flex-direction:column;
+  }
+  #blogDbleColLeft, #blogDbleColRight{
+    width: 100%;
+  }
+  #blogDbleColRight{
+    margin: 2vw 0 6vw 0;
+  }
+  #blogRightCol{
+    width: 100%;
+  }
+  #chaptersSlider{
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chaptersSliderDiv{
+    width: 90%;
+    margin-bottom: 10%;
+  }
+  .chapImg{
+    width: 75%;
+    height: 20em;
+  }
+  .chaptersSliderDivContent{
+    height: 35vw;
+  }
+}
+
 /*----------------livres et contact-----------*/
 /*--livres--*/
 #livresDiv{
@@ -836,12 +905,89 @@ footer{
   background: #a4a4a4;
   text-align: center;
   padding: 0.5% 0;
+  width: 100%;
+
 }
 footer a{
   color: white;
 }
 footer p, footer a{
   font-size: 75%;
+}
+@media screen and (max-width: 768px){
+  #livresDiv{
+    background-color: #FF745A;
+    background-image: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 30em;
+  }
+  #livresDiv h2{
+    position:initial;
+  }
+  #mobile_slider{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items:center;
+    width: 95%;
+  }
+  #mobile_slider_livres img{
+    width: 75vw;
+  }
+  #mobile_sliderIndex_container{
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+    margin-bottom: 4vw;
+    width: 60vw;
+  }
+  .mobile_sliderIndex{
+    border-radius: 50%;
+    width: 6vw;
+    height: 6vw;
+    border: solid black 1px;
+  }
+  .mobile_sliderIndex.focus{
+    background-color:black;
+  }
+  #contactDiv{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    height: 45em;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  #contactDiv h2{
+    margin-top: 5vw;
+  }
+  #contactDiv h2, .contactFormDivs label, .captchaSend label{
+    color: #FC4850;
+  }
+  #contactForm{
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: baseline;
+  }
+  #contactColLeft, #contactColRight, .captchaSend{
+    width: 100%;
+  }
+  #contactColRight, .captchaSend{
+    margin: 2vw 0;
+  }
+  #contactColLeft input, #contactColRight input, #contactForm textarea{
+    background-color: rgba(112,144,176,0.3);
+  }
+  #connectModalContent{
+    width: 80% !important;
+    height:50% !important;
+  }
+  #connectModalContent h3{
+    font-size: 6vw;
+  }
 }
 /*----------------biography page-----------*/
 #biographyPageContent{
@@ -883,6 +1029,30 @@ footer p, footer a{
 }
 #biographyPageContent img{
   width: 50%;
+}
+@media screen and (max-width: 768px){
+  #biographyPageContent{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+  }
+  #biographyPageContent img{
+    position: absolute;
+    top: 70vw;
+    width: 100%;
+  }
+  #homeTitle h2{
+    font-size: 140%;
+  }
+  #biographyTextDiv{
+    margin-top: 95vw;
+    width: 115%;
+  }
+  .dropCap{
+    position: relative;
+    bottom: 6vw;
+  }
 }
 /*----------------blog page-----------*/
 #blogPageContent{
@@ -955,6 +1125,36 @@ footer p, footer a{
 #nextChapterP{
   margin: auto 0;
   text-transform: uppercase;
+}
+@media screen and (max-width: 768px){
+  #blogTitle h1{
+    font-size: 300%;
+  }
+  #blogTitle h3{
+    font-size: 6vw;
+    margin-top: 6vw;
+  }
+  #chapters{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chaptersDiv{
+    width: 90%;
+  }
+  .chaptersDivContent{
+    height: 70vw;
+  }
+  .chaptersP{
+    -webkit-line-clamp: 6;
+    line-height: 5.5vw;
+  }
+  #nextChapter{
+    margin: 0 auto 10vw auto;
+  }
+  #nextChapterP{
+    font-size: 6vw;
+  }
 }
 /*----------------chapter page-----------*/
 .chapterPubliDate{
@@ -1276,7 +1476,7 @@ footer p, footer a{
   margin:0.5% 0;
   font-weight: bold;
 }
-#checkCommentModal, #connectModal, #chapterModal, #chapterImageModal{
+#checkCommentModal, #connectModal, #chapterModal, #chapterImageModal, #chapterModal_modal{
   position: fixed;
   top: 0;
   left: 0;
@@ -1287,7 +1487,7 @@ footer p, footer a{
   display: flex;
   justify-content: center;
 }
-#checkCommentModalContent, #connectModalContent, #disconnectModalContent, #chapterModalContent, #createChapterModalContent, #chapterImageModalContent{
+#checkCommentModalContent, #connectModalContent, #disconnectModalContent, #chapterModalContent, #createChapterModalContent, #chapterImageModalContent, #confirmEditChapterContent{
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1299,7 +1499,7 @@ footer p, footer a{
   height: 30vh;
   padding: 1%;
 }
-#createChapterModalContent{
+#createChapterModalContent, #confirmEditChapterContent{
   width: 91%;
   height: 80vh;
 }
@@ -1335,6 +1535,95 @@ footer p, footer a{
 /*--CRUD--*/
 .commentReported{
   font-weight: 500;
+}
+@media screen and (max-width: 768px){
+  #chaptersSelect{
+    width: 90%;
+    min-height: 40vw;
+  }
+  .chapterSelectA{
+    width: 45%;
+    max-height: 12vw;
+    line-height: 12vw;
+    font-size: 6vw;
+  }
+  .chapterEntireText{
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: auto;
+  }
+  .chapterEntireText img{
+    width: 100%;
+  }
+  .chapterText{
+    column-width: auto;
+    height: auto;
+    overflow: visible;
+    margin-top: 4vw;
+  }
+  #writeAComment{
+    height: 15vw;
+    width: 15vw;
+  }
+  #commentCreateIcon{
+    margin: auto;
+  }
+  #writeAComment span{
+    display: none;
+  }
+  #commentCreateForm{
+    height: 90vw;
+  }
+  #pseudo, #textAreaAndPublish{
+    width: 95%;
+  }
+  #textAreaAndPublish{
+    flex-direction: column;
+    justify-content:space-between;
+  }
+  #comment{
+    margin: 10vw 0;
+    width: 100% !important;
+  }
+  #commentCaptchaSend{
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+  #commentCaptchaSend label{
+    margin-left: 2vw;
+  }
+  #commentCaptchaSend div{
+    width: 50%;
+  }
+  #commentFormSubmit{
+    width: 30vw;
+    height: 10vw;
+    padding: 0;
+    margin-top: 0;
+  }
+  #checkCommentModalContent{
+    width: 80%;
+    height: 70vh;
+    padding: 3%;
+  }
+  #checkCommentModalContent h3{
+    font-size: 6vw;
+  }
+  #pseudoSpan, #commentSpan{
+    font-size: 5vw;
+  }
+  #comments{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .commentDiv{
+    width: 100%;
+    margin: 5% 0;
+  }
 }
 /*----------------connexion modal box-----------*/
 #connectModalContent{
@@ -1489,6 +1778,9 @@ footer p, footer a{
   background-color: #FC4850;
   color: white;
 }
+.chapterLine{
+  line-height: 2em;
+}
 .chapterLineFocus{
   background-color: rgba(0, 0, 0, .8);
   border-color:black;
@@ -1503,6 +1795,23 @@ footer p, footer a{
   color: white;
   font-weight: 900;
 }
+.fa-trash-restore, .fa-trash-alt, .fa-edit, .fa-newspaper{
+  transition-duration: 2s;
+  transition-property: content;
+}
+.fa-trash-restore:hover{
+  content: url(../images/restoreIcon.png);
+}
+.fa-trash-alt:hover{
+  content: url(../images/deleteIcon.png);
+}
+.fa-edit:hover{
+  content: url(../images/editIcon.png);
+}
+.fa-newspaper:hover{
+  content: url(../images/publishIcon.png);
+}
+
 .chapterLineGrey{
   background-color: rgba(0, 0, 0, .2);
 }
@@ -1524,6 +1833,7 @@ footer p, footer a{
   display: flex;
   flex-direction: row;
   justify-content:space-around;
+  margin-top: 2%;
 }
 .chaptersActionsContent{
   display: flex;
@@ -1536,11 +1846,9 @@ footer p, footer a{
   font-size:75%;
 }
 .chaptersActionsIcons{
+  width: 25%;
   font-size: 150%;
   color: rgba(0, 0, 0, .4);
-}
-.chaptersActionsIcons:hover{
-  color: #FC4850;
 }
 .chapterPreviewContainer{
   display: flex;
@@ -1549,20 +1857,28 @@ footer p, footer a{
   align-items:center;
   width: 38%;
 }
-.fa-caret-left{
-  font-size: 2vw;
-  color: white;
-  -webkit-text-stroke: #FC4850 1px;
-}
 .chapterpreview{
-  background-color: white;
-  border: solid #FC4850 1px;
+  background-color: #323232;
   display: flex;
   flex-direction: column;
   justify-content:space-around;
   align-items:center;
   padding: 1vw;
   width: 98%;
+  position: relative;
+  border-radius: 5%;
+  color: #fefefe;
+}
+.chapterpreview:before{
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-right: 1vw solid #323232;
+  border-top: 1vw solid transparent;
+  border-bottom: 1vw solid transparent;
 }
 .previewh3, .chapterPreviewStatus{
   margin-bottom: 1vw;
@@ -1581,7 +1897,7 @@ footer p, footer a{
   height: 20vw;
   overflow: auto;
 }
-.chapterPreviewImage{
+.chapterPreviewImage, .editChapterpreviewImage{
   width: 20%;
   height: auto;
   margin-bottom: 1vw;
@@ -1589,6 +1905,51 @@ footer p, footer a{
 .chapterPreviewText{
   text-align: justify;
   line-height: 1.5em;
+  padding-right: 1%;
+}
+#createChapterModalContent.editChapter{
+  flex-direction: row;
+  justify-content:space-between;
+  height: 85vh;
+}
+#createChapterModalContent h2{
+  position: absolute;
+  top: 2%;
+  left: 45%;
+}
+.editChapterPreviewContainer{
+  width: 40%;
+
+}
+.editChapterPreviewContainer, .editChapterpreview{
+  height: 40vw;
+}
+.editChapterpreview, .editChapterpreviewContent{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items:center;
+}
+.editChapterPreviewTextImage{
+  width: 100%;
+  display: flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items: center;
+  height: 37vw;
+}
+.editChapterPreviewImage{
+  height:6vw;
+}
+.editChapterPreviewText{
+  overflow: auto;
+  font-size:.8vw;
+  text-align:justify;
+  height:30vw;
+}
+#edit_chapterForm{
+  width: 58%;
 }
 #addChapterCallToAction{
   border: solid 1px #FC4850;
@@ -1634,6 +1995,9 @@ footer p, footer a{
   justify-content: space-between;
   align-items: center;
 }
+#confirmEditChapterContent{
+  width: 98%;
+}
 #textareaDiv{
   width: 100%;
   display: flex;
@@ -1675,9 +2039,9 @@ footer p, footer a{
 #adminChapterP{
   height: 90%;
   width: 75%;
-  column-width: 40vh;
+  overflow: scroll;
 }
-.createChapterSubmit{
+.createChapterSubmit, .submit{
   height: 4vh;
   width: 5%;
   background-color: white;
@@ -1691,7 +2055,7 @@ footer p, footer a{
   text-align: center;
   line-height:4vh;
 }
-.createChapterSubmit:hover{
+.createChapterSubmit:hover, .submit:hover{
   background-color:#FC4850;
   color: white;
   border-color: #FC4850;
@@ -1720,6 +2084,37 @@ footer p, footer a{
 }
 .unreport{
   margin-right: 5%;
+}
+@media screen and (max-width: 768px){
+  .adminFuncSelectA{
+    width: 100%;
+    max-height: 12vw;
+    line-height: 12vw;
+    font-size: 6vw;
+  }
+  #chapterAdmin{
+    margin: 4vw 0
+  }
+  #seoStats{
+    width: 80%;
+  }
+  .seoStat{
+    width: 100%;
+    margin: 4vw auto;
+  }
+  .seoStat h3{
+    font-size: 6vw;
+  }
+  .seoStatContent .seoData, .exitRateDiv span{
+    font-size: 15vw;
+  }
+  .seoSpan {
+    font-size: 6vw;
+  }
+  #chaptersManagementContent{
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 /* -----------PAGE 404 ----------*/
