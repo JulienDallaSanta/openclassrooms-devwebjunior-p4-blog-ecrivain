@@ -13,7 +13,7 @@ function publishComment(event){
     localStorage.setItem('pseudo', pseudo);
     $("#commentCreateForm").slideToggle();
     $("#checkCommentModal").remove();
-    $.ajax({ //AJAX call to post data from comment create form
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
         url:'/api/comment/newcomment',
         data:{
@@ -39,7 +39,7 @@ function publishComment(event){
 }
 
 function reportComment(commentId){
-    $.ajax({ //AJAX call to post data from comment create form
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
         url:'/api/comment/report',
         data:{
@@ -65,6 +65,18 @@ function closeCheckCommentModal(event){
     event.preventDefault();
     event.stopPropagation();
     $("#checkCommentModal").remove();
+}
+
+function escapeHtml(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 $(document).ready(function(){
@@ -109,11 +121,11 @@ $(document).ready(function(){
             event.stopPropagation();
             event.preventDefault();
             let pseudo = $("#pseudo").val();
-            let comment = $("#comment").val();
+            let comment = escapeHtml($("#comment").val());
             let chapter = $("#chapterId").html();
             console.log(chapter);
             $(".page").prepend($(`
-            <div id="checkCommentModal">
+            <div id="checkCommentModal">S
                 <div id="checkCommentModalContent">
                     <h3>Confirmer l'envoi de votre commentaire pour le chapitre ${chapter} :</h3>
                     <p id="pseudoSpan"><strong><em>Votre pseudo : </em></strong>${pseudo}</p>
