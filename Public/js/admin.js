@@ -29,7 +29,6 @@ $(document).ready(()=>{
             $(".fa-chevron-down").toggleClass('hiddenChevron');
             $(".fa-chevron-up").toggleClass('hiddenChevron');
             $("#chapterEdit").toggle();
-            console.log('chapterEdit show');
             let intervalIdAutoReady = setInterval(saveDataToLSIfExists, 5000);
             $("#addChapterCallToAction").click(()=>{
                 clearInterval(intervalIdAutoReady);
@@ -61,13 +60,8 @@ $(document).ready(()=>{
 
     /*Chapters management*/
     autoColorChapterLine();
+    $(".chapterLine:first").addClass("chapterLineFocus");
 
-    //Store radio input value into a div & in local storage
-    $("input[name='saveAndPublish']").click(function(){
-        let log = $("input[name='saveAndPublish']:checked").val();
-        $( "#log" ).html(log);
-        localStorage.setItem("createChapterAction", log)
-    });
     //ChapterEdit show/hide when click on #addChapterCallToAction
     $("#addChapterCallToAction").on("click", (e)=>{
         e.stopPropagation();
@@ -77,7 +71,6 @@ $(document).ready(()=>{
         if($("i.fa-chevron-up").hasClass("hiddenChevron")){
             $("#chapterEdit").slideToggle();
             checkIfChapterDataIsAlreadySet();
-            console.log("i.fa-chevron-up:hidden");
         }else{
             $("#chapterEdit").slideToggle();
         }
@@ -92,10 +85,8 @@ $(document).ready(()=>{
                 if(content != '<p><br data-mce-bogus="1"></p>' && content != '<p><br></p>'){
                     localStorage.setItem('newChapterContent', content);
                 }
-                console.log('setInterval');
             }else{
                 clearInterval(intervalIdChapterAutoSave);
-                console.log('ClearInterval');
             }
         }
         let intervalIdChapterAutoSave = setInterval(saveChapterToLocalStorage, 5000);
@@ -150,60 +141,23 @@ $(document).ready(()=>{
     $(".createChapterSubmit").on("click", ()=>{ //open modal to confirm chapter creation
         let creation_date = newFormatedDate();
         let chapterImage = $("#urlImgInput").val();
+        let chapterContent = localStorage.getItem('newChapterContent');
         if(chapterImage && chapterImage != null){
-            let chapterAction = localStorage.getItem('createChapterAction');
-            if(chapterAction !== '' && chapterAction !== null){
-                console.log('createChapterAction ok');
-                console.log(chapterAction);
-                if(chapterAction == 'save'){
-                    console.log('save');
-                    localStorage.removeItem('createChapterAction');
-                    $(".page").prepend($(`
-                        <div id="chapterModal">
-                            <div id="createChapterModalContent">
-                                <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
-                                <h2>Enregistrer le chapitre sans le publier ?</h2>
-                                <h3>${chapterTitle}</h3>
-                                <h4><em>édité le ${creation_date}</em></h4>
-                                <div id="adminChapterDiv">
-                                    <img id="adminChapterImg" src="${chapterImage}">
-                                    <div id="adminChapterP">${chapterContent}</div>
-                                </div>
-                                <span class="createChapterSubmit" onclick="saveChapter(event)">Sauvegarder SANS Publier</span>
-                            </div>
+            $(".page").prepend($(`
+                <div id="chapterModal">
+                    <div id="createChapterModalContent">
+                        <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
+                        <h2>${chapterTitle}</h2>
+                        <h4><em>édité le ${creation_date}</em></h4>
+                        <div id="adminChapterDiv">
+                            <img id="adminChapterImg" src="${chapterImage}">
+                            <div id="adminChapterP">${chapterContent}</div>
                         </div>
-                    `));
-                } else if (chapterAction == 'save and publish') {
-                    console.log('save and publish');
-                    localStorage.removeItem('createChapterAction');
-                    $(".page").prepend($(`
-                        <div id="chapterModal">
-                            <div id="createChapterModalContent">
-                                <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
-                                <h2>Enregistrer ET publier le chapitre ?</h2>
-                                <h3>${chapterTitle}</h3>
-                                <h4><em>édité le ${creation_date}</em></h4>
-                                <div id="adminChapterDiv">
-                                    <img id="adminChapterImg" src="${chapterImage}">
-                                    <div id="adminChapterP">${chapterContent}</div>
-                                </div>
-                                <span class="createChapterSubmit" onclick="saveAndPublishChapter(event)">Sauvegarder ET Publier</span>
-                            </div>
-                        </div>
-                    `));
-                }
-            } else {
-                console.log('createChapterAction no');
-                $(".page").prepend($(`
-                    <div id="chapterImageModal">
-                        <div id="chapterImageModalContent">
-                            <h3>Merci de sélectionner une action ci-dessus ("enregistrer" ou "enregistrer et publier")</h3>
-                            <span class="createChapterSubmit" onclick="closeChapterImageModal(event)">OK</span>
-                        </div>
+                        <span class="createChapterSubmit" onclick="saveChapter(event)">Sauvegarder</span>
                     </div>
-                `));
-            }
-        }else{
+                </div>
+            `));
+        } else {
             $(".page").prepend($(`
                 <div id="chapterImageModal">
                     <div id="chapterImageModalContent">
@@ -215,61 +169,157 @@ $(document).ready(()=>{
         }
     }) ;
 
-    $(".fa-edit").on("click", ()=>{ // modify chapter when click on the modify button
-        // getChapterById
+    $(".fa-edit").on("click", (event)=>{ // modify chapter when click on the modify button
+        let chapterId = event.target.parentNode.parentNode.parentNode.parentNode.getAttribute("data-id");
+        let chapterTitle = event.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].textContent;
+        let chapterImage = event.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[5].childNodes[1].getAttribute("src");
+        let chapterContent = event.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[5].childNodes[3].innerHTML;
+        let chapter = [chapterId, chapterTitle, chapterImage, chapterContent];
+
         $(".page").prepend($(`
             <div id="chapterModal">
-                <div id="createChapterModalContent">
+                <div id="createChapterModalContent" class='editChapter'>
                     <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal(event)"></i>
                     <h2>Modifier le chapitre ?</h2>
-                    <form enctype="multipart/form-data" method="post">
-                    <div class="form-group">
-                        <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
-                        <input type="hidden" name="MAX_FILE_SIZE" value="50000" />
-                        <input type="file" id="chapter_image_modal" name="chapter_image" accept="image/png, image/jpeg" class="form-control" required>
-                        <button id="upload_image">Envoyer le fichier</button>
-                        <input type="hidden" id="urlImgInput_modal" name="urlImg" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Titre :</label><br/>
-                        <input type="text" id="title_modal" name="title"  class="form-control input-sm" required>
-                    </div>
-                    <div class="form-group" id='textareaDiv_modal'>
-                        <label for="chapterContent">Contenu du chapitre :</label>
-                        <textarea id="chapterContent_modal" name="content" class="tinymce form-control" required></textarea>
-                    </div>
-                    <div class="form-group" id='saveAndPublishDiv_modal'>
-                        <div>
-                            <input type="radio" id="save_modal" name="saveAndPublish" value="save">
-                            <label for="save">ENREGISTRER</label>
+                    <div class="editChapterPreviewContainer" data-id="${chapterId}">
+                        <div class="editChapterpreview">
+                            <h3 class="editPreviewh3">Aperçu du chapitre ${chapterId} :</h3>
+                            <div class="editChapterpreviewContent">
+                                <h4 class="editChapterPreviewTitle">${chapterTitle}</h4>
+                                <div  class="editChapterPreviewTextImage">
+                                    <img class="editChapterPreviewImage" src="${chapterImage}">
+                                    <div class="editChapterPreviewText">${chapterContent}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <input type="radio" id="saveAndPublish_modal" name="saveAndPublish" value="save and publish">
-                            <label for="saveAndPublish">ENREGISTRER ET PUBLIER</label>
+                    </div>
+                    <form id="edit_chapterForm" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="chapter_image">Image <em>(333x500px 96dpi)</em>:</label><br/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="50000" />
+                            <input type="file" id="edit_chapter_image_modal" name="chapter_image" accept="image/png, image/jpeg" class="form-control" required>
+                            <button id="edit_upload_image">Envoyer le fichier</button>
+                            <input type="hidden" id="edit_urlImgInput_modal" name="urlImg" value="">
                         </div>
-                        <div id="log_modal" style="display: none"></div>
-                    </div>
-                    <div class="form-group" id='createChapterSubmitDiv_modal'>
-                        <span class="createChapterSubmit">OK</span>
-                    </div>
-                </form>
-                    // <h3>${chapterTitle}</h3>
-                    // <h4><em>édité le ${creation_date}</em></h4>
-                    // <div id="adminChapterDiv">
-                    //     <img id="adminChapterImg" src="${chapterImage}">
-                    //     <div id="adminChapterP">${chapterContent}</div>
-                    // </div>
-                    // <span class="createChapterSubmit" onclick="saveAndPublishChapter(event)">Sauvegarder ET Publier</span>
+                        <div class="form-group">
+                            <label for="title">Titre :</label><br/>
+                            <input type="text" id="edit_title_modal" name="title"  class="form-control input-sm" value="${chapterTitle}" required>
+                        </div>
+                        <div class="form-group" id='edit_textareaDiv_modal'>
+                            <label for="edit_content">Contenu du chapitre :</label>
+                            <textarea id="edit_chapterContent_modal" class="tinymce form-control" name="edit_content" required>${chapterContent}</textarea>
+                        </div>
+                        <div class="form-group" id='edit_createChapterSubmitDiv_modal'>
+                            <span class="editChapterSubmit">OK</span>
+                        </div>
+                    </form>
                 </div>
             </div>
         `));
+        tinymce.init({
+            selector: '.tinymce',
+            width: 1000,
+            height: 400,
+            language: 'fr_FR',
+            plugins: [
+              'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+              'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+              'table emoticons template paste help'
+            ],
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+              'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+              'forecolor backcolor emoticons | help',
+            menu: {
+              favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
+            },
+            menubar: 'favs file edit view insert format tools table help',
+            /*content_css: 'css/content.css'*/
+        });
+
+        $("#edit_upload_image").click((e)=>{
+            e.stopPropagation();
+            e.preventDefault();
+            $("#edit_error_confirm").remove();
+            console.log('edit image');
+            let file_data = $('#edit_chapter_image_modal').prop('files')[0];
+            let form_data = new FormData();
+            if($('#edit_chapter_image_modal').prop('files')){ // if an image has been selected we send it to the api/api/chapter/image with ajax call
+                form_data.append('file', file_data);
+                let urlImg = 'http://'+window.location.hostname+'/Public/uploads/'+file_data['name'];
+                console.log(file_data['name']);
+                $.ajax({
+                    url: '/api/chapter/image',
+                    type: 'POST',
+                    //AJAX responses
+                    success: function(){
+                        $(".sendImageSpan").remove();
+                        $("#edit_chapterForm>.form-group:first").append( $(`
+                            <span class="sendImageSpan" style="color:forestgreen"><em>L'image a bien été envoyée</em></span>
+                        `));
+                        $("#edit_urlImgInput_modal").val(urlImg);
+                        localStorage.setItem('edit_urlImg', $("#edit_urlImgInput_modal").val()); //Store the url in a hidden input
+                        console.log('image envoyée');
+                    },
+                    error: function(){
+                        $(".sendImageSpan").remove();
+                        $("#edit_chapterForm>.form-group:first").append( $(`
+                            <span class="sendImageSpan" style="color:red"><em>Merci de choisir une image</em></span>
+                        `));
+                        console.log('échec envoi image');
+                    },
+                    //Données du formulaire envoyé
+                    data: form_data,
+                    //Options signifiant à jQuery de ne pas s'occuper du type de données
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            }else{
+                console.log('image pas sélectionnée');
+                $(".sendImageSpan").remove();
+                return $("#edit_chapterForm>.form-group:first").append( $(`
+                    <span class="sendImageSpan" style="color:red"><em>Merci de choisir une image</em></span>
+                `));
+            }
+        });
+        $(".editChapterSubmit").on("click", ()=>{ //open modal to confirm chapter creation
+            let modify_date = newFormatedDate();
+            let chapterImage = $("#edit_urlImgInput_modal").val();
+            let chapterTitle = $("#edit_title_modal").val();
+            let chapterContent = localStorage.getItem('newChapterContent');
+            if(chapterImage && chapterImage != null){
+                $("#edit_error_confirm").remove();
+                $("#chapterModal").after($(`
+                    <div id="chapterModal_modal">
+                        <div id="confirmEditChapterContent">
+                        <i id="connectModalClose" class="fas fa-times-circle" onclick="closeChapterModal_modal(event)"></i>
+                            <h2>${chapterTitle}</h2>
+                            <h4><em>édité le ${modify_date}</em></h4>
+                            <div id="adminChapterDiv">
+                                <img id="adminChapterImg" src="${chapterImage}">
+                                <div id="adminChapterP">${chapterContent}</div>
+                            </div>
+                            <span class="submit" onclick="editAndSaveChapter(event)">Sauvegarder</span>
+                        </div>
+                    </div>
+                `));
+            }else{
+                $("#edit_error_confirm").remove();
+                $("#createChapterModalContent").append($(`
+                    <div id="edit_error_confirm">
+                        <p>Merci de choisir une image pour le chapitre et de l'envoyer en cliquant sur le bouton "Envoyer le fichier"</p>
+                    </div>
+                `));
+            }
+        });
+
     });
     $(".fa-trash-alt").on("click", (event)=>{ // delete chapter when click on the delete button
         event.preventDefault();
         event.stopPropagation();
         let chapterId = returnIdInTable(event);
         console.log(chapterId);
-        $.ajax({ //AJAX call to post data from comment create form
+        $.ajax({ //AJAX call to post data FROM p4_comment create form
             type: "POST",
             url:'/api/chapter/delete',
             data:{
@@ -294,7 +344,7 @@ $(document).ready(()=>{
         event.stopPropagation();
         let chapterId = returnIdInTable(event);
         console.log(chapterId);
-        $.ajax({ //AJAX call to post data from comment create form
+        $.ajax({ //AJAX call to post data FROM p4_comment create form
             type: "POST",
             url:'/api/chapter/restore',
             data:{
@@ -319,7 +369,7 @@ $(document).ready(()=>{
         event.stopPropagation();
         let chapterId = returnIdInTable(event);
         console.log(chapterId);
-        $.ajax({ //AJAX call to post data from comment create form
+        $.ajax({ //AJAX call to post data FROM p4_comment create form
             type: "POST",
             url:'/api/chapter/publish',
             data:{
@@ -328,7 +378,7 @@ $(document).ready(()=>{
             statusCode:{
                 200: function(){
                     console.log('chapitre publié');
-                    // document.location.reload();
+                    document.location.reload();
 
                 },
                 400: function() {
@@ -364,10 +414,8 @@ $(document).ready(()=>{
         $(".chapterPreviewContainer").hide();
         let previewContainers = document.getElementsByClassName("chapterPreviewContainer");
         for(let i = 0; i < previewContainers.length; i++){
-            console.log(previewContainers[i].getAttribute("data-id"));
             if(previewContainers[i].getAttribute("data-id") == chapterId){
                 previewContainers[i].style.display = 'flex';
-                console.log('show');
             }
         };
     });
@@ -422,18 +470,10 @@ function statsIncrement(container, value, valMax, intervalIdStats, intervalDurat
 function autoColorChapterLine(){
     let chapterLines = $(".chapterLine");
     chapterLines.each((item)=>{
-        console.log(item);
         if(item%2 == 1){
             chapterLines[item].classList.add("chapterLineGrey");
         }
     });
-    // for(let i = 0; i<chapterLines.length; i++){
-    //     console.log(i%2);
-    //     console.log(chapterLines[i]);
-    //     if(i%2 == 1){
-    //         chapterLines[i].style.backgroundColor = "rgba(255,255,255,0.45)";
-    //     }
-    // }
 }
 
 function checkIfChapterDataIsAlreadySet(){
@@ -445,7 +485,6 @@ function checkIfChapterDataIsAlreadySet(){
         tinyMCE.activeEditor.setContent(localStorage.getItem('newChapterContent'));
         console.log('get newChapterContent');
     }
-    console.log('checkIfChapterDataIsAlreadySet');
 }
 
 function saveDataToLSIfExists(){
@@ -457,7 +496,6 @@ function saveDataToLSIfExists(){
     if(content != '<p><br data-mce-bogus="1"></p>' && content != '<p><br></p>'){
         localStorage.setItem('newChapterContent', content);
     }
-    console.log('setInterval start');
 }
 
 function newFormatedDate(){
@@ -481,7 +519,15 @@ function newFormatedDate(){
 function closeChapterModal(event){
     event.stopPropagation();
     event.preventDefault();
+    tinymce.remove('#chapterModal .tinymce');
     $("#chapterModal").remove();
+    console.log("closeModal");
+}
+
+function closeChapterModal_modal(event){
+    event.stopPropagation();
+    event.preventDefault();
+    $("#chapterModal_modal").remove();
 }
 
 function closeChapterImageModal(event){
@@ -490,26 +536,27 @@ function closeChapterImageModal(event){
     $("#chapterImageModal").remove();
 }
 
-function saveChapter(event){
+function editAndSaveChapter(event){
     event.preventDefault();
     event.stopPropagation();
     let chapterTitle = localStorage.getItem('newChapterTitle');
     let chapterContent = localStorage.getItem('newChapterContent');
-    let chapterImage = $("#urlImgInput").val();
-    $.ajax({ //AJAX call to post data from comment create form
+    let chapterImage = localStorage.getItem('edit_urlImg');
+    let id = $(".editChapterPreviewContainer").attr("data-id");
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
-        url:'/api/chapter/create',
+        url:'/api/chapter/modify',
         data:{
+            id : id,
             title : chapterTitle,  // Nous récupérons la valeur de nos inputs
             content : chapterContent,
             chapter_image : chapterImage,
             published : '0'
-
         },
         statusCode:{
             200: function(){
                 console.log('chapitre sauvegardé');
-                document.location.reload();
+                // document.location.reload();
 
             },
             400: function() {
@@ -520,26 +567,25 @@ function saveChapter(event){
     });
 }
 
-function saveAndPublishChapter(event){
+function saveChapter(event){
     event.preventDefault();
     event.stopPropagation();
     let chapterTitle = localStorage.getItem('newChapterTitle');
     let chapterContent = localStorage.getItem('newChapterContent');
-    let chapterImage = $("#urlImgInput").val();
-    $.ajax({ //AJAX call to post data from comment create form
+    let chapterImage = localStorage.getItem('urlImg');
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
         url:'/api/chapter/create',
         data:{
             title : chapterTitle,  // Nous récupérons la valeur de nos inputs
             content : chapterContent,
             chapter_image : chapterImage,
-            published : '1'
-
+            published : '0'
         },
         statusCode:{
             200: function(){
-                console.log('chapitre sauvegardé et publié');
-                // document.location.reload();
+                console.log('chapitre sauvegardé');
+                document.location.reload();
 
             },
             400: function() {
@@ -559,7 +605,7 @@ function returnIdInTable(event){
 }
 
 function unreportComment(commentId){
-    $.ajax({ //AJAX call to post data from comment create form
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
         url:'/api/comment/unreport',
         data:{
@@ -577,7 +623,7 @@ function unreportComment(commentId){
 }
 
 function deleteComment(commentId){
-    $.ajax({ //AJAX call to post data from comment create form
+    $.ajax({ //AJAX call to post data FROM p4_comment create form
         type: "POST",
         url:'/api/comment/delete',
         data:{
@@ -585,7 +631,7 @@ function deleteComment(commentId){
         },
         statusCode:{
             200: function(){
-                // document.location.reload();
+                document.location.reload();
             },
             400: function() {
             },
