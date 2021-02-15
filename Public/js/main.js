@@ -24,9 +24,52 @@ $(document).ready(function(){
         $("#rgpd").hide();
     });
 
-    // menu_toggle
+    // Desktop & Mobile menus
     var $page = $('.page');
 
+    var largeur = window.innerWidth;
+    if(largeur <= 768){
+        $(".desktop_menu").hide();
+        $(".mobile_menu").show();
+        $(".mobile_menu_toggle>.mobile_menu_close").hide();
+        $(".mobile_menu_items").hide();
+
+        //mobile_menu
+        $('.mobile_menu_toggle').on('click', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            $(".mobile_menu_items").slideToggle();
+            $(".mobile_menu_toggle>i").toggle();
+        });
+        $(".mobile_menu_items>li:first").on('click', function(){
+            console.log('ok');
+            $(".mobile_menu_items>li").removeClass('activeIcon');
+            $(".mobile_menu_items>li:first").addClass('activeIcon');
+            $(".mobile_menu_items>li>a>span").removeClass('activeASpan');
+            $(".mobile_menu_items>li:first>a>span").addClass('activeASpan');
+        });
+        $(".mobile_menu_items>li:eq(1)").on('click', function(){
+            console.log('okbis');
+            $(".icon").removeClass('activeIcon');
+            $(".fa-portrait").addClass('activeIcon');
+            $(".menu_items>li>a>span").removeClass('activeASpan');
+            $(".menu_items>li:eq(1)>a>span").addClass('activeASpan');
+        });
+        $(".mobile_menu_items>li:last").on('click', function(){
+            console.log('ok3');
+            $(".icon").removeClass('activeIcon');
+            $(".fa-blog").addClass('activeIcon');
+            $(".menu_items>li>a>span").removeClass('activeASpan');
+            $(".menu_items>li:last>a>span").addClass('activeASpan');
+        });
+        $(".mobile_menu_items>li>a").on('click', function(){
+            console.log('menu ok');
+        });
+    }else{
+        $(".mobile_menu").hide();
+    }
+
+    //desktop_menu
     $('.menu_toggle').on('click', function(event){
         event.preventDefault();
         event.stopPropagation();
@@ -50,26 +93,36 @@ $(document).ready(function(){
         $(".menu_items>li>a>span").removeClass('activeASpan');
         $(".menu_items>li:eq(1)>a>span").addClass('activeASpan');
     });
-    $(".menu_items>li:last").on('click', function(){
+    $(".menu_items>li:eq(2)").on('click', function(){
         console.log('ok3');
         $(".icon").removeClass('activeIcon');
         $(".fa-blog").addClass('activeIcon');
         $(".menu_items>li>a>span").removeClass('activeASpan');
         $(".menu_items>li:last>a>span").addClass('activeASpan');
     });
+    $(".menu_items>li:eq(3)").on('click', function(){
+        console.log('ok4');
+        $(".icon").removeClass('activeIcon');
+        $(".fa-crown").addClass('activeIcon');
+        $(".menu_items>li>a>span").removeClass('activeASpan');
+        $(".menu_items>li:eq(3)>a>span").addClass('activeASpan');
+    });
     $(window).scroll(function(){
-        if(window.scrollY>=300){
-            $("#darkModeDiv>span").hide();
-            $(".menu_toggle").addClass('discretMenu');
-            $("#header").addClass('discretHeader');
-            $("#darkModeDiv").addClass('discretMode');
-            $("#connexionButton").addClass('discretButton');
-        }else if(window.scrollY<300){
-            $("#darkModeDiv>span").show();
-            $(".menu_toggle").removeClass('discretMenu');
-            $("#header").removeClass('discretHeader');
-            $("#darkModeDiv").removeClass('discretMode');
-            $("#connexionButton").removeClass('discretButton');
+        var largeur = window.innerWidth;
+        if(largeur > 768){
+            if(window.scrollY>=300){
+                $("#darkModeDiv>span").hide();
+                $(".menu_toggle").addClass('discretMenu');
+                $("#header").addClass('discretHeader');
+                $("#darkModeDiv").addClass('discretMode');
+                $("#connexionButton").addClass('discretButton');
+            }else if(window.scrollY<300){
+                $("#darkModeDiv>span").show();
+                $(".menu_toggle").removeClass('discretMenu');
+                $("#header").removeClass('discretHeader');
+                $("#darkModeDiv").removeClass('discretMode');
+                $("#connexionButton").removeClass('discretButton');
+            }
         }
     });
 
