@@ -1,5 +1,5 @@
 tinymce.init({
-    selector: '#chapterContent',
+    selector: '.tinymce',
     width: 1000,
     height: 400,
     language: 'fr_FR',
