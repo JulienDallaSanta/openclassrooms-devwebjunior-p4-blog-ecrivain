@@ -63,7 +63,7 @@
             elseif($path[2] == 'create'){
                 return ChapterController::createChapter();
             }elseif($path[2] == 'modify'){
-                return ChapterController::updateChapter($chapter);
+                return ChapterController::updateChapter();
             }elseif($path[2] == 'delete'){
                 return ChapterController::deleteChapter();
             }elseif($path[2] == 'restore'){
