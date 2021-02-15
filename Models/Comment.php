@@ -206,7 +206,7 @@ class Comment extends Model{
      */
     static function getReported(){
         $report = false;
-        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report  FROM comment WHERE report = 1");
+        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report  FROM p4_comment WHERE report = 1");
         $query->execute();
         $queryReport = $query->fetch(PDO::FETCH_ASSOC);
         if($queryReport){
@@ -217,14 +217,14 @@ class Comment extends Model{
 
     static function getNumberOfReportedComments(){
         $comments = [];
-        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE report = 1');
+        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM p4_comment WHERE report = 1');
         $query->execute([]);
         $data = $query->fetch();
         return (int) $data['nb'];
     }
 
     static function addComment(Comment $comment){
-        $query = static::getInstance()->db->prepare("INSERT INTO comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
+        $query = static::getInstance()->db->prepare("INSERT INTO p4_comment(chapter_id, pseudo, content, creation_date, report) VALUES(:chapter_id, :pseudo, :content, NOW(), 0)");
         $query->execute([
             'chapter_id' => $comment->getChapter_id(),
             'pseudo' => $comment->getPseudo(),
@@ -235,7 +235,7 @@ class Comment extends Model{
     static function getComments($chapter_id){
         // return a list of comments in an array
         $comments = [];
-        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report FROM comment WHERE chapter_id = ? AND report=0 ORDER BY report, creation_date DESC");
+        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report FROM p4_comment WHERE chapter_id = ? AND report=0 ORDER BY report, creation_date DESC");
         $query->execute([$chapter_id]);
         while ($data = $query->fetch(PDO::FETCH_ASSOC)){
             array_push($comments, (new Comment($data))->toArray());
@@ -244,7 +244,7 @@ class Comment extends Model{
     }
 
     static function getCommentById($id){
-        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report FROM comment WHERE id = ?");
+        $query = static::getInstance()->db->prepare("SELECT id, chapter_id, pseudo, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin') AS creation_date, report FROM p4_comment WHERE id = ?");
         $query->execute([$id]);
         $comment = new Comment($query->fetch(PDO::FETCH_ASSOC));
         return $comment;
@@ -252,7 +252,7 @@ class Comment extends Model{
 
     static function getNumberOfComments($chapter_id){
         $comments = [];
-        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE chapter_id = ?');
+        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM p4_comment WHERE chapter_id = ?');
         $query->execute([$chapter_id]);
         $data = $query->fetch();
         return (int) $data['nb'];
@@ -260,24 +260,24 @@ class Comment extends Model{
 
     static function getNumberOfNonReportedComments($chapter_id){
         $comments = [];
-        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM comment WHERE chapter_id = ? AND report = 0');
+        $query = static::getInstance()->db->prepare('SELECT COUNT(*) as nb FROM p4_comment WHERE chapter_id = ? AND report = 0');
         $query->execute([$chapter_id]);
         $data = $query->fetch();
         return (int) $data['nb'];
     }
 
     static function unreport(Comment $comment){
-        $query = static::getInstance()->db->prepare("UPDATE comment SET report = 0, report_date = NULL WHERE id = ?");
+        $query = static::getInstance()->db->prepare("UPDATE p4_comment SET report = 0, report_date = NULL WHERE id = ?");
         $query->execute([$comment->getId()]);
     }
 
     static function report(Comment $comment){
-        $query = static::getInstance()->db->prepare("UPDATE comment SET report = 1, report_date = NOW() WHERE id = ?");
+        $query = static::getInstance()->db->prepare("UPDATE p4_comment SET report = 1, report_date = NOW() WHERE id = ?");
         $query->execute([$comment->getId()]);
     }
 
     static function deleteComment(Comment $comment){
-        $query = static::getInstance()->db->prepare("DELETE FROM comment WHERE id = ?");
+        $query = static::getInstance()->db->prepare("DELETE FROM p4_comment WHERE id = ?");
         $query->execute([$comment->getId()]);
     }
 }
